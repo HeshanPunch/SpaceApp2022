@@ -4814,10 +4814,38 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 // initialize context
 var k = (0, _kaboom.default)({});
-k.scene('main', function () {
-  return [k.add([k.text('Hello World', 32), k.pos(k.width() * 0.5, k.height() * 0.5), k.color(1, 1, 1, 1), k.origin('center')])];
+
+var addButton = function addButton(txt, p, f) {
+  var btn = add([text(txt), pos(p), area({
+    cursor: "pointer"
+  }), scale(1), origin("center")]);
+  btn.onClick(f);
+  btn.onUpdate(function () {
+    if (btn.isHovering()) {
+      var t = time() * 10;
+      btn.color = rgb(wave(0, 255, t), wave(0, 255, t + 2), wave(0, 255, t + 4));
+      btn.scale = vec2(1.2);
+    } else {
+      btn.scale = vec2(1);
+      btn.color = rgb();
+    }
+  });
+};
+
+scene("start", function () {
+  addButton("Start", vec2(k.width() * 0.5, k.height() * 0.5), function () {
+    return k.go('inputName');
+  });
 });
-k.go('main');
+scene("inputName", function () {
+  addButton("Username", vec2(k.width() * 0.5, k.height() * 0.5), function () {
+    return k.go('mainGame');
+  });
+});
+scene('mainGame', function () {
+  add([text("main Game"), pos(12)]);
+});
+k.go('start');
 },{"kaboom":"../node_modules/kaboom/dist/kaboom.mjs"}],"../../../../.nvm/versions/node/v17.3.1/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
