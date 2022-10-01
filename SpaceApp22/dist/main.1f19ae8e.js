@@ -4814,6 +4814,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 // initialize context
 var k = (0, _kaboom.default)({});
+loadSprite('wall', "https://kaboomjs.com/sprites/grass.png");
 
 var addButton = function addButton(txt, p, f) {
   var btn = add([text(txt), pos(p), area({
@@ -4843,7 +4844,14 @@ scene("inputName", function () {
   });
 });
 scene('mainGame', function () {
-  add([text("main Game"), pos(12)]);
+  var WALL = ['===============================', '===============================', '===============================', '===============================', '===============================', '===============================', '===============================', '===============================', '===============================', '===============================', '===============================', '===============================', '===============================', '===============================', '==============================='];
+  var level = addLevel(WALL, {
+    width: 64,
+    height: 64,
+    "=": function _() {
+      return [sprite("wall"), area(), solid()];
+    }
+  });
 });
 k.go('start');
 },{"kaboom":"../node_modules/kaboom/dist/kaboom.mjs"}],"../../../../.nvm/versions/node/v17.3.1/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
