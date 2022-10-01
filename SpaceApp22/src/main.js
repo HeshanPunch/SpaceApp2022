@@ -1,5 +1,30 @@
 import kaboom from "kaboom";
+// loadRoot('https://i.imgur.com/');
+kaboom();
 
+async function init() {
+  kaboom();
+  let bgimg = await loadSprite('space-bg', 'https://i.imgur.com/QNraJmz.gif');
+  
+  let background = add ([
+    sprite("space-bg"),
+    pos(width() / 2, height() / 2 ),
+    origin("center"),
+    scale(1),
+    fixed()
+
+  ]);
+
+  background.sacleTo(Math.max(
+    width() / bgImage.tex.width,
+    height() / bgImage.tex.height
+  ));
+}
+
+init();
+
+
+ //initial setup from yugy
 // initialize context
 const k = kaboom({})
 
