@@ -4812,6 +4812,7 @@ var _kaboom = _interopRequireDefault(require("kaboom"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// initialize context
 var k = (0, _kaboom.default)({});
 loadSprite('wall', "https://kaboomjs.com/sprites/grass.png");
 

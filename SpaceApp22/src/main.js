@@ -1,5 +1,6 @@
 import kaboom from "kaboom";
 
+// initialize context
 const k = kaboom({})
 
 loadSprite('wall', "https://kaboomjs.com/sprites/grass.png")
@@ -35,6 +36,7 @@ const addButton = (txt, p, f) => {
 scene("start", () => {
   addButton("Start", vec2(k.width() * 0.5, k.height() * 0.5), () => k.go('inputName'));
 })
+
 
 scene("inputName", () => {
   addButton("Username", vec2(k.width() * 0.5, k.height() * 0.5), () => k.go('mainGame'));
@@ -72,4 +74,5 @@ scene('mainGame', () => {
 })
 
 k.go('start')
+
 
