@@ -4896,9 +4896,9 @@ scene("game", function () {
     moon.move(Xvel, Yvel);
   }); //Player Alerts - error messages, hints
 
-  var playerAlerts = add([text("Use WASD keys to move", {
+  var playerAlerts = add([text("Use WASD keys to move...", {
     size: 20
-  }), color(30, 0, 255), pos(10, 45), {
+  }), color(30, 215, 96), pos(10, 45), {
     value: 0
   }]);
   addLevel(map, levelConfigs);

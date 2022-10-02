@@ -165,10 +165,10 @@ scene("game", () => {
 
   //Player Alerts - error messages, hints
   const playerAlerts = add([
-    text("Use WASD keys to move", {
+    text("Use WASD keys to move...", {
       size: 20,
     }),
-    color(30, 0, 255),
+    color(30, 215, 96),
     pos(10, 45),
     { value: 0 },
   ]);
