@@ -4805,19 +4805,160 @@ var no = a((i = {}) => {
   return ye;
 }, "default");
 exports.default = no;
-},{}],"main.js":[function(require,module,exports) {
+},{}],"kaboom.js":[function(require,module,exports) {
 "use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.k = exports.default = void 0;
 
 var _kaboom = _interopRequireDefault(require("kaboom"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // initialize context
-var k = (0, _kaboom.default)({});
-loadSprite('wall', "https://kaboomjs.com/sprites/grass.png");
+var k = (0, _kaboom.default)({
+  font: "sinko",
+  background: [11, 16, 38],
+  fullscreen: true,
+  canvas: document.querySelector("gamecanvas"),
+  // width: 1280,
+  // height: 800,
+  scale: 1
+});
+exports.k = k;
+var _default = k;
+exports.default = _default;
+},{"kaboom":"../node_modules/kaboom/dist/kaboom.mjs"}],"satellite.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = exports.Game = void 0;
+
+var _kaboom = _interopRequireDefault(require("./kaboom"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//import kaboom from "kaboom";
+// start the game
+
+/*
+kaboom({
+  font: "sinko",
+  background: [11, 16, 38],
+  fullscreen: true,
+  canvas: document.querySelector("gamecanvas"),
+  // width: 1280,
+  // height: 800,
+  scale: 1,
+});*/
+// player.onCollide("coin", () => {
+//   score.value += 1;
+//   score.text = "Score:" + score.value;
+// });
+
+/* loadSprite(
+  "star",
+  "https://www.pngfind.com/pngs/m/115-1154244_asteroid-pixel-art-red-button-hd-png-download.png"
+); */
+var Game = function Game() {
+  loadSprite("asteroid", "https://i.imgur.com/B1NSdRO.png");
+  loadSprite("satellite", "https://art.pixilart.com/4c141c7f72cb059.png");
+  loadSprite("asteroid-large", "https://i.imgur.com/qIHdjDQ.png");
+  loadSprite("moon", "https://i.imgur.com/nXhRU9V.png");
+  loadSprite("earth", "https://i.imgur.com/Qjmlokl.png");
+  loadSprite("ufo", "https://i.imgur.com/2rEcvS6.png");
+  var NORMAL_SPEED = 70;
+  var FAST_SPEED = 90;
+  var SPEED = NORMAL_SPEED;
+
+  _kaboom.default.scene("game", function () {
+    //   layers(["bg", "obj", "ui"], "obj");
+    var score = add([text("Score: 0", {
+      size: 25
+    }), pos(10, 10), {
+      value: 0
+    }]);
+    var map = ["                   *                   *                           *      ", "           *                                                              ", "                                                                          ", " *                                                                        ", "                             *                                            ", "                                                                    *     ", "                                                                          ", " *                                                                        ", "                                       *                                  ", "                                                      *                   ", "                                                                          ", "                                                                          ", "                                                             (             ", "                                                                          ", "                                                                  0        ", "         *                     *                                          ", "                                                                          ", "                                                                          ", "                                                                          ", "               *                                                          ", "                                          *                               ", "                                                                          ", "                                                                          ", "                                                                          ", "                                                                          ", "                                                                          ", "                                                                          ", "                                                                          ", "      *                         *                           *             ", "                                                                          ", "                                                *                         ", "                                                                          ", " *                                                                        ", "                                                                         "];
+    var levelConfigs = {
+      width: 20,
+      height: 20,
+      "*": function _() {
+        return [sprite("asteroid"), area(), solid(), scale(0.03), "asteroid"];
+      } // "0": () => [sprite("earth"), area(), solid(), scale(0.4), "earth"],
+      // "(": () => [sprite("moon"), area(), solid(), scale(0.05), "moon"],
+
+    };
+    var playerSat = add([sprite("satellite"), pos(300, 200), scale(0.1), solid(), area()]);
+    var earth = add([sprite("earth"), pos(1200, 300), scale(0.35), solid(), area(), rotate(1), origin("center"), "earth"]);
+    var moon = add([sprite("moon"), pos(900, 400), solid(), area(), scale(0.035), "moon"]);
+    onKeyDown("right", function () {
+      playerSat.move(SPEED, 0);
+      score.value += 1;
+      score.text = "Score:" + score.value;
+    });
+    onKeyDown("left", function () {
+      playerSat.move(-SPEED, 0);
+      score.value -= 1;
+      score.text = "Score:" + score.value;
+    });
+    onKeyDown("up", function () {
+      playerSat.move(0, -SPEED);
+    });
+    onKeyDown("down", function () {
+      playerSat.move(0, SPEED);
+    });
+    /* for (let i = 0; i < 3; i++) {
+      const x = rand(0, width());
+      const y = rand(0, height());
+          add([sprite("asteroid-large"), pos(x, y), area(), "asteroid-large"]);
+    } */
+
+    playerSat.onCollide("asteroid", function () {
+      SPEED -= SPEED * 0.01;
+      score.value -= 1;
+      score.text = "Score:" + score.value;
+    }); //   Earth rotation + Alien 
+
+    earth.onUpdate(function () {
+      earth.angle += 3 * dt();
+
+      if (score.value >= 10) {
+        var ufo = add([sprite("ufo"), pos(500, 100), scale(0.25), solid(), area(), "ufo"]);
+      }
+    }); //   Moon movement
+
+    var Xvel = 2;
+    var Yvel = 1;
+    moon.onUpdate(function () {
+      moon.move(Xvel, Yvel);
+    }); //   Alien interaction
+
+    addLevel(map, levelConfigs);
+  });
+
+  _kaboom.default.go("game");
+};
+
+exports.Game = Game;
+var _default = Game;
+exports.default = _default;
+},{"./kaboom":"kaboom.js"}],"main.js":[function(require,module,exports) {
+"use strict";
+
+var _kaboom = _interopRequireDefault(require("./kaboom"));
+
+var _satellite = _interopRequireDefault(require("./satellite"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var addButton = function addButton(txt, p, f) {
-  var btn = add([text(txt), pos(p), area({
+  var btn = add([text(txt, {
+    size: 25
+  }), pos(p), area({
     cursor: "pointer"
   }), scale(1), origin("center")]);
   btn.onClick(f);
@@ -4833,28 +4974,54 @@ var addButton = function addButton(txt, p, f) {
   });
 };
 
-scene("start", function () {
-  addButton("Start", vec2(k.width() * 0.5, k.height() * 0.5), function () {
-    return k.go('inputName');
+_kaboom.default.scene("start", function () {
+  addButton("Start", vec2(_kaboom.default.width() * 0.5, _kaboom.default.height() * 0.5), function () {
+    return _kaboom.default.go('inputName');
   });
 });
-scene("inputName", function () {
-  addButton("Username", vec2(k.width() * 0.5, k.height() * 0.5), function () {
-    return k.go('mainGame');
+
+_kaboom.default.scene("inputName", function () {
+  addButton("Username", vec2(_kaboom.default.width() * 0.5, _kaboom.default.height() * 0.5), function () {
+    return _kaboom.default.go('game');
   });
 });
-scene('mainGame', function () {
-  var WALL = ['===============================', '===============================', '===============================', '===============================', '===============================', '===============================', '===============================', '===============================', '===============================', '===============================', '===============================', '===============================', '===============================', '===============================', '==============================='];
-  var level = addLevel(WALL, {
+
+(0, _satellite.default)();
+/*
+k.scene('mainGame', () => {
+
+  const WALL = [
+    '===============================',
+    '===============================',
+    '===============================',
+    '===============================',
+    '===============================',
+    '===============================',
+    '===============================',
+    '===============================',
+    '===============================',
+    '===============================',
+    '===============================',
+    '===============================',
+    '===============================',
+    '===============================',
+    '===============================',
+  ]
+
+  const level = addLevel(WALL, {
     width: 64,
     height: 64,
-    "=": function _() {
-      return [sprite("wall"), area(), solid()];
-    }
-  });
-});
-k.go('start');
-},{"kaboom":"../node_modules/kaboom/dist/kaboom.mjs"}],"../../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+    "=": () => [
+      sprite("wall"),
+      area(),
+      solid(),
+    ],
+  })
+})
+*/
+
+_kaboom.default.go('start');
+},{"./kaboom":"kaboom.js","./satellite":"satellite.js"}],"../../../../.nvm/versions/node/v17.3.1/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -4882,7 +5049,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52996" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58818" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
@@ -5058,5 +5225,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","main.js"], null)
+},{}]},{},["../../../../.nvm/versions/node/v17.3.1/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","main.js"], null)
 //# sourceMappingURL=/main.1f19ae8e.js.map
