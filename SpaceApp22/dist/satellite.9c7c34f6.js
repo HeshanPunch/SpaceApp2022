@@ -4805,8 +4805,13 @@ var no = a((i = {}) => {
   return ye;
 }, "default");
 exports.default = no;
-},{}],"satellite.js":[function(require,module,exports) {
+},{}],"kaboom.js":[function(require,module,exports) {
 "use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.k = exports.default = void 0;
 
 var _kaboom = _interopRequireDefault(require("kaboom"));
 
@@ -4816,11 +4821,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 (0, _kaboom.default)({
   font: "sinko",
   background: [11, 16, 38],
-  fullscreen: true,
-  canvas: document.querySelector("gamecanvas"),
-  // width: 1280,
+  fullscreen: true // width: 1280,
   //     height: 800,
-  scale: 1
+
 });
 var NORMAL_SPEED = 70;
 var FAST_SPEED = 90;
@@ -4829,32 +4832,36 @@ var SPEED = NORMAL_SPEED; // player.onCollide("coin", () => {
 //   score.text = "Score:" + score.value;
 // });
 
-loadSprite("asteroid", "https://i.imgur.com/B1NSdRO.png");
-loadSprite("satellite", "https://art.pixilart.com/4c141c7f72cb059.png");
-loadSprite("asteroid-large", "https://i.imgur.com/qIHdjDQ.png");
-loadSprite("moon", "https://i.imgur.com/nXhRU9V.png");
-loadSprite("earth", "https://i.imgur.com/Qjmlokl.png");
-loadSprite("ufo", "https://i.imgur.com/2rEcvS6.png");
 /* loadSprite(
   "star",
   "https://www.pngfind.com/pngs/m/115-1154244_asteroid-pixel-art-red-button-hd-png-download.png"
 ); */
+var Game = function Game() {
+  loadSprite("asteroid", "https://i.imgur.com/B1NSdRO.png");
+  loadSprite("satellite", "https://art.pixilart.com/4c141c7f72cb059.png");
+  loadSprite("asteroid-large", "https://i.imgur.com/qIHdjDQ.png");
+  loadSprite("moon", "https://i.imgur.com/nXhRU9V.png");
+  loadSprite("earth", "https://i.imgur.com/Qjmlokl.png");
+  loadSprite("ufo", "https://i.imgur.com/2rEcvS6.png");
+  var NORMAL_SPEED = 70;
+  var FAST_SPEED = 90;
+  var SPEED = NORMAL_SPEED;
 
-var map = ["                   *                   *                           *      ", "           *                                                              ", "                                                                          ", " *                                                                        ", "                             *                                            ", "                                                                    *     ", "                                                                          ", " *                                                                        ", "                                       *                                  ", "                                                      *                   ", "                                                                          ", "                                                                          ", "                                                                          ", "                                                                          ", "                                                                          ", "         *                     *                                          ", "                                                                          ", "                                                                          ", "                                                                          ", "               *                                                          ", "                                          *                               ", "                                                                          ", "                                                                          ", "                                                                          ", "                                                                          ", "                                                                          ", "                                                                          ", "                                                                          ", "      *                         *                           *             ", "                                                                          ", "                                                *                         ", "                                                                          ", " *                                                                        ", "                                                                         "];
+  _kaboom.default.var map = ["                                                            *                   *                           *      ", "                                                *                                                              ", "                                                                                                               ", "                                                                                                                 ", "                             *                                                                                 ", "                                                                                                        *     ", "                                                                                                           ", " *                                                                                                       ", "                                       *                                                                  ", "                                                                                    *                   ", "                                                                                                      ", "                                                                                                        ", "                                                                                                       ", "                                                                                                      ", "                                                  ()                                                  ", "         *                      *                                                                   ", "                                                                                                    ", "                                                                                                    ", "                                                                                                    ", "               *                                                                                    ", "                                          *                                                           ", "                                                                                                      ", "                                                                                                      ", "                                                                             *                         ", "                                                                                                      ", "                                                                                                      ", "                                                                                                      ", "                                                                                                      ", "      *                         *                                                       *             ", "                                                                                                      ", "                                                                            *                         ", "                                                                                                      ", " *                                                                                                    ", "                                                                                                     "];
 scene("game", function () {
-  //   layers(["bg", "obj", "ui"], "obj");
-  var score = add([text("Score: 0", {
-    size: 25
-  }), pos(10, 10), {
-    value: 0
-  }]);
-  var levelConfigs = {
-    width: 20,
-    height: 20,
-    "*": function _() {
-      return [sprite("asteroid"), area(), solid(), scale(0.03), "asteroid"];
-    } // "0": () => [sprite("earth"), area(), solid(), scale(0.4), "earth"],
-    // "(": () => [sprite("moon"), area(), solid(), scale(0.05), "moon"],
+    //   layers(["bg", "obj", "ui"], "obj");
+    var score = add([text("Score: 0", {
+      size: 25
+    }), pos(10, 10), {
+      value: 0
+    }]);
+      var levelConfigs = {
+      width: 20,
+      height: 20,
+      "*": function _() {
+        return [sprite("asteroid"), area(), solid(), scale(0.03), "asteroid"];
+      } // "0": () => [sprite("earth"), area(), solid(), scale(0.4), "earth"],
+      // "(": () => [sprite("moon"), area(), solid(), scale(0.05), "moon"],
 
   };
   var playerSat = add([sprite("satellite"), pos(300, 200), scale(0.1), solid(), area()]);
@@ -4863,7 +4870,7 @@ scene("game", function () {
   onKeyDown("right", function () {
     playerSat.move(SPEED, 0);
     score.value += 1;
-    score.text = "Score:" + score.value;
+    score.text = "Score:" + score.value; // camPos(playerSat.pos)
   });
   onKeyDown("left", function () {
     playerSat.move(-SPEED, 0);
@@ -4876,23 +4883,19 @@ scene("game", function () {
   onKeyDown("down", function () {
     playerSat.move(0, SPEED);
   });
-  /* for (let i = 0; i < 3; i++) {
-    const x = rand(0, width());
-    const y = rand(0, height());
-      add([sprite("asteroid-large"), pos(x, y), area(), "asteroid-large"]);
-  } */
-
   playerSat.onCollide("asteroid", function () {
     SPEED -= SPEED * 0.01;
     score.value -= 1;
     score.text = "Score:" + score.value;
-  }); //   Earth rotation + Alien 
+  }); //   Earth rotation + Alien
 
   earth.onUpdate(function () {
-    earth.angle += 3 * dt();
+    earth.angle += 2 * dt();
 
     if (score.value >= 10) {
-      var ufo = add([sprite("ufo"), pos(500, 100), scale(0.25), solid(), area(), "ufo"]);
+      var ufo = add([sprite("ufo"), pos(500, 100), scale(0.25), solid(), area(), "ufo"]); //GOTO --> quiz?
+
+      go("placeholderquiz");
     }
   }); //   Moon movement
 
@@ -4900,8 +4903,29 @@ scene("game", function () {
   var Yvel = 1;
   moon.onUpdate(function () {
     moon.move(Xvel, Yvel);
-  }); //   Alien interaction
+  }); //Player Alerts - error messages, hints
 
+  var playerAlerts = add([text("Use WASD keys to move", {
+    size: 20
+  }), color(30, 0, 255), pos(10, 45), {
+    value: 0
+  }]);
+  addLevel(map, levelConfigs);
+});
+scene("placeholderquiz", function () {
+  var levelConfigs = {
+    width: 20,
+    height: 20,
+    "*": function _() {
+      return [sprite("asteroid"), area(), solid(), scale(0.03), "asteroid"];
+    }
+  };
+  var ufo = add([sprite("ufo"), pos(600, 300), scale(0.5), solid(), area(), "ufo"]);
+  var alienDialog = add([text("Hello Human", {
+    size: 25
+  }), pos(100, 100), {
+    value: 0
+  }]);
   addLevel(map, levelConfigs);
 });
 go("game");
@@ -5109,5 +5133,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","satellite.js"], null)
+},{}]},{},["../../../../.nvm/versions/node/v17.3.1/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","satellite.js"], null)
 //# sourceMappingURL=/satellite.9c7c34f6.js.map

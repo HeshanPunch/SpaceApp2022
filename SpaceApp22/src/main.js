@@ -1,14 +1,12 @@
-import kaboom from "kaboom";
-
-// initialize context
-const k = kaboom({})
-
-loadSprite('wall', "https://kaboomjs.com/sprites/grass.png")
+import k from './kaboom'
+import game from './satellite'
 
 const addButton = (txt, p, f) => {
 
   const btn = add([
-    text(txt),
+    text(txt, {
+      size: 25
+    }),
     pos(p),
     area({ cursor: "pointer", }),
     scale(1),
@@ -33,16 +31,20 @@ const addButton = (txt, p, f) => {
   })
 }
 
-scene("start", () => {
+k.scene("start", () => {
   addButton("Start", vec2(k.width() * 0.5, k.height() * 0.5), () => k.go('inputName'));
 })
 
 
-scene("inputName", () => {
-  addButton("Username", vec2(k.width() * 0.5, k.height() * 0.5), () => k.go('mainGame'));
+k.scene("inputName", () => {
+  addButton("Username", vec2(k.width() * 0.5, k.height() * 0.5), () => k.go('game'));
 })
 
-scene('mainGame', () => {
+game();
+
+
+/*
+k.scene('mainGame', () => {
 
   const WALL = [
     '===============================',
@@ -72,7 +74,7 @@ scene('mainGame', () => {
     ],
   })
 })
-
+*/
 k.go('start')
 
 
