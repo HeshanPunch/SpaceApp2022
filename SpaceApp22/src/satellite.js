@@ -31,19 +31,7 @@ loadSprite("ufo", "https://i.imgur.com/2rEcvS6.png");
   "star",
   "https://www.pngfind.com/pngs/m/115-1154244_asteroid-pixel-art-red-button-hd-png-download.png"
 ); */
-
-scene("game", () => {
-  //   layers(["bg", "obj", "ui"], "obj");
-
-  const score = add([
-    text("Score: 0", {
-      size: 25,
-    }),
-    pos(10, 10),
-    { value: 0 },
-  ]);
-
-  const map = [
+const map = [
     "                   *                   *                           *      ",
     "           *                                                              ",
     "                                                                          ",
@@ -56,9 +44,9 @@ scene("game", () => {
     "                                                      *                   ",
     "                                                                          ",
     "                                                                          ",
-    "                                                             (             ",
     "                                                                          ",
-    "                                                                  0        ",
+    "                                                                          ",
+    "                                                                          ",
     "         *                     *                                          ",
     "                                                                          ",
     "                                                                          ",
@@ -79,6 +67,18 @@ scene("game", () => {
     " *                                                                        ",
     "                                                                         ",
   ];
+scene("game", () => {
+  //   layers(["bg", "obj", "ui"], "obj");
+
+  const score = add([
+    text("Score: 0", {
+      size: 25,
+    }),
+    pos(10, 10),
+    { value: 0 },
+  ]);
+
+ 
 
   const levelConfigs = {
     width: 20,
