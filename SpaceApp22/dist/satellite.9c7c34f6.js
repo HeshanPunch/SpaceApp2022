@@ -4817,45 +4817,17 @@ var _kaboom = _interopRequireDefault(require("kaboom"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// initialize context
-var k = (0, _kaboom.default)({
-  font: "sinko",
-  background: [11, 16, 38],
-  fullscreen: true,
-  canvas: document.querySelector("gamecanvas"),
-  // width: 1280,
-  // height: 800,
-  scale: 1
-});
-exports.k = k;
-var _default = k;
-exports.default = _default;
-},{"kaboom":"../node_modules/kaboom/dist/kaboom.mjs"}],"satellite.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = exports.Game = void 0;
-
-var _kaboom = _interopRequireDefault(require("./kaboom"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-//import kaboom from "kaboom";
 // start the game
-
-/*
-kaboom({
+(0, _kaboom.default)({
   font: "sinko",
   background: [11, 16, 38],
-  fullscreen: true,
-  canvas: document.querySelector("gamecanvas"),
-  // width: 1280,
-  // height: 800,
-  scale: 1,
-});*/
-// player.onCollide("coin", () => {
+  fullscreen: true // width: 1280,
+  //     height: 800,
+
+});
+var NORMAL_SPEED = 70;
+var FAST_SPEED = 90;
+var SPEED = NORMAL_SPEED; // player.onCollide("coin", () => {
 //   score.value += 1;
 //   score.text = "Score:" + score.value;
 // });
@@ -4875,15 +4847,15 @@ var Game = function Game() {
   var FAST_SPEED = 90;
   var SPEED = NORMAL_SPEED;
 
-  _kaboom.default.scene("game", function () {
+  _kaboom.default.var map = ["                                                            *                   *                           *      ", "                                                *                                                              ", "                                                                                                               ", "                                                                                                                 ", "                             *                                                                                 ", "                                                                                                        *     ", "                                                                                                           ", " *                                                                                                       ", "                                       *                                                                  ", "                                                                                    *                   ", "                                                                                                      ", "                                                                                                        ", "                                                                                                       ", "                                                                                                      ", "                                                  ()                                                  ", "         *                      *                                                                   ", "                                                                                                    ", "                                                                                                    ", "                                                                                                    ", "               *                                                                                    ", "                                          *                                                           ", "                                                                                                      ", "                                                                                                      ", "                                                                             *                         ", "                                                                                                      ", "                                                                                                      ", "                                                                                                      ", "                                                                                                      ", "      *                         *                                                       *             ", "                                                                                                      ", "                                                                            *                         ", "                                                                                                      ", " *                                                                                                    ", "                                                                                                     "];
+scene("game", function () {
     //   layers(["bg", "obj", "ui"], "obj");
     var score = add([text("Score: 0", {
       size: 25
     }), pos(10, 10), {
       value: 0
     }]);
-    var map = ["                   *                   *                           *      ", "           *                                                              ", "                                                                          ", " *                                                                        ", "                             *                                            ", "                                                                    *     ", "                                                                          ", " *                                                                        ", "                                       *                                  ", "                                                      *                   ", "                                                                          ", "                                                                          ", "                                                             (             ", "                                                                          ", "                                                                  0        ", "         *                     *                                          ", "                                                                          ", "                                                                          ", "                                                                          ", "               *                                                          ", "                                          *                               ", "                                                                          ", "                                                                          ", "                                                                          ", "                                                                          ", "                                                                          ", "                                                                          ", "                                                                          ", "      *                         *                           *             ", "                                                                          ", "                                                *                         ", "                                                                          ", " *                                                                        ", "                                                                         "];
-    var levelConfigs = {
+      var levelConfigs = {
       width: 20,
       height: 20,
       "*": function _() {
@@ -4891,62 +4863,73 @@ var Game = function Game() {
       } // "0": () => [sprite("earth"), area(), solid(), scale(0.4), "earth"],
       // "(": () => [sprite("moon"), area(), solid(), scale(0.05), "moon"],
 
-    };
-    var playerSat = add([sprite("satellite"), pos(300, 200), scale(0.1), solid(), area()]);
-    var earth = add([sprite("earth"), pos(1200, 300), scale(0.35), solid(), area(), rotate(1), origin("center"), "earth"]);
-    var moon = add([sprite("moon"), pos(900, 400), solid(), area(), scale(0.035), "moon"]);
-    onKeyDown("right", function () {
-      playerSat.move(SPEED, 0);
-      score.value += 1;
-      score.text = "Score:" + score.value;
-    });
-    onKeyDown("left", function () {
-      playerSat.move(-SPEED, 0);
-      score.value -= 1;
-      score.text = "Score:" + score.value;
-    });
-    onKeyDown("up", function () {
-      playerSat.move(0, -SPEED);
-    });
-    onKeyDown("down", function () {
-      playerSat.move(0, SPEED);
-    });
-    /* for (let i = 0; i < 3; i++) {
-      const x = rand(0, width());
-      const y = rand(0, height());
-          add([sprite("asteroid-large"), pos(x, y), area(), "asteroid-large"]);
-    } */
-
-    playerSat.onCollide("asteroid", function () {
-      SPEED -= SPEED * 0.01;
-      score.value -= 1;
-      score.text = "Score:" + score.value;
-    }); //   Earth rotation + Alien 
-
-    earth.onUpdate(function () {
-      earth.angle += 3 * dt();
-
-      if (score.value >= 10) {
-        var ufo = add([sprite("ufo"), pos(500, 100), scale(0.25), solid(), area(), "ufo"]);
-      }
-    }); //   Moon movement
-
-    var Xvel = 2;
-    var Yvel = 1;
-    moon.onUpdate(function () {
-      moon.move(Xvel, Yvel);
-    }); //   Alien interaction
-
-    addLevel(map, levelConfigs);
+  };
+  var playerSat = add([sprite("satellite"), pos(300, 200), scale(0.1), solid(), area()]);
+  var earth = add([sprite("earth"), pos(1200, 300), scale(0.35), solid(), area(), rotate(1), origin("center"), "earth"]);
+  var moon = add([sprite("moon"), pos(900, 400), solid(), area(), scale(0.035), "moon"]);
+  onKeyDown("right", function () {
+    playerSat.move(SPEED, 0);
+    score.value += 1;
+    score.text = "Score:" + score.value; // camPos(playerSat.pos)
   });
+  onKeyDown("left", function () {
+    playerSat.move(-SPEED, 0);
+    score.value -= 1;
+    score.text = "Score:" + score.value;
+  });
+  onKeyDown("up", function () {
+    playerSat.move(0, -SPEED);
+  });
+  onKeyDown("down", function () {
+    playerSat.move(0, SPEED);
+  });
+  playerSat.onCollide("asteroid", function () {
+    SPEED -= SPEED * 0.01;
+    score.value -= 1;
+    score.text = "Score:" + score.value;
+  }); //   Earth rotation + Alien
 
-  _kaboom.default.go("game");
-};
+  earth.onUpdate(function () {
+    earth.angle += 2 * dt();
 
-exports.Game = Game;
-var _default = Game;
-exports.default = _default;
-},{"./kaboom":"kaboom.js"}],"../../../../.nvm/versions/node/v17.3.1/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+    if (score.value >= 10) {
+      var ufo = add([sprite("ufo"), pos(500, 100), scale(0.25), solid(), area(), "ufo"]); //GOTO --> quiz?
+
+      go("placeholderquiz");
+    }
+  }); //   Moon movement
+
+  var Xvel = 2;
+  var Yvel = 1;
+  moon.onUpdate(function () {
+    moon.move(Xvel, Yvel);
+  }); //Player Alerts - error messages, hints
+
+  var playerAlerts = add([text("Use WASD keys to move", {
+    size: 20
+  }), color(30, 0, 255), pos(10, 45), {
+    value: 0
+  }]);
+  addLevel(map, levelConfigs);
+});
+scene("placeholderquiz", function () {
+  var levelConfigs = {
+    width: 20,
+    height: 20,
+    "*": function _() {
+      return [sprite("asteroid"), area(), solid(), scale(0.03), "asteroid"];
+    }
+  };
+  var ufo = add([sprite("ufo"), pos(600, 300), scale(0.5), solid(), area(), "ufo"]);
+  var alienDialog = add([text("Hello Human", {
+    size: 25
+  }), pos(100, 100), {
+    value: 0
+  }]);
+  addLevel(map, levelConfigs);
+});
+go("game");
+},{"kaboom":"../node_modules/kaboom/dist/kaboom.mjs"}],"../../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -4974,7 +4957,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58818" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51875" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
