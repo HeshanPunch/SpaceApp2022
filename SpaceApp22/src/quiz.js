@@ -1,21 +1,15 @@
 // Simple dialogues
 import kaboom from "kaboom";
 
-kaboom({
-  fullscreen: true,
-  background: [11, 16, 38],
-  canvas: document.querySelector("gamecanvas"),
-});
+export function Quiz(){
 
-loadSprite("bean", "https://kaboomjs.com/sprites/bean.png");
-loadSprite("alien", "https://i.imgur.com/YCTh7fD.png");
-
-scene("quiz", () => {
-  // Define the dialogue data
-  const dialogs = [
-    ["alien", "This is quiz time!"],
-    ["alien", "Q. What is my name?"],
-  ];
+  loadSprite("bean", "https://kaboomjs.com/sprites/bean.png");
+  k.scene("quiz", () => {
+    // Define the dialogue data
+    const dialogs = [
+      ["bean", "This is quiz time!"],
+      ["bean", "Q. What is my name?"],
+    ];
 
   let curDialog = 0;
 
@@ -115,12 +109,46 @@ scene("quiz", () => {
 
     const wrong = () => {
       debug.log("wrong in");
-      go("lose");
+      k.go("lose");
     }
   });
 
-scene("lose", () => {
-  add([text("Game over"), pos(center()), origin("center")]);
-});
+  k.scene("lose", () => {
+    add([text("Game over"), pos(center()), origin("center")]);
+  });
 
-go("quiz");
+  /*
+  k.scene("quiz", () => {
+    const levelConfigs = {
+      width: 20,
+      height: 20,
+      "*": () => [sprite("asteroid"), area(), solid(), scale(0.03), "asteroid"],
+    };
+  
+    const ufo = add([
+      sprite("ufo"),
+      pos(600, 300),
+      scale(0.5),
+      solid(),
+      area(),
+      "ufo",
+    ]);
+  
+    const alienDialog = add([
+      text("Hello Human", {
+        size: 25,
+      }),
+      pos(100, 100),
+      { value: 0 },
+    ]);
+  
+    addLevel(map, levelConfigs);
+  });
+  */
+  k.go("quiz");
+}
+
+Quiz();
+
+export default Quiz;
+

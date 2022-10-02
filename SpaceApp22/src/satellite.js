@@ -1,53 +1,19 @@
 import k from './kaboom';
+import { map , gameConfigs, asteroidLarge, asteroid, satellite, moonhttps, earth, ufo} from './items';
+
 // start the game
 export const Game = () => {
   const NORMAL_SPEED = 70;
   const FAST_SPEED = 90;
   let SPEED = NORMAL_SPEED;
 
-  loadSprite("asteroid", "https://i.imgur.com/B1NSdRO.png");
-  loadSprite("satellite", "https://art.pixilart.com/4c141c7f72cb059.png");
-  loadSprite("asteroid-large", "https://i.imgur.com/qIHdjDQ.png");
-  loadSprite("moon", "https://i.imgur.com/nXhRU9V.png");
-  loadSprite("earth", "https://i.imgur.com/Qjmlokl.png");
-  loadSprite("ufo", "https://i.imgur.com/2rEcvS6.png");
+  loadSprite("asteroid", asteroid);
+  loadSprite("satellite", satellite);
+  loadSprite("asteroid-large", asteroidLarge);
+  loadSprite("moon", moonhttps);
+  loadSprite("earth", earth);
+  loadSprite("ufo", ufo);
 
-  const map = [
-    "                                                            *                   *                           *      ",
-    "                                                *                                                              ",
-    "                                                                                                               ",
-    "                                                                                                                 ",
-    "                             *                                                                                 ",
-    "                                                                                                        *     ",
-    "                                                                                                           ",
-    " *                                                                                                       ",
-    "                                       *                                                                  ",
-    "                                                                                    *                   ",
-    "                                                                                                      ",
-    "                                                                                                        ",
-    "                                                                                                       ",
-    "                                                                                                      ",
-    "                                                  ()                                                  ",
-    "         *                      *                                                                   ",
-    "                                                                                                    ",
-    "                                                                                                    ",
-    "                                                                                                    ",
-    "               *                                                                                    ",
-    "                                          *                                                           ",
-    "                                                                                                      ",
-    "                                                                                                      ",
-    "                                                                             *                         ",
-    "                                                                                                      ",
-    "                                                                                                      ",
-    "                                                                                                      ",
-    "                                                                                                      ",
-    "      *                         *                                                       *             ",
-    "                                                                                                      ",
-    "                                                                            *                         ",
-    "                                                                                                      ",
-    " *                                                                                                    ",
-    "                                                                                                     ",
-  ];
   k.scene("game", () => {
     //   layers(["bg", "obj", "ui"], "obj");
 
@@ -58,14 +24,6 @@ export const Game = () => {
       pos(10, 10),
       { value: 0 },
     ]);
-
-    const levelConfigs = {
-      width: 20,
-      height: 20,
-      "*": () => [sprite("asteroid"), area(), solid(), scale(0.03), "asteroid"],
-      // "0": () => [sprite("earth"), area(), solid(), scale(0.4), "earth"],
-      // "(": () => [sprite("moon"), area(), solid(), scale(0.05), "moon"],
-    };
 
     const playerSat = add([
       sprite("satellite"),
@@ -155,17 +113,16 @@ export const Game = () => {
       { value: 0 },
     ]);
 
-
-
-    addLevel(map, levelConfigs);
+    addLevel(map, gameConfigs);
   });
 
   k.scene("placeholderquiz", () => {
+    /*
     const levelConfigs = {
       width: 20,
       height: 20,
       "*": () => [sprite("asteroid"), area(), solid(), scale(0.03), "asteroid"],
-    };
+    };*/
 
     const ufo = add([
       sprite("ufo"),
@@ -184,10 +141,11 @@ export const Game = () => {
       { value: 0 },
     ]);
 
-    addLevel(map, levelConfigs);
+    addLevel(map, gameConfigs);
+    
   });
-
   k.go("game");
 }
+
 
 export default Game;
