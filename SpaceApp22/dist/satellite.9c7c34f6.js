@@ -4879,7 +4879,7 @@ scene("game", function () {
   /* for (let i = 0; i < 3; i++) {
     const x = rand(0, width());
     const y = rand(0, height());
-      add([sprite("asteroid-large"), pos(x, y), area(), "asteroid-large"]);
+     add([sprite("asteroid-large"), pos(x, y), area(), "asteroid-large"]);
   } */
 
   playerSat.onCollide("asteroid", function () {
@@ -4905,7 +4905,7 @@ scene("game", function () {
   addLevel(map, levelConfigs);
 });
 go("game");
-},{"kaboom":"../node_modules/kaboom/dist/kaboom.mjs"}],"../../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"kaboom":"../node_modules/kaboom/dist/kaboom.mjs"}],"../../../../.nvm/versions/node/v17.3.1/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -4933,7 +4933,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55080" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58455" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
@@ -5109,5 +5109,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","satellite.js"], null)
+},{}]},{},["../../../../.nvm/versions/node/v17.3.1/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","satellite.js"], null)
 //# sourceMappingURL=/satellite.9c7c34f6.js.map
