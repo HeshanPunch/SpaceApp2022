@@ -1,12 +1,8 @@
-import kaboom from "kaboom";
-
-// initialize context
-const k = kaboom({})
+import k from './kaboom'
 
 loadSprite('wall', "https://kaboomjs.com/sprites/grass.png")
 
 const addButton = (txt, p, f) => {
-
   const btn = add([
     text(txt),
     pos(p),

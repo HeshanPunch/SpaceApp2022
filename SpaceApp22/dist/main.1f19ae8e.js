@@ -4805,15 +4805,31 @@ var no = a((i = {}) => {
   return ye;
 }, "default");
 exports.default = no;
-},{}],"main.js":[function(require,module,exports) {
+},{}],"kaboom.js":[function(require,module,exports) {
 "use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.k = exports.default = void 0;
 
 var _kaboom = _interopRequireDefault(require("kaboom"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// initialize context
-var k = (0, _kaboom.default)({});
+var k = (0, _kaboom.default)({
+  background: [0, 0, 255]
+});
+exports.k = k;
+var _default = k;
+exports.default = _default;
+},{"kaboom":"../node_modules/kaboom/dist/kaboom.mjs"}],"main.js":[function(require,module,exports) {
+"use strict";
+
+var _kaboom = _interopRequireDefault(require("./kaboom"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 loadSprite('wall', "https://kaboomjs.com/sprites/grass.png");
 
 var addButton = function addButton(txt, p, f) {
@@ -4834,13 +4850,13 @@ var addButton = function addButton(txt, p, f) {
 };
 
 scene("start", function () {
-  addButton("Start", vec2(k.width() * 0.5, k.height() * 0.5), function () {
-    return k.go('inputName');
+  addButton("Start", vec2(_kaboom.default.width() * 0.5, _kaboom.default.height() * 0.5), function () {
+    return _kaboom.default.go('inputName');
   });
 });
 scene("inputName", function () {
-  addButton("Username", vec2(k.width() * 0.5, k.height() * 0.5), function () {
-    return k.go('mainGame');
+  addButton("Username", vec2(_kaboom.default.width() * 0.5, _kaboom.default.height() * 0.5), function () {
+    return _kaboom.default.go('mainGame');
   });
 });
 scene('mainGame', function () {
@@ -4853,8 +4869,9 @@ scene('mainGame', function () {
     }
   });
 });
-k.go('start');
-},{"kaboom":"../node_modules/kaboom/dist/kaboom.mjs"}],"../../../../.nvm/versions/node/v17.3.1/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+
+_kaboom.default.go('start');
+},{"./kaboom":"kaboom.js"}],"../../../../.nvm/versions/node/v17.3.1/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -4882,7 +4899,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58581" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58455" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
