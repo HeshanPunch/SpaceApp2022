@@ -1,5 +1,5 @@
 import k from './kaboom'
-import game from './satellite';
+import game from './satellite'
 
 const addButton = (txt, p, f) => {
 

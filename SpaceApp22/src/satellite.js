@@ -1,202 +1,193 @@
-//import kaboom from "kaboom";
-import kaboom from "kaboom";
+import k from './kaboom';
 // start the game
+export const Game = () => {
+  const NORMAL_SPEED = 70;
+  const FAST_SPEED = 90;
+  let SPEED = NORMAL_SPEED;
 
-kaboom({
-  font: "sinko",
-  background: [11, 16, 38],
-  fullscreen: true,
+  loadSprite("asteroid", "https://i.imgur.com/B1NSdRO.png");
+  loadSprite("satellite", "https://art.pixilart.com/4c141c7f72cb059.png");
+  loadSprite("asteroid-large", "https://i.imgur.com/qIHdjDQ.png");
+  loadSprite("moon", "https://i.imgur.com/nXhRU9V.png");
+  loadSprite("earth", "https://i.imgur.com/Qjmlokl.png");
+  loadSprite("ufo", "https://i.imgur.com/2rEcvS6.png");
 
-  // width: 1280,
-  //     height: 800,
-});
+  const map = [
+    "                                                            *                   *                           *      ",
+    "                                                *                                                              ",
+    "                                                                                                               ",
+    "                                                                                                                 ",
+    "                             *                                                                                 ",
+    "                                                                                                        *     ",
+    "                                                                                                           ",
+    " *                                                                                                       ",
+    "                                       *                                                                  ",
+    "                                                                                    *                   ",
+    "                                                                                                      ",
+    "                                                                                                        ",
+    "                                                                                                       ",
+    "                                                                                                      ",
+    "                                                  ()                                                  ",
+    "         *                      *                                                                   ",
+    "                                                                                                    ",
+    "                                                                                                    ",
+    "                                                                                                    ",
+    "               *                                                                                    ",
+    "                                          *                                                           ",
+    "                                                                                                      ",
+    "                                                                                                      ",
+    "                                                                             *                         ",
+    "                                                                                                      ",
+    "                                                                                                      ",
+    "                                                                                                      ",
+    "                                                                                                      ",
+    "      *                         *                                                       *             ",
+    "                                                                                                      ",
+    "                                                                            *                         ",
+    "                                                                                                      ",
+    " *                                                                                                    ",
+    "                                                                                                     ",
+  ];
+  k.scene("game", () => {
+    //   layers(["bg", "obj", "ui"], "obj");
 
-const NORMAL_SPEED = 70;
-const FAST_SPEED = 90;
-let SPEED = NORMAL_SPEED;
+    const score = add([
+      text("Score: 0", {
+        size: 25,
+      }),
+      pos(10, 10),
+      { value: 0 },
+    ]);
 
-// player.onCollide("coin", () => {
-//   score.value += 1;
-//   score.text = "Score:" + score.value;
-// });
+    const levelConfigs = {
+      width: 20,
+      height: 20,
+      "*": () => [sprite("asteroid"), area(), solid(), scale(0.03), "asteroid"],
+      // "0": () => [sprite("earth"), area(), solid(), scale(0.4), "earth"],
+      // "(": () => [sprite("moon"), area(), solid(), scale(0.05), "moon"],
+    };
 
-loadSprite("asteroid", "https://i.imgur.com/B1NSdRO.png");
-loadSprite("satellite", "https://art.pixilart.com/4c141c7f72cb059.png");
-loadSprite("asteroid-large", "https://i.imgur.com/qIHdjDQ.png");
-loadSprite("moon", "https://i.imgur.com/nXhRU9V.png");
-loadSprite("earth", "https://i.imgur.com/Qjmlokl.png");
-loadSprite("ufo", "https://i.imgur.com/2rEcvS6.png");
+    const playerSat = add([
+      sprite("satellite"),
+      pos(300, 200),
+      scale(0.1),
+      solid(),
+      area(),
+    ]);
 
-const map = [
-  "                                                            *                   *                           *      ",
-  "                                                *                                                              ",
-  "                                                                                                               ",
-  "                                                                                                                 ",
-  "                             *                                                                                 ",
-  "                                                                                                        *     ",
-  "                                                                                                           ",
-  " *                                                                                                       ",
-  "                                       *                                                                  ",
-  "                                                                                    *                   ",
-  "                                                                                                      ",
-  "                                                                                                        ",
-  "                                                                                                       ",
-  "                                                                                                      ",
-  "                                                  ()                                                  ",
-  "         *                      *                                                                   ",
-  "                                                                                                    ",
-  "                                                                                                    ",
-  "                                                                                                    ",
-  "               *                                                                                    ",
-  "                                          *                                                           ",
-  "                                                                                                      ",
-  "                                                                                                      ",
-  "                                                                             *                         ",
-  "                                                                                                      ",
-  "                                                                                                      ",
-  "                                                                                                      ",
-  "                                                                                                      ",
-  "      *                         *                                                       *             ",
-  "                                                                                                      ",
-  "                                                                            *                         ",
-  "                                                                                                      ",
-  " *                                                                                                    ",
-  "                                                                                                     ",
-];
-scene("game", () => {
-  //   layers(["bg", "obj", "ui"], "obj");
+    const earth = add([
+      sprite("earth"),
+      pos(1200, 300),
+      scale(0.35),
+      solid(),
+      area(),
+      rotate(1),
+      origin("center"),
+      "earth",
+    ]);
 
-  const score = add([
-    text("Score: 0", {
-      size: 25,
-    }),
-    pos(10, 10),
-    { value: 0 },
-  ]);
+    const moon = add([
+      sprite("moon"),
+      pos(900, 400),
+      solid(),
+      area(),
+      scale(0.035),
+      "moon",
+    ]);
 
-  const levelConfigs = {
-    width: 20,
-    height: 20,
-    "*": () => [sprite("asteroid"), area(), solid(), scale(0.03), "asteroid"],
-    // "0": () => [sprite("earth"), area(), solid(), scale(0.4), "earth"],
-    // "(": () => [sprite("moon"), area(), solid(), scale(0.05), "moon"],
-  };
+    onKeyDown("right", () => {
+      playerSat.move(SPEED, 0);
+      score.value += 1;
+      score.text = "Score:" + score.value;
+      // camPos(playerSat.pos)
+    });
+    onKeyDown("left", () => {
+      playerSat.move(-SPEED, 0);
+      score.value -= 1;
+      score.text = "Score:" + score.value;
+    });
+    onKeyDown("up", () => {
+      playerSat.move(0, -SPEED);
+    });
+    onKeyDown("down", () => {
+      playerSat.move(0, SPEED);
+    });
 
-  const playerSat = add([
-    sprite("satellite"),
-    pos(300, 200),
-    scale(0.1),
-    solid(),
-    area(),
-  ]);
 
-  const earth = add([
-    sprite("earth"),
-    pos(1200, 300),
-    scale(0.35),
-    solid(),
-    area(),
-    rotate(1),
-    origin("center"),
-    "earth",
-  ]);
+    playerSat.onCollide("asteroid", () => {
+      SPEED -= SPEED * 0.01;
+      score.value -= 1;
+      score.text = "Score:" + score.value;
+    });
 
-  const moon = add([
-    sprite("moon"),
-    pos(900, 400),
-    solid(),
-    area(),
-    scale(0.035),
-    "moon",
-  ]);
+    //   Earth rotation + Alien
+    earth.onUpdate(() => {
+      earth.angle += 2 * dt();
 
-  onKeyDown("right", () => {
-    playerSat.move(SPEED, 0);
-    score.value += 1;
-    score.text = "Score:" + score.value;
-    // camPos(playerSat.pos)
+      if (score.value >= 10) {
+        const ufo = add([
+          sprite("ufo"),
+          pos(500, 100),
+          scale(0.25),
+          solid(),
+          area(),
+          "ufo",
+        ]);
+        //GOTO --> quiz?
+        k.go("placeholderquiz")
+      }
+    });
+
+    //   Moon movement
+    let Xvel = 2;
+    let Yvel = 1;
+    moon.onUpdate(() => {
+      moon.move(Xvel, Yvel);
+    });
+
+    //Player Alerts - error messages, hints
+    const playerAlerts = add([
+      text("Use WASD keys to move", {
+        size: 20,
+      }),
+      color(30, 0, 255),
+      pos(10, 45),
+      { value: 0 },
+    ]);
+
+
+
+    addLevel(map, levelConfigs);
   });
-  onKeyDown("left", () => {
-    playerSat.move(-SPEED, 0);
-    score.value -= 1;
-    score.text = "Score:" + score.value;
-  });
-  onKeyDown("up", () => {
-    playerSat.move(0, -SPEED);
-  });
-  onKeyDown("down", () => {
-    playerSat.move(0, SPEED);
-  });
 
-  playerSat.onCollide("asteroid", () => {
-    SPEED -= SPEED * 0.01;
-    score.value -= 1;
-    score.text = "Score:" + score.value;
-  });
+  k.scene("placeholderquiz", () => {
+    const levelConfigs = {
+      width: 20,
+      height: 20,
+      "*": () => [sprite("asteroid"), area(), solid(), scale(0.03), "asteroid"],
+    };
 
-  //   Earth rotation + Alien
-  earth.onUpdate(() => {
-    earth.angle += 2 * dt();
+    const ufo = add([
+      sprite("ufo"),
+      pos(600, 300),
+      scale(0.5),
+      solid(),
+      area(),
+      "ufo",
+    ]);
 
-    if (score.value >= 10) {
-      const ufo = add([
-        sprite("ufo"),
-        pos(500, 100),
-        scale(0.25),
-        solid(),
-        area(),
-        "ufo",
-      ]);
-      //GOTO --> quiz?
-      // go("placeholderquiz")
-    }
+    const alienDialog = add([
+      text("Hello Human", {
+        size: 25,
+      }),
+      pos(100, 100),
+      { value: 0 },
+    ]);
+
+    addLevel(map, levelConfigs);
   });
 
-  //   Moon movement
-  let Xvel = 2;
-  let Yvel = 1;
-  moon.onUpdate(() => {
-    moon.move(Xvel, Yvel);
-  });
+  k.go("game");
+}
 
-  //Player Alerts - error messages, hints
-  const playerAlerts = add([
-    text("Use WASD keys to move...", {
-      size: 20,
-    }),
-    color(30, 215, 96),
-    pos(10, 45),
-    { value: 0 },
-  ]);
-
-  addLevel(map, levelConfigs);
-});
-
-scene("placeholderquiz", () => {
-  const levelConfigs = {
-    width: 20,
-    height: 20,
-    "*": () => [sprite("asteroid"), area(), solid(), scale(0.03), "asteroid"],
-  };
-
-  const ufo = add([
-    sprite("ufo"),
-    pos(600, 300),
-    scale(0.5),
-    solid(),
-    area(),
-    "ufo",
-  ]);
-
-  const alienDialog = add([
-    text("Hello Human", {
-      size: 25,
-    }),
-    pos(100, 100),
-    { value: 0 },
-  ]);
-
-  addLevel(map, levelConfigs);
-});
-
-go("placeholderquiz");
+export default Game;
