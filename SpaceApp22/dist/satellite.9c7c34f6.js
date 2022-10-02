@@ -4817,13 +4817,24 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
   font: "sinko",
   background: [11, 16, 38],
   fullscreen: true,
+  canvas: document.querySelector("gamecanvas"),
+  // width: 1280,
+  //     height: 800,
   scale: 1
 });
-var NORMAL_SPEED = 100;
-var FAST_SPEED = 200;
-var SPEED = NORMAL_SPEED;
-loadSprite("star", "https://i.imgur.com/xmgu2JZ.gif");
+var NORMAL_SPEED = 70;
+var FAST_SPEED = 90;
+var SPEED = NORMAL_SPEED; // player.onCollide("coin", () => {
+//   score.value += 1;
+//   score.text = "Score:" + score.value;
+// });
+
+loadSprite("asteroid", "https://i.imgur.com/B1NSdRO.png");
 loadSprite("satellite", "https://art.pixilart.com/4c141c7f72cb059.png");
+loadSprite("asteroid-large", "https://i.imgur.com/qIHdjDQ.png");
+loadSprite("moon", "https://i.imgur.com/nXhRU9V.png");
+loadSprite("earth", "https://i.imgur.com/Qjmlokl.png");
+loadSprite("ufo", "https://i.imgur.com/2rEcvS6.png");
 /* loadSprite(
   "star",
   "https://www.pngfind.com/pngs/m/115-1154244_asteroid-pixel-art-red-button-hd-png-download.png"
@@ -4831,27 +4842,66 @@ loadSprite("satellite", "https://art.pixilart.com/4c141c7f72cb059.png");
 
 scene("game", function () {
   //   layers(["bg", "obj", "ui"], "obj");
-  var map = ["                   *                   *                           *      ", "           *               *         *                        *             ", "             *                      *   *                  *                ", " *                                              *                *          ", "                      *       *                         *                   ", "                      *                                 *             *     ", "                   *                            *                *          ", " *                                              *                     *     ", "         *                             *                           *        ", "                                                      *           *   *     ", "       *                                                                    ", "             *                         *                      *             ", "                      *          *                    *            *        ", " *            *                                  *                      *   ", "                      *                *                 *               *  ", "         *                     *        *                               *   ", " *                                              *                    *  *   ", "                      *                             *             *         ", "                             *                              *               ", " *             *                                   *                       *", "                          *               *                      *         * ", "             *                         *                      *             ", " *                                              *               *           ", "               *                *                                 *     *   ", "             *                         *                              *     ", " *                            *                  *                    *     ", " *                               *               *                  *       ", "                      *                             *             *         ", "      *                         *       *                     *             ", " *                        *                         *                 *     ", "             *                                  *               *           ", "                                   *                     *                  ", " *                              *                *             *            ", "                     *                      *                    *         "];
+  var score = add([text("Score: 0", {
+    size: 25
+  }), pos(10, 10), {
+    value: 0
+  }]);
+  var map = ["                   *                   *                           *      ", "           *                                                              ", "                                                                          ", " *                                                                        ", "                             *                                            ", "                                                                    *     ", "                                                                          ", " *                                                                        ", "                                       *                                  ", "                                                      *                   ", "                                                                          ", "                                                                          ", "                                                             (             ", "                                                                          ", "                                                                  0        ", "         *                     *                                          ", "                                                                          ", "                                                                          ", "                                                                          ", "               *                                                          ", "                                          *                               ", "                                                                          ", "                                                                          ", "                                                                          ", "                                                                          ", "                                                                          ", "                                                                          ", "                                                                          ", "      *                         *                           *             ", "                                                                          ", "                                                *                         ", "                                                                          ", " *                                                                        ", "                                                                         "];
   var levelConfigs = {
     width: 20,
     height: 20,
     "*": function _() {
-      return [sprite("star"), area(), solid(), scale(0.1)];
-    }
+      return [sprite("asteroid"), area(), solid(), scale(0.03), "asteroid"];
+    } // "0": () => [sprite("earth"), area(), solid(), scale(0.4), "earth"],
+    // "(": () => [sprite("moon"), area(), solid(), scale(0.05), "moon"],
+
   };
-  var playerSat = add([sprite("satellite"), pos(300, 200), scale(0.1)]);
+  var playerSat = add([sprite("satellite"), pos(300, 200), scale(0.1), solid(), area()]);
+  var earth = add([sprite("earth"), pos(1200, 300), scale(0.35), solid(), area(), rotate(1), origin("center"), "earth"]);
+  var moon = add([sprite("moon"), pos(900, 400), solid(), area(), scale(0.035), "moon"]);
   onKeyDown("right", function () {
-    playerSat.move(NORMAL_SPEED, 0);
+    playerSat.move(SPEED, 0);
+    score.value += 1;
+    score.text = "Score:" + score.value;
   });
   onKeyDown("left", function () {
-    playerSat.move(-NORMAL_SPEED, 0);
+    playerSat.move(-SPEED, 0);
+    score.value -= 1;
+    score.text = "Score:" + score.value;
   });
   onKeyDown("up", function () {
-    playerSat.move(0, -NORMAL_SPEED);
+    playerSat.move(0, -SPEED);
   });
   onKeyDown("down", function () {
-    playerSat.move(0, NORMAL_SPEED);
+    playerSat.move(0, SPEED);
   });
+  /* for (let i = 0; i < 3; i++) {
+    const x = rand(0, width());
+    const y = rand(0, height());
+      add([sprite("asteroid-large"), pos(x, y), area(), "asteroid-large"]);
+  } */
+
+  playerSat.onCollide("asteroid", function () {
+    SPEED -= SPEED * 0.01;
+    score.value -= 1;
+    score.text = "Score:" + score.value;
+  }); //   Earth rotation + Alien 
+
+  earth.onUpdate(function () {
+    earth.angle += 3 * dt();
+
+    if (score.value >= 10) {
+      var ufo = add([sprite("ufo"), pos(500, 100), scale(0.25), solid(), area(), "ufo"]);
+    }
+  }); //   Moon movement
+
+  var Xvel = 2;
+  var Yvel = 1;
+  moon.onUpdate(function () {
+    moon.move(Xvel, Yvel);
+  }); //   Alien interaction
+
   addLevel(map, levelConfigs);
 });
 go("game");
