@@ -4830,200 +4830,150 @@ var k = (0, _kaboom.default)({
 exports.k = k;
 var _default = k;
 exports.default = _default;
-},{"kaboom":"../node_modules/kaboom/dist/kaboom.mjs"}],"items.js":[function(require,module,exports) {
+},{"kaboom":"../node_modules/kaboom/dist/kaboom.mjs"}],"quiz.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.ufo = exports.satellite = exports.moonhttps = exports.map = exports.greetingConfigs = exports.gameConfigs = exports.earth = exports.asteroidLarge = exports.asteroid = void 0;
-var asteroid = "https://i.imgur.com/B1NSdRO.png";
-exports.asteroid = asteroid;
-var satellite = "https://art.pixilart.com/4c141c7f72cb059.png";
-exports.satellite = satellite;
-var asteroidLarge = "https://i.imgur.com/qIHdjDQ.png";
-exports.asteroidLarge = asteroidLarge;
-var moonhttps = "https://i.imgur.com/nXhRU9V.png";
-exports.moonhttps = moonhttps;
-var earth = "https://i.imgur.com/Qjmlokl.png";
-exports.earth = earth;
-var ufo = "https://i.imgur.com/2rEcvS6.png";
-exports.ufo = ufo;
-var greetingConfigs = {
-  width: 10,
-  height: 10,
-  "*": function _() {
-    return [sprite("asteroid"), area(), solid(), scale(0.03), "asteroid"];
-  } // "0": () => [sprite("earth"), area(), solid(), scale(0.4), "earth"],
-  // "(": () => [sprite("moon"), area(), solid(), scale(0.05), "moon"],
-
-};
-exports.greetingConfigs = greetingConfigs;
-var gameConfigs = {
-  width: 20,
-  height: 20,
-  "*": function _() {
-    return [sprite("asteroid"), area(), solid(), scale(0.03), "asteroid"];
-  } // "0": () => [sprite("earth"), area(), solid(), scale(0.4), "earth"],
-  // "(": () => [sprite("moon"), area(), solid(), scale(0.05), "moon"],
-
-};
-exports.gameConfigs = gameConfigs;
-var map = ["                                                            *                   *                           *      ", "                                                *                                                              ", "                                                                                                               ", "                                                                                                                 ", "                             *                                                                                 ", "                                                                                                        *     ", "                                                                                                           ", " *                                                                                                       ", "                                       *                                                                  ", "                                                                                    *                   ", "                                                                                                      ", "                                                                                                        ", "                                                                                                       ", "                                                                                                      ", "                                                  ()                                                  ", "         *                      *                                                                   ", "                                                                                                    ", "                                                                                                    ", "                                                                                                    ", "               *                                                                                    ", "                                          *                                                           ", "                                                                                                      ", "                                                                                                      ", "                                                                             *                         ", "                                                                                                      ", "                                                                                                      ", "                                                                                                      ", "                                                                                                      ", "      *                         *                                                       *             ", "                                                                                                      ", "                                                                            *                         ", "                                                                                                      ", " *                                                                                                    ", "                                                                                                     "];
-exports.map = map;
-},{}],"satellite.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = exports.Game = void 0;
+exports.Quiz = Quiz;
+exports.default = void 0;
 
 var _kaboom = _interopRequireDefault(require("./kaboom"));
 
-var _items = require("./items");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// start the game
-var Game = function Game() {
-  var NORMAL_SPEED = 70;
-  var FAST_SPEED = 90;
-  var SPEED = NORMAL_SPEED;
-  loadSprite("asteroid", _items.asteroid);
-  loadSprite("satellite", _items.satellite);
-  loadSprite("asteroid-large", _items.asteroidLarge);
-  loadSprite("moon", _items.moonhttps);
-  loadSprite("earth", _items.earth);
-  loadSprite("ufo", _items.ufo);
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
-  _kaboom.default.scene("game", function () {
-    //   layers(["bg", "obj", "ui"], "obj");
-    var score = add([text("Score: 0", {
-      size: 25
-    }), pos(10, 10), {
-      value: 0
-    }]);
-    var playerSat = add([sprite("satellite"), pos(300, 200), scale(0.1), solid(), area()]);
-    var earth = add([sprite("earth"), pos(1200, 300), scale(0.35), solid(), area(), rotate(1), origin("center"), "earth"]);
-    var moon = add([sprite("moon"), pos(900, 400), solid(), area(), scale(0.035), "moon"]);
-    onKeyDown("right", function () {
-      playerSat.move(SPEED, 0);
-      score.value += 1;
-      score.text = "Score:" + score.value; // camPos(playerSat.pos)
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function Quiz() {
+  loadSprite("bean", "https://kaboomjs.com/sprites/bean.png");
+
+  _kaboom.default.scene("quiz", function () {
+    // Define the dialogue data
+    var dialogs = [["bean", "This is quiz time!"], ["bean", "Q. What is my name?"]];
+    var curDialog = 0; // Text bubble
+
+    var textbox = add([rect(width() - 700, 120, {
+      radius: 32
+    }), origin("center"), pos(center().x, height() - 400), outline(2)]); // Text
+
+    var txt = add([text("", {
+      size: 32,
+      width: width() - 230
+    }), pos(textbox.pos), origin("center")]); // Character avatar
+
+    var avatar = add([sprite("bean"), scale(5), origin("center"), pos(center().sub(0, 200))]);
+    onKeyPress("space", function () {
+      // Cycle through the dialogs
+      curDialog = (curDialog + 1) % dialogs.length;
+      updateDialog();
+    }); // Update the on screen sprite & text
+
+    function updateDialog() {
+      var _dialogs$curDialog = _slicedToArray(dialogs[curDialog], 2),
+          char = _dialogs$curDialog[0],
+          dialog = _dialogs$curDialog[1]; // Use a new sprite component to replace the old one
+
+
+      avatar.use(sprite(char)); // Update the dialog text
+
+      txt.text = dialog;
+    }
+
+    updateDialog();
+
+    var addButton = function addButton(txt, p, f) {
+      var btn = add([text(txt), pos(p), area({
+        cursor: "pointer"
+      }), scale(1), origin("center")]);
+      btn.onClick(f);
+      btn.onUpdate(function () {
+        if (btn.isHovering()) {
+          var t = time() * 10;
+          btn.color = rgb(wave(0, 255, t), wave(0, 255, t + 2), wave(0, 255, t + 4));
+          btn.scale = vec2(1.2);
+        } else {
+          btn.scale = vec2(1);
+          btn.color = rgb();
+        }
+      });
+    }; //   scene("start", () => {
+    //     addButton("Start", vec2(k.width() * 0.5, k.height() * 0.5), () => k.go('inputName'));
+    //   })
+
+
+    var answer = [["Bean"], ["Joo"]];
+    addButton("1." + answer[0], vec2(width() * 0.4, height() * 0.8), function () {
+      return correct();
     });
-    onKeyDown("left", function () {
-      playerSat.move(-SPEED, 0);
-      score.value -= 1;
-      score.text = "Score:" + score.value;
+    addButton("2." + answer[1], vec2(width() * 0.6, height() * 0.8), function () {
+      return wrong();
     });
-    onKeyDown("up", function () {
-      playerSat.move(0, -SPEED);
-    });
-    onKeyDown("down", function () {
-      playerSat.move(0, SPEED);
-    });
-    playerSat.onCollide("asteroid", function () {
-      SPEED -= SPEED * 0.01;
-      score.value -= 1;
-      score.text = "Score:" + score.value;
-    }); //   Earth rotation + Alien
+    var score = 0;
 
-    earth.onUpdate(function () {
-      earth.angle += 2 * dt();
+    var correct = function correct() {
+      debug.log("correct in");
+      score++;
+      debug.log("score: " + score);
+    };
 
-      if (score.value >= 10) {
-        var _ufo = add([sprite("ufo"), pos(500, 100), scale(0.25), solid(), area(), "ufo"]); //GOTO --> quiz?
+    var wrong = function wrong() {
+      debug.log("wrong in");
 
-
-        _kaboom.default.go("placeholderquiz");
-      }
-    }); //   Moon movement
-
-    var Xvel = 2;
-    var Yvel = 1;
-    moon.onUpdate(function () {
-      moon.move(Xvel, Yvel);
-    }); //Player Alerts - error messages, hints
-
-    var playerAlerts = add([text("Use WASD keys to move", {
-      size: 20
-    }), color(30, 0, 255), pos(10, 45), {
-      value: 0
-    }]);
-    addLevel(_items.map, _items.gameConfigs);
+      _kaboom.default.go("lose");
+    };
   });
 
-  _kaboom.default.scene("placeholderquiz", function () {
-    /*
+  _kaboom.default.scene("lose", function () {
+    add([text("Game over"), pos(center()), origin("center")]);
+  });
+  /*
+  k.scene("quiz", () => {
     const levelConfigs = {
       width: 20,
       height: 20,
       "*": () => [sprite("asteroid"), area(), solid(), scale(0.03), "asteroid"],
-    };*/
-    var ufo = add([sprite("ufo"), pos(600, 300), scale(0.5), solid(), area(), "ufo"]);
-    var alienDialog = add([text("Hello Human", {
-      size: 25
-    }), pos(100, 100), {
-      value: 0
-    }]);
-    addLevel(_items.map, _items.gameConfigs);
+    };
+  
+    const ufo = add([
+      sprite("ufo"),
+      pos(600, 300),
+      scale(0.5),
+      solid(),
+      area(),
+      "ufo",
+    ]);
+  
+    const alienDialog = add([
+      text("Hello Human", {
+        size: 25,
+      }),
+      pos(100, 100),
+      { value: 0 },
+    ]);
+  
+    addLevel(map, levelConfigs);
   });
+  */
 
-  _kaboom.default.go("game");
-};
 
-exports.Game = Game;
-var _default = Game;
+  _kaboom.default.go("quiz");
+}
+
+Quiz();
+var _default = Quiz;
 exports.default = _default;
-},{"./kaboom":"kaboom.js","./items":"items.js"}],"main.js":[function(require,module,exports) {
-"use strict";
-
-var _kaboom = _interopRequireDefault(require("./kaboom"));
-
-var _satellite = _interopRequireDefault(require("./satellite"));
-
-var _items = require("./items");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var addButton = function addButton(txt, p, f) {
-  var btn = add([text(txt, {
-    size: 25
-  }), pos(p), area({
-    cursor: "pointer"
-  }), scale(1), origin("center")]);
-  btn.onClick(f);
-  btn.onUpdate(function () {
-    if (btn.isHovering()) {
-      var t = time() * 10;
-      btn.color = rgb(wave(0, 255, t), wave(0, 255, t + 2), wave(0, 255, t + 4));
-      btn.scale = vec2(1.2);
-    } else {
-      btn.scale = vec2(1);
-      btn.color = rgb();
-    }
-  });
-};
-
-_kaboom.default.scene("start", function () {
-  addButton("Start", vec2(_kaboom.default.width() * 0.5, _kaboom.default.height() * 0.5), function () {
-    return _kaboom.default.go('inputName');
-  });
-  addLevel(_items.map, _items.greetingConfigs);
-});
-
-_kaboom.default.scene("inputName", function () {
-  addButton("Username", vec2(_kaboom.default.width() * 0.5, _kaboom.default.height() * 0.5), function () {
-    return _kaboom.default.go('game');
-  });
-  addLevel(_items.map, _items.greetingConfigs);
-});
-
-(0, _satellite.default)();
-
-_kaboom.default.go('start');
-},{"./kaboom":"kaboom.js","./satellite":"satellite.js","./items":"items.js"}],"../../../../.nvm/versions/node/v17.3.1/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"./kaboom":"kaboom.js"}],"../../../../.nvm/versions/node/v17.3.1/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -5227,5 +5177,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../../../../.nvm/versions/node/v17.3.1/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","main.js"], null)
-//# sourceMappingURL=/main.1f19ae8e.js.map
+},{}]},{},["../../../../.nvm/versions/node/v17.3.1/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","quiz.js"], null)
+//# sourceMappingURL=/quiz.a58f7c4d.js.map

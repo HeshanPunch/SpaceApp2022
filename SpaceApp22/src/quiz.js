@@ -1,8 +1,8 @@
 // Simple dialogues
 import k from "./kaboom";
 
-export const Quiz = () => {
-  /*
+export function Quiz(){
+
   loadSprite("bean", "https://kaboomjs.com/sprites/bean.png");
   k.scene("quiz", () => {
     // Define the dialogue data
@@ -102,21 +102,22 @@ export const Quiz = () => {
 
     const wrong = () => {
       debug.log("wrong in");
-      go("lose");
+      k.go("lose");
     }
   });
 
   k.scene("lose", () => {
     add([text("Game over"), pos(center()), origin("center")]);
   });
-  */
+
+  /*
   k.scene("quiz", () => {
     const levelConfigs = {
       width: 20,
       height: 20,
       "*": () => [sprite("asteroid"), area(), solid(), scale(0.03), "asteroid"],
     };
-
+  
     const ufo = add([
       sprite("ufo"),
       pos(600, 300),
@@ -125,7 +126,7 @@ export const Quiz = () => {
       area(),
       "ufo",
     ]);
-
+  
     const alienDialog = add([
       text("Hello Human", {
         size: 25,
@@ -133,11 +134,14 @@ export const Quiz = () => {
       pos(100, 100),
       { value: 0 },
     ]);
-
+  
     addLevel(map, levelConfigs);
   });
-
+  */
   k.go("quiz");
 }
 
+Quiz();
+
 export default Quiz;
+
