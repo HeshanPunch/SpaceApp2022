@@ -1,32 +1,9 @@
 import kaboom from "kaboom";
-// loadRoot('https://i.imgur.com/');
-kaboom();
-/*
-async function init() {
-  kaboom();
-  let bgimg = await loadSprite('space-bg', 'https://i.imgur.com/QNraJmz.gif');
-  
-  let background = add ([
-    sprite("space-bg"),
-    pos(width() / 2, height() / 2 ),
-    origin("center"),
-    scale(1),
-    fixed()
 
-  ]);
-
-  background.sacleTo(Math.max(
-    width() / bgImage.tex.width,
-    height() / bgImage.tex.height
-  ));
-}
-
-init();
-
-
- initial setup from yugy
 // initialize context
 const k = kaboom({})
+
+loadSprite('wall', "https://kaboomjs.com/sprites/grass.png")
 
 const addButton = (txt, p, f) => {
 
@@ -59,4 +36,43 @@ const addButton = (txt, p, f) => {
 scene("start", () => {
   addButton("Start", vec2(k.width() * 0.5, k.height() * 0.5), () => k.go('inputName'));
 })
+
+
+scene("inputName", () => {
+  addButton("Username", vec2(k.width() * 0.5, k.height() * 0.5), () => k.go('mainGame'));
+})
+
+scene('mainGame', () => {
+
+  const WALL = [
+    '===============================',
+    '===============================',
+    '===============================',
+    '===============================',
+    '===============================',
+    '===============================',
+    '===============================',
+    '===============================',
+    '===============================',
+    '===============================',
+    '===============================',
+    '===============================',
+    '===============================',
+    '===============================',
+    '===============================',
+  ]
+
+  const level = addLevel(WALL, {
+    width: 64,
+    height: 64,
+    "=": () => [
+      sprite("wall"),
+      area(),
+      solid(),
+    ],
+  })
+})
+
+k.go('start')
+
 
