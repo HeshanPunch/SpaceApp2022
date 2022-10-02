@@ -6,10 +6,9 @@ kaboom({
   font: "sinko",
   background: [11, 16, 38],
   fullscreen: true,
-  canvas: document.querySelector("gamecanvas"),
+
   // width: 1280,
   //     height: 800,
-  scale: 1,
 });
 
 const NORMAL_SPEED = 70;
@@ -32,41 +31,41 @@ loadSprite("ufo", "https://i.imgur.com/2rEcvS6.png");
   "https://www.pngfind.com/pngs/m/115-1154244_asteroid-pixel-art-red-button-hd-png-download.png"
 ); */
 const map = [
-    "                   *                   *                           *      ",
-    "           *                                                              ",
-    "                                                                          ",
-    " *                                                                        ",
-    "                             *                                            ",
-    "                                                                    *     ",
-    "                                                                          ",
-    " *                                                                        ",
-    "                                       *                                  ",
-    "                                                      *                   ",
-    "                                                                          ",
-    "                                                                          ",
-    "                                                                          ",
-    "                                                                          ",
-    "                                                                          ",
-    "         *                     *                                          ",
-    "                                                                          ",
-    "                                                                          ",
-    "                                                                          ",
-    "               *                                                          ",
-    "                                          *                               ",
-    "                                                                          ",
-    "                                                                          ",
-    "                                                                          ",
-    "                                                                          ",
-    "                                                                          ",
-    "                                                                          ",
-    "                                                                          ",
-    "      *                         *                           *             ",
-    "                                                                          ",
-    "                                                *                         ",
-    "                                                                          ",
-    " *                                                                        ",
-    "                                                                         ",
-  ];
+  "                                                            *                   *                           *      ",
+  "                                                *                                                              ",
+  "                                                                                                               ",
+  "                                                                                                                 ",
+  "                             *                                                                                 ",
+  "                                                                                                        *     ",
+  "                                                                                                           ",
+  " *                                                                                                       ",
+  "                                       *                                                                  ",
+  "                                                                                    *                   ",
+  "                                                                                                      ",
+  "                                                                                                        ",
+  "                                                                                                       ",
+  "                                                                                                      ",
+  "                                                  ()                                                  ",
+  "         *                      *                                                                   ",
+  "                                                                                                    ",
+  "                                                                                                    ",
+  "                                                                                                    ",
+  "               *                                                                                    ",
+  "                                          *                                                           ",
+  "                                                                                                      ",
+  "                                                                                                      ",
+  "                                                                             *                         ",
+  "                                                                                                      ",
+  "                                                                                                      ",
+  "                                                                                                      ",
+  "                                                                                                      ",
+  "      *                         *                                                       *             ",
+  "                                                                                                      ",
+  "                                                                            *                         ",
+  "                                                                                                      ",
+  " *                                                                                                    ",
+  "                                                                                                     ",
+];
 scene("game", () => {
   //   layers(["bg", "obj", "ui"], "obj");
 
@@ -77,8 +76,6 @@ scene("game", () => {
     pos(10, 10),
     { value: 0 },
   ]);
-
- 
 
   const levelConfigs = {
     width: 20,
@@ -120,6 +117,7 @@ scene("game", () => {
     playerSat.move(SPEED, 0);
     score.value += 1;
     score.text = "Score:" + score.value;
+    // camPos(playerSat.pos)
   });
   onKeyDown("left", () => {
     playerSat.move(-SPEED, 0);
@@ -133,23 +131,16 @@ scene("game", () => {
     playerSat.move(0, SPEED);
   });
 
-  /* for (let i = 0; i < 3; i++) {
-    const x = rand(0, width());
-    const y = rand(0, height());
-
-    add([sprite("asteroid-large"), pos(x, y), area(), "asteroid-large"]);
-  } */
-
+ 
   playerSat.onCollide("asteroid", () => {
     SPEED -= SPEED * 0.01;
     score.value -= 1;
     score.text = "Score:" + score.value;
   });
 
-  //   Earth rotation + Alien 
+  //   Earth rotation + Alien
   earth.onUpdate(() => {
-    earth.angle += 3 * dt();
-
+    earth.angle += 2 * dt();
 
     if (score.value >= 10) {
       const ufo = add([
@@ -160,6 +151,8 @@ scene("game", () => {
         area(),
         "ufo",
       ]);
+      //GOTO --> quiz?
+        go("placeholderquiz")
     }
   });
 
@@ -170,8 +163,44 @@ scene("game", () => {
     moon.move(Xvel, Yvel);
   });
 
- 
-  //   Alien interaction
+  //Player Alerts - error messages, hints
+  const playerAlerts = add([
+    text("Use WASD keys to move", {
+      size: 20,
+    }),
+    color(30, 0, 255),
+    pos(10, 45),
+    { value: 0 },
+  ]);
+
+
+
+  addLevel(map, levelConfigs);
+});
+
+scene("placeholderquiz", () => {
+  const levelConfigs = {
+    width: 20,
+    height: 20,
+    "*": () => [sprite("asteroid"), area(), solid(), scale(0.03), "asteroid"],
+  };
+
+  const ufo = add([
+    sprite("ufo"),
+    pos(600, 300),
+    scale(0.5),
+    solid(),
+    area(),
+    "ufo",
+  ]);
+
+  const alienDialog = add([
+    text("Hello Human", {
+      size: 25,
+    }),
+    pos(100, 100),
+    { value: 0 },
+  ]);
 
   addLevel(map, levelConfigs);
 });

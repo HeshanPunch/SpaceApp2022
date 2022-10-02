@@ -4816,11 +4816,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 (0, _kaboom.default)({
   font: "sinko",
   background: [11, 16, 38],
-  fullscreen: true,
-  canvas: document.querySelector("gamecanvas"),
-  // width: 1280,
+  fullscreen: true // width: 1280,
   //     height: 800,
-  scale: 1
+
 });
 var NORMAL_SPEED = 70;
 var FAST_SPEED = 90;
@@ -4840,7 +4838,7 @@ loadSprite("ufo", "https://i.imgur.com/2rEcvS6.png");
   "https://www.pngfind.com/pngs/m/115-1154244_asteroid-pixel-art-red-button-hd-png-download.png"
 ); */
 
-var map = ["                   *                   *                           *      ", "           *                                                              ", "                                                                          ", " *                                                                        ", "                             *                                            ", "                                                                    *     ", "                                                                          ", " *                                                                        ", "                                       *                                  ", "                                                      *                   ", "                                                                          ", "                                                                          ", "                                                                          ", "                                                                          ", "                                                                          ", "         *                     *                                          ", "                                                                          ", "                                                                          ", "                                                                          ", "               *                                                          ", "                                          *                               ", "                                                                          ", "                                                                          ", "                                                                          ", "                                                                          ", "                                                                          ", "                                                                          ", "                                                                          ", "      *                         *                           *             ", "                                                                          ", "                                                *                         ", "                                                                          ", " *                                                                        ", "                                                                         "];
+var map = ["                                                            *                   *                           *      ", "                                                *                                                              ", "                                                                                                               ", "                                                                                                                 ", "                             *                                                                                 ", "                                                                                                        *     ", "                                                                                                           ", " *                                                                                                       ", "                                       *                                                                  ", "                                                                                    *                   ", "                                                                                                      ", "                                                                                                        ", "                                                                                                       ", "                                                                                                      ", "                                                  ()                                                  ", "         *                      *                                                                   ", "                                                                                                    ", "                                                                                                    ", "                                                                                                    ", "               *                                                                                    ", "                                          *                                                           ", "                                                                                                      ", "                                                                                                      ", "                                                                             *                         ", "                                                                                                      ", "                                                                                                      ", "                                                                                                      ", "                                                                                                      ", "      *                         *                                                       *             ", "                                                                                                      ", "                                                                            *                         ", "                                                                                                      ", " *                                                                                                    ", "                                                                                                     "];
 scene("game", function () {
   //   layers(["bg", "obj", "ui"], "obj");
   var score = add([text("Score: 0", {
@@ -4863,7 +4861,7 @@ scene("game", function () {
   onKeyDown("right", function () {
     playerSat.move(SPEED, 0);
     score.value += 1;
-    score.text = "Score:" + score.value;
+    score.text = "Score:" + score.value; // camPos(playerSat.pos)
   });
   onKeyDown("left", function () {
     playerSat.move(-SPEED, 0);
@@ -4876,23 +4874,19 @@ scene("game", function () {
   onKeyDown("down", function () {
     playerSat.move(0, SPEED);
   });
-  /* for (let i = 0; i < 3; i++) {
-    const x = rand(0, width());
-    const y = rand(0, height());
-      add([sprite("asteroid-large"), pos(x, y), area(), "asteroid-large"]);
-  } */
-
   playerSat.onCollide("asteroid", function () {
     SPEED -= SPEED * 0.01;
     score.value -= 1;
     score.text = "Score:" + score.value;
-  }); //   Earth rotation + Alien 
+  }); //   Earth rotation + Alien
 
   earth.onUpdate(function () {
-    earth.angle += 3 * dt();
+    earth.angle += 2 * dt();
 
     if (score.value >= 10) {
-      var ufo = add([sprite("ufo"), pos(500, 100), scale(0.25), solid(), area(), "ufo"]);
+      var ufo = add([sprite("ufo"), pos(500, 100), scale(0.25), solid(), area(), "ufo"]); //GOTO --> quiz?
+
+      go("placeholderquiz");
     }
   }); //   Moon movement
 
@@ -4900,8 +4894,29 @@ scene("game", function () {
   var Yvel = 1;
   moon.onUpdate(function () {
     moon.move(Xvel, Yvel);
-  }); //   Alien interaction
+  }); //Player Alerts - error messages, hints
 
+  var playerAlerts = add([text("Use WASD keys to move", {
+    size: 20
+  }), color(30, 0, 255), pos(10, 45), {
+    value: 0
+  }]);
+  addLevel(map, levelConfigs);
+});
+scene("placeholderquiz", function () {
+  var levelConfigs = {
+    width: 20,
+    height: 20,
+    "*": function _() {
+      return [sprite("asteroid"), area(), solid(), scale(0.03), "asteroid"];
+    }
+  };
+  var ufo = add([sprite("ufo"), pos(600, 300), scale(0.5), solid(), area(), "ufo"]);
+  var alienDialog = add([text("Hello Human", {
+    size: 25
+  }), pos(100, 100), {
+    value: 0
+  }]);
   addLevel(map, levelConfigs);
 });
 go("game");
