@@ -1,7 +1,7 @@
-import kaboom from "kaboom";
-
+//import kaboom from "kaboom";
+import k from './kaboom';
 // start the game
-
+/*
 kaboom({
   font: "sinko",
   background: [11, 16, 38],

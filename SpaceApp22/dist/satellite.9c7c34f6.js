@@ -4805,8 +4805,13 @@ var no = a((i = {}) => {
   return ye;
 }, "default");
 exports.default = no;
-},{}],"satellite.js":[function(require,module,exports) {
+},{}],"kaboom.js":[function(require,module,exports) {
 "use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.k = exports.default = void 0;
 
 var _kaboom = _interopRequireDefault(require("kaboom"));
 
@@ -4827,32 +4832,36 @@ var SPEED = NORMAL_SPEED; // player.onCollide("coin", () => {
 //   score.text = "Score:" + score.value;
 // });
 
-loadSprite("asteroid", "https://i.imgur.com/B1NSdRO.png");
-loadSprite("satellite", "https://art.pixilart.com/4c141c7f72cb059.png");
-loadSprite("asteroid-large", "https://i.imgur.com/qIHdjDQ.png");
-loadSprite("moon", "https://i.imgur.com/nXhRU9V.png");
-loadSprite("earth", "https://i.imgur.com/Qjmlokl.png");
-loadSprite("ufo", "https://i.imgur.com/2rEcvS6.png");
 /* loadSprite(
   "star",
   "https://www.pngfind.com/pngs/m/115-1154244_asteroid-pixel-art-red-button-hd-png-download.png"
 ); */
+var Game = function Game() {
+  loadSprite("asteroid", "https://i.imgur.com/B1NSdRO.png");
+  loadSprite("satellite", "https://art.pixilart.com/4c141c7f72cb059.png");
+  loadSprite("asteroid-large", "https://i.imgur.com/qIHdjDQ.png");
+  loadSprite("moon", "https://i.imgur.com/nXhRU9V.png");
+  loadSprite("earth", "https://i.imgur.com/Qjmlokl.png");
+  loadSprite("ufo", "https://i.imgur.com/2rEcvS6.png");
+  var NORMAL_SPEED = 70;
+  var FAST_SPEED = 90;
+  var SPEED = NORMAL_SPEED;
 
-var map = ["                                                            *                   *                           *      ", "                                                *                                                              ", "                                                                                                               ", "                                                                                                                 ", "                             *                                                                                 ", "                                                                                                        *     ", "                                                                                                           ", " *                                                                                                       ", "                                       *                                                                  ", "                                                                                    *                   ", "                                                                                                      ", "                                                                                                        ", "                                                                                                       ", "                                                                                                      ", "                                                  ()                                                  ", "         *                      *                                                                   ", "                                                                                                    ", "                                                                                                    ", "                                                                                                    ", "               *                                                                                    ", "                                          *                                                           ", "                                                                                                      ", "                                                                                                      ", "                                                                             *                         ", "                                                                                                      ", "                                                                                                      ", "                                                                                                      ", "                                                                                                      ", "      *                         *                                                       *             ", "                                                                                                      ", "                                                                            *                         ", "                                                                                                      ", " *                                                                                                    ", "                                                                                                     "];
+  _kaboom.default.var map = ["                                                            *                   *                           *      ", "                                                *                                                              ", "                                                                                                               ", "                                                                                                                 ", "                             *                                                                                 ", "                                                                                                        *     ", "                                                                                                           ", " *                                                                                                       ", "                                       *                                                                  ", "                                                                                    *                   ", "                                                                                                      ", "                                                                                                        ", "                                                                                                       ", "                                                                                                      ", "                                                  ()                                                  ", "         *                      *                                                                   ", "                                                                                                    ", "                                                                                                    ", "                                                                                                    ", "               *                                                                                    ", "                                          *                                                           ", "                                                                                                      ", "                                                                                                      ", "                                                                             *                         ", "                                                                                                      ", "                                                                                                      ", "                                                                                                      ", "                                                                                                      ", "      *                         *                                                       *             ", "                                                                                                      ", "                                                                            *                         ", "                                                                                                      ", " *                                                                                                    ", "                                                                                                     "];
 scene("game", function () {
-  //   layers(["bg", "obj", "ui"], "obj");
-  var score = add([text("Score: 0", {
-    size: 25
-  }), pos(10, 10), {
-    value: 0
-  }]);
-  var levelConfigs = {
-    width: 20,
-    height: 20,
-    "*": function _() {
-      return [sprite("asteroid"), area(), solid(), scale(0.03), "asteroid"];
-    } // "0": () => [sprite("earth"), area(), solid(), scale(0.4), "earth"],
-    // "(": () => [sprite("moon"), area(), solid(), scale(0.05), "moon"],
+    //   layers(["bg", "obj", "ui"], "obj");
+    var score = add([text("Score: 0", {
+      size: 25
+    }), pos(10, 10), {
+      value: 0
+    }]);
+      var levelConfigs = {
+      width: 20,
+      height: 20,
+      "*": function _() {
+        return [sprite("asteroid"), area(), solid(), scale(0.03), "asteroid"];
+      } // "0": () => [sprite("earth"), area(), solid(), scale(0.4), "earth"],
+      // "(": () => [sprite("moon"), area(), solid(), scale(0.05), "moon"],
 
   };
   var playerSat = add([sprite("satellite"), pos(300, 200), scale(0.1), solid(), area()]);
@@ -5124,5 +5133,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","satellite.js"], null)
+},{}]},{},["../../../../.nvm/versions/node/v17.3.1/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","satellite.js"], null)
 //# sourceMappingURL=/satellite.9c7c34f6.js.map

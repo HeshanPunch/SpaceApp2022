@@ -1,12 +1,8 @@
 // Simple dialogues
-import kaboom from "kaboom";
-kaboom({
-  background: [255, 209, 253],
-});
+import k from "./kaboom";
 
 loadSprite("bean", "https://kaboomjs.com/sprites/bean.png");
-
-scene("quiz", () => {
+k.scene("quiz", () => {
   // Define the dialogue data
   const dialogs = [
     ["bean", "This is quiz time!"],
@@ -108,8 +104,10 @@ scene("quiz", () => {
   }
 });
 
-scene("lose", () => {
+k.scene("lose", () => {
   add([text("Game over"), pos(center()), origin("center")]);
 });
 
-go("quiz");
+k.go("quiz");
+
+
