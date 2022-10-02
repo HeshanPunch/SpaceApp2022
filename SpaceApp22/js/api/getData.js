@@ -1,25 +1,51 @@
-const vocabResId = "52fc9f2d-255f-4b8e-9aaf-6ed027690bf0";
+// // import axios from "axios";
 
-const loadData = async () => {
-  await getVocabData();
-};
+// export const loadData = async () => {
+//   console.log("getData()");
+//   await getVocabData();
+// };
 
-const getVocabData = async (limit) => {
-  const apiUrl = `https://donnees-data.asc-csa.gc.ca/en/api/3/action/datastore_search?resource_id=${vocabResId}`;
+// const getVocabData = (limit) => {
+//   const fetchFrom = `./data/vocab.json`;
+//   // const apiUrl = "https://swapi.dev/api/planets";
 
-  let myHeader = new Headers();
-  myHeader.append("Content-Type", "application/json");
-  //   res.header('Access-Control-Allow-Origin', '*');
-  myHeader.append("Access-Control-Allow-Origin", "http://192.168.0.110:5500");
+//   // const res = await axios.get(`some-url/todos`);
+//   // console.log(res)
 
-  let request = new Request(apiUrl, {
-    method: "GET",
-    headers: myHeader,
-    mode: "cors",
-  });
+//   // const apiUrl = "https://swapi.dev/api/planets/"; //testing
 
-  console.log("getVocabData");
-  fetch(request)
-    .then((response) => console.log(response))
-    .then((data) => console.log(data));
-};
+//   // let myHeader = new Headers();
+//   // myHeader.append("Content-Type", "application/json");
+//   // //   res.header('Access-Control-Allow-Origin', '*');
+//   // myHeader.append("Access-Control-Allow-Origin", "http://192.168.0.110:5500");
+
+//   fetch(fetchFrom)
+//     .then((data) => {
+//       console.log(data);
+//     })
+//     .then((data) => {
+//       console.log(data);
+//     });
+
+//   /* 
+//   let request = new Request(apiUrl, {
+//     method: "GET",
+//     mode: "cors",
+//     headers: {
+//       "Content-Type": "application/json",
+//       // 'Content-Type': 'application/x-www-form-urlencoded',
+//     },
+//     referrerPolicy: "no-referrer",
+//   });
+
+//   console.log();
+
+//   fetch(request)
+//     .then((response) => response.json())
+//     .then((data) => console.log(data));
+//  */
+//   // console.log("getVocabData");
+//   // fetch(request)
+//   //   .then((response) => console.log(response))
+//   //   .then((data) => console.log(data));
+// };

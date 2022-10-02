@@ -4814,10 +4814,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 // initialize context
 var k = (0, _kaboom.default)({});
-k.scene('main', function () {
-  return [k.add([k.text('Hello World', 32), k.pos(k.width() * 0.5, k.height() * 0.5), k.color(1, 1, 1, 1), k.origin('center')])];
+k.scene("main", function () {
+  return [k.add([k.text("Hello World", 32), k.pos(k.width() * 0.5, k.height() * 0.5), k.color(1, 1, 1, 1), k.origin("center")])];
 });
-k.go('main');
+k.go("main");
 },{"kaboom":"../node_modules/kaboom/dist/kaboom.mjs"}],"../../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -4846,7 +4846,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63391" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64875" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
