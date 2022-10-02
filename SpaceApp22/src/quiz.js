@@ -1,16 +1,20 @@
 // Simple dialogues
 import kaboom from "kaboom";
+
 kaboom({
-  background: [255, 209, 253],
+  fullscreen: true,
+  background: [11, 16, 38],
+  canvas: document.querySelector("gamecanvas"),
 });
 
 loadSprite("bean", "https://kaboomjs.com/sprites/bean.png");
+loadSprite("alien", "https://i.imgur.com/YCTh7fD.png");
 
 scene("quiz", () => {
   // Define the dialogue data
   const dialogs = [
-    ["bean", "This is quiz time!"],
-    ["bean", "Q. What is my name?"],
+    ["alien", "This is quiz time!"],
+    ["alien", "Q. What is my name?"],
   ];
 
   let curDialog = 0;
@@ -32,11 +36,18 @@ scene("quiz", () => {
 
   // Character avatar
   const avatar = add([
-    sprite("bean"),
-    scale(5),
+    sprite("alien"),
+    scale(0.5),
     origin("center"),
-    pos(center().sub(0, 200)),
+    rotate(0),
+    pos(center().sub(0, 200))
   ]);
+
+  avatar.onUpdate(() => {
+    // .angle is a property provided by rotate() component, here we're incrementing the angle by 120 degrees per second, dt() is the time elapsed since last frame in seconds
+    avatar.angle += 120 * dt()
+  })
+  
 
   onKeyPress("space", () => {
     // Cycle through the dialogs
@@ -86,7 +97,7 @@ scene("quiz", () => {
   //   scene("start", () => {
   //     addButton("Start", vec2(k.width() * 0.5, k.height() * 0.5), () => k.go('inputName'));
   //   })
-  const answer = [["Bean"], ["Joo"]];
+  const answer = [["Alien"], ["Joo"]];
   addButton("1." + answer[0], vec2(width() * 0.4, height() * 0.8), () =>
     correct()
   );
