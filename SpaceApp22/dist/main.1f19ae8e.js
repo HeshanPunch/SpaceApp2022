@@ -4844,7 +4844,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 // start the game
 var Game = function Game() {
-  var NORMAL_SPEED = 70;
+  var NORMAL_SPEED = 50;
   var FAST_SPEED = 90;
   var SPEED = NORMAL_SPEED;
   loadSprite("asteroid", "https://i.imgur.com/B1NSdRO.png");
@@ -4853,13 +4853,21 @@ var Game = function Game() {
   loadSprite("moon", "https://i.imgur.com/nXhRU9V.png");
   loadSprite("earth", "https://i.imgur.com/Qjmlokl.png");
   loadSprite("ufo", "https://i.imgur.com/2rEcvS6.png");
-  var map = ["                                                            *                   *                           *      ", "                                                *                                                              ", "                                                                                                               ", "                                                                                                                 ", "                             *                                                                                 ", "                                                                                                        *     ", "                                                                                                           ", " *                                                                                                       ", "                                       *                                                                  ", "                                                                                    *                   ", "                                                                                                      ", "                                                                                                        ", "                                                                                                       ", "                                                                                                      ", "                                                  ()                                                  ", "         *                      *                                                                   ", "                                                                                                    ", "                                                                                                    ", "                                                                                                    ", "               *                                                                                    ", "                                          *                                                           ", "                                                                                                      ", "                                                                                                      ", "                                                                             *                         ", "                                                                                                      ", "                                                                                                      ", "                                                                                                      ", "                                                                                                      ", "      *                         *                                                       *             ", "                                                                                                      ", "                                                                            *                         ", "                                                                                                      ", " *                                                                                                    ", "                                                                                                     "];
+  loadSprite("spaceship", "https://i.imgur.com/Sp220hN.png");
+  loadSprite("meteor", "https://i.imgur.com/RkH05Dh.png");
+  loadSprite("spacestation", "https://i.imgur.com/TIMxSI6.png");
+  var map = ["                                                            *                   *                           *      ", "                                                *                                                              ", "                                                                                                               ", "                                                                                                                 ", "                             *                                                                                 ", "                                                                                                        *     ", "                                                                                                           ", " *                                                                                                       ", "                                       *                                                                  ", "                                                                                    *                   ", "                                                                                                      ", "                                                                                                        ", "                                                                                                       ", "                                                                                                      ", "                                                                                                    ", "         *                      *                                                                   ", "                                                                                                    ", "                                                                                                    ", "                                                                                                    ", "               *                                                                                    ", "                                          *                                                           ", "                                                                                                      ", "                                                                                                      ", "                                                                             *                         ", "                                                                                                      ", "                                                                                                      ", "                                                                                                      ", "                                                                                                      ", "      *                         *                                                       *             ", "                                                                                                      ", "                                                                            *                         ", "                                                                                                      ", " *                                                                                                    ", "                                                                                                     "];
 
   _kaboom.default.scene("game", function () {
     //   layers(["bg", "obj", "ui"], "obj");
     var score = add([text("Score: 0", {
       size: 25
     }), pos(10, 10), {
+      value: 0
+    }]);
+    var playerAlerts = add([text("Use arrow keys to move", {
+      size: 20
+    }), color(30, 0, 255), pos(10, 45), {
       value: 0
     }]);
     var levelConfigs = {
@@ -4871,38 +4879,15 @@ var Game = function Game() {
       // "(": () => [sprite("moon"), area(), solid(), scale(0.05), "moon"],
 
     };
-    var playerSat = add([sprite("satellite"), pos(300, 200), scale(0.1), solid(), area()]);
+    var satellite = add([sprite("satellite"), pos(300, 200), scale(0.1), solid(), area(), origin("center"), "satellite"]);
     var earth = add([sprite("earth"), pos(1200, 300), scale(0.35), solid(), area(), rotate(1), origin("center"), "earth"]);
     var moon = add([sprite("moon"), pos(900, 400), solid(), area(), scale(0.035), "moon"]);
-    onKeyDown("right", function () {
-      playerSat.move(SPEED, 0);
-      score.value += 1;
-      score.text = "Score:" + score.value; // camPos(playerSat.pos)
-    });
-    onKeyDown("left", function () {
-      playerSat.move(-SPEED, 0);
-      score.value -= 1;
-      score.text = "Score:" + score.value;
-    });
-    onKeyDown("up", function () {
-      playerSat.move(0, -SPEED);
-    });
-    onKeyDown("down", function () {
-      playerSat.move(0, SPEED);
-    });
-    playerSat.onCollide("asteroid", function () {
-      SPEED -= SPEED * 0.01;
-      score.value -= 1;
-      score.text = "Score:" + score.value;
-    }); //   Earth rotation + Alien
-
     earth.onUpdate(function () {
       earth.angle += 2 * dt();
 
       if (score.value >= 10) {
-        var ufo = add([sprite("ufo"), pos(500, 100), scale(0.25), solid(), area(), "ufo"]); //GOTO --> quiz?
-
-        _kaboom.default.go("placeholderquiz");
+        var ufo = add([sprite("ufo"), pos(400, 200), scale(0.15), solid(), area(), "ufo"]); //GOTO --> quiz?
+        // k.go("placeholderquiz")
       }
     }); //   Moon movement
 
@@ -4910,17 +4895,107 @@ var Game = function Game() {
     var Yvel = 1;
     moon.onUpdate(function () {
       moon.move(Xvel, Yvel);
-    }); //Player Alerts - error messages, hints
+    });
+    onKeyDown("right", function () {
+      satellite.move(SPEED, 0);
+      score.value += 1;
+      score.text = "Score:" + score.value;
+      sendObject(); // camPos(satellite.pos)
+    });
+    onKeyDown("left", function () {
+      satellite.move(-SPEED, 0);
+      score.value -= 1;
+      score.text = "Score:" + score.value;
+      sendObject();
+    });
+    onKeyDown("up", function () {
+      satellite.move(0, -SPEED);
+      sendObject();
+    });
+    onKeyDown("down", function () {
+      satellite.move(0, SPEED);
+      sendObject();
+    });
+    satellite.onCollide("asteroid", function () {
+      alertMessage("COLLISSION !!!");
+      SPEED -= SPEED * 0.01;
+      score.value -= 1;
+      score.text = "Score:" + score.value;
+    });
+    satellite.onCollide("earth", function (earth) {}); //alert messages
 
-    var playerAlerts = add([text("Use WASD keys to move", {
-      size: 20
-    }), color(30, 0, 255), pos(10, 45), {
-      value: 0
-    }]);
+    var alertMessage = function alertMessage(text) {
+      playerAlerts.text = "WARNING: " + text;
+      playerAlerts.color = rgb(255, 0, 0);
+      setTimeout(function () {
+        clearAlertMessage();
+      }, 1500);
+    };
+
+    var clearAlertMessage = function clearAlertMessage() {
+      playerAlerts.text = "Let's get back on track...";
+      playerAlerts.color = rgb(0, 255, 150);
+    };
+
+    var sendObject = function sendObject() {
+      var objectOdds = Math.random();
+
+      if (objectOdds > 0.995) {
+        sendSpaceship();
+      }
+
+      if (objectOdds > 0.95) {
+        sendMeteor();
+      }
+    };
+
+    var spaceshipspawned = false;
+
+    var sendSpaceship = function sendSpaceship() {
+      if (!spaceshipspawned) {
+        var spaceship = add([sprite("spaceship"), pos(1150, 300), scale(0.05), rotate(-65), "spaceship"]);
+
+        var _Xvel = -5;
+
+        var _Yvel = -5;
+
+        spaceship.onUpdate(function () {
+          spaceship.move(_Xvel, _Yvel);
+        });
+      }
+
+      spaceshipspawned = true;
+    };
+
+    var sendMeteor = function sendMeteor() {
+      var x = Math.random();
+      var meteor = add([sprite("meteor"), pos(500 + 1000 * x, 0), scale(0.025), solid(), area(), "meteor"]);
+      var Xvel = -45;
+      var Yvel = 55;
+      meteor.onUpdate(function () {
+        meteor.move(Xvel, Yvel);
+      });
+      meteor.onCollide("asteroid", function (asteroid) {
+        destroy(meteor);
+      });
+      meteor.onCollide("ufo", function (ufo) {
+        destroy(meteor);
+      });
+      meteor.onCollide("earth", function (earth) {
+        destroy(meteor);
+      });
+      meteor.onCollide("satellite", function (satellite) {
+        alertMessage("hit recorded!");
+        score.value -= 20;
+        score.text = "Score:" + score.value;
+        destroy(meteor);
+      });
+    };
+
     addLevel(map, levelConfigs);
   });
 
-  _kaboom.default.scene("placeholderquiz", function () {
+  _kaboom.default.scene("placeholder", function () {
     var levelConfigs = {
       width: 20,
       height: 20,
@@ -4928,7 +5003,7 @@ var Game = function Game() {
         return [sprite("asteroid"), area(), solid(), scale(0.03), "asteroid"];
       }
     };
-    var ufo = add([sprite("ufo"), pos(600, 300), scale(0.5), solid(), area(), "ufo"]);
+    var ufo = add([sprite("ufo"), pos(600, 300), scale(0.3), solid(), area(), "ufo"]);
     var alienDialog = add([text("Hello Human", {
       size: 25
     }), pos(100, 100), {
@@ -5046,7 +5121,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59437" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53625" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
