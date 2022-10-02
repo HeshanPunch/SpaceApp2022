@@ -4805,18 +4805,14 @@ var no = a((i = {}) => {
   return ye;
 }, "default");
 exports.default = no;
-},{}],"kaboom.js":[function(require,module,exports) {
+},{}],"satellite.js":[function(require,module,exports) {
 "use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.k = exports.default = void 0;
 
 var _kaboom = _interopRequireDefault(require("kaboom"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+//import kaboom from "kaboom";
 // start the game
 (0, _kaboom.default)({
   font: "sinko",
@@ -4832,36 +4828,27 @@ var SPEED = NORMAL_SPEED; // player.onCollide("coin", () => {
 //   score.text = "Score:" + score.value;
 // });
 
-/* loadSprite(
-  "star",
-  "https://www.pngfind.com/pngs/m/115-1154244_asteroid-pixel-art-red-button-hd-png-download.png"
-); */
-var Game = function Game() {
-  loadSprite("asteroid", "https://i.imgur.com/B1NSdRO.png");
-  loadSprite("satellite", "https://art.pixilart.com/4c141c7f72cb059.png");
-  loadSprite("asteroid-large", "https://i.imgur.com/qIHdjDQ.png");
-  loadSprite("moon", "https://i.imgur.com/nXhRU9V.png");
-  loadSprite("earth", "https://i.imgur.com/Qjmlokl.png");
-  loadSprite("ufo", "https://i.imgur.com/2rEcvS6.png");
-  var NORMAL_SPEED = 70;
-  var FAST_SPEED = 90;
-  var SPEED = NORMAL_SPEED;
-
-  _kaboom.default.var map = ["                                                            *                   *                           *      ", "                                                *                                                              ", "                                                                                                               ", "                                                                                                                 ", "                             *                                                                                 ", "                                                                                                        *     ", "                                                                                                           ", " *                                                                                                       ", "                                       *                                                                  ", "                                                                                    *                   ", "                                                                                                      ", "                                                                                                        ", "                                                                                                       ", "                                                                                                      ", "                                                  ()                                                  ", "         *                      *                                                                   ", "                                                                                                    ", "                                                                                                    ", "                                                                                                    ", "               *                                                                                    ", "                                          *                                                           ", "                                                                                                      ", "                                                                                                      ", "                                                                             *                         ", "                                                                                                      ", "                                                                                                      ", "                                                                                                      ", "                                                                                                      ", "      *                         *                                                       *             ", "                                                                                                      ", "                                                                            *                         ", "                                                                                                      ", " *                                                                                                    ", "                                                                                                     "];
+loadSprite("asteroid", "https://i.imgur.com/B1NSdRO.png");
+loadSprite("satellite", "https://art.pixilart.com/4c141c7f72cb059.png");
+loadSprite("asteroid-large", "https://i.imgur.com/qIHdjDQ.png");
+loadSprite("moon", "https://i.imgur.com/nXhRU9V.png");
+loadSprite("earth", "https://i.imgur.com/Qjmlokl.png");
+loadSprite("ufo", "https://i.imgur.com/2rEcvS6.png");
+var map = ["                                                            *                   *                           *      ", "                                                *                                                              ", "                                                                                                               ", "                                                                                                                 ", "                             *                                                                                 ", "                                                                                                        *     ", "                                                                                                           ", " *                                                                                                       ", "                                       *                                                                  ", "                                                                                    *                   ", "                                                                                                      ", "                                                                                                        ", "                                                                                                       ", "                                                                                                      ", "                                                  ()                                                  ", "         *                      *                                                                   ", "                                                                                                    ", "                                                                                                    ", "                                                                                                    ", "               *                                                                                    ", "                                          *                                                           ", "                                                                                                      ", "                                                                                                      ", "                                                                             *                         ", "                                                                                                      ", "                                                                                                      ", "                                                                                                      ", "                                                                                                      ", "      *                         *                                                       *             ", "                                                                                                      ", "                                                                            *                         ", "                                                                                                      ", " *                                                                                                    ", "                                                                                                     "];
 scene("game", function () {
-    //   layers(["bg", "obj", "ui"], "obj");
-    var score = add([text("Score: 0", {
-      size: 25
-    }), pos(10, 10), {
-      value: 0
-    }]);
-      var levelConfigs = {
-      width: 20,
-      height: 20,
-      "*": function _() {
-        return [sprite("asteroid"), area(), solid(), scale(0.03), "asteroid"];
-      } // "0": () => [sprite("earth"), area(), solid(), scale(0.4), "earth"],
-      // "(": () => [sprite("moon"), area(), solid(), scale(0.05), "moon"],
+  //   layers(["bg", "obj", "ui"], "obj");
+  var score = add([text("Score: 0", {
+    size: 25
+  }), pos(10, 10), {
+    value: 0
+  }]);
+  var levelConfigs = {
+    width: 20,
+    height: 20,
+    "*": function _() {
+      return [sprite("asteroid"), area(), solid(), scale(0.03), "asteroid"];
+    } // "0": () => [sprite("earth"), area(), solid(), scale(0.4), "earth"],
+    // "(": () => [sprite("moon"), area(), solid(), scale(0.05), "moon"],
 
   };
   var playerSat = add([sprite("satellite"), pos(300, 200), scale(0.1), solid(), area()]);
@@ -4894,8 +4881,7 @@ scene("game", function () {
 
     if (score.value >= 10) {
       var ufo = add([sprite("ufo"), pos(500, 100), scale(0.25), solid(), area(), "ufo"]); //GOTO --> quiz?
-
-      go("placeholderquiz");
+      // go("placeholderquiz")
     }
   }); //   Moon movement
 
@@ -4928,7 +4914,7 @@ scene("placeholderquiz", function () {
   }]);
   addLevel(map, levelConfigs);
 });
-go("game");
+go("placeholderquiz");
 },{"kaboom":"../node_modules/kaboom/dist/kaboom.mjs"}],"../../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -4957,7 +4943,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51875" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52909" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
@@ -5133,5 +5119,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../../../../.nvm/versions/node/v17.3.1/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","satellite.js"], null)
+},{}]},{},["../../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","satellite.js"], null)
 //# sourceMappingURL=/satellite.9c7c34f6.js.map

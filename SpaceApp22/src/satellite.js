@@ -1,7 +1,7 @@
 //import kaboom from "kaboom";
-import k from './kaboom';
+import kaboom from "kaboom";
 // start the game
-/*
+
 kaboom({
   font: "sinko",
   background: [11, 16, 38],
@@ -26,10 +26,7 @@ loadSprite("asteroid-large", "https://i.imgur.com/qIHdjDQ.png");
 loadSprite("moon", "https://i.imgur.com/nXhRU9V.png");
 loadSprite("earth", "https://i.imgur.com/Qjmlokl.png");
 loadSprite("ufo", "https://i.imgur.com/2rEcvS6.png");
-/* loadSprite(
-  "star",
-  "https://www.pngfind.com/pngs/m/115-1154244_asteroid-pixel-art-red-button-hd-png-download.png"
-); */
+
 const map = [
   "                                                            *                   *                           *      ",
   "                                                *                                                              ",
@@ -131,7 +128,6 @@ scene("game", () => {
     playerSat.move(0, SPEED);
   });
 
- 
   playerSat.onCollide("asteroid", () => {
     SPEED -= SPEED * 0.01;
     score.value -= 1;
@@ -152,7 +148,7 @@ scene("game", () => {
         "ufo",
       ]);
       //GOTO --> quiz?
-        go("placeholderquiz")
+      // go("placeholderquiz")
     }
   });
 
@@ -172,8 +168,6 @@ scene("game", () => {
     pos(10, 45),
     { value: 0 },
   ]);
-
-
 
   addLevel(map, levelConfigs);
 });
@@ -205,4 +199,4 @@ scene("placeholderquiz", () => {
   addLevel(map, levelConfigs);
 });
 
-go("game");
+go("placeholderquiz");

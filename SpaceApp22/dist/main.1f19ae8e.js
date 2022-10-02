@@ -4927,9 +4927,9 @@ scene("game", function () {
     moon.move(Xvel, Yvel);
   }); //Player Alerts - error messages, hints
 
-  var playerAlerts = add([text("Use WASD keys to move", {
+  var playerAlerts = add([text("Use WASD keys to move...", {
     size: 20
-  }), color(30, 0, 255), pos(10, 45), {
+  }), color(30, 215, 96), pos(10, 45), {
     value: 0
   }]);
   addLevel(map, levelConfigs);
@@ -5026,7 +5026,7 @@ k.scene('mainGame', () => {
 */
 
 _kaboom.default.go('start');
-},{"./kaboom":"kaboom.js","./satellite":"satellite.js"}],"../../../../.nvm/versions/node/v17.3.1/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"./kaboom":"kaboom.js","./satellite":"satellite.js"}],"../../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -5054,7 +5054,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58818" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52909" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
@@ -5230,5 +5230,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../../../../.nvm/versions/node/v17.3.1/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","main.js"], null)
+},{}]},{},["../../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","main.js"], null)
 //# sourceMappingURL=/main.1f19ae8e.js.map
