@@ -1,5 +1,6 @@
 // Simple dialogues
-import kaboom from "kaboom";
+import k from "./kaboom";
+import totalScore from './items';
 
 export function Quiz(){
 
@@ -87,6 +88,7 @@ export function Quiz(){
         }
       });
     };
+    totalScore += 100;
 
     //   scene("start", () => {
     //     addButton("Start", vec2(k.width() * 0.5, k.height() * 0.5), () => k.go('inputName'));

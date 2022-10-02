@@ -1,5 +1,5 @@
 import k from './kaboom';
-import { map , gameConfigs, asteroidLarge, asteroid, satellite, moonhttps, earth, ufo} from './items';
+import { map , gameConfigs, asteroidLarge, asteroid, satellite, moonhttps, earth, ufo, totalScore} from './items';
 
 // start the game
 export const Game = () => {
@@ -18,11 +18,11 @@ export const Game = () => {
     //   layers(["bg", "obj", "ui"], "obj");
 
     const score = add([
-      text("Score: 0", {
+      text(`Score: ${totalScore}`, {
         size: 25,
       }),
       pos(10, 10),
-      { value: 0 },
+      { value: totalScore },
     ]);
 
     const playerSat = add([

@@ -5,6 +5,7 @@ const moonhttps = "https://i.imgur.com/nXhRU9V.png"
 const earth = "https://i.imgur.com/Qjmlokl.png"
 const ufo = "https://i.imgur.com/2rEcvS6.png"
 
+let totalScore = 2;
 
 const greetingConfigs = {
   width: 10,
@@ -58,4 +59,4 @@ const map = [
   "                                                                                                     ",
 ];
 
-export { greetingConfigs, gameConfigs, map, asteroidLarge, asteroid, satellite, moonhttps, earth, ufo};
+export { greetingConfigs, gameConfigs, map, asteroidLarge, asteroid, satellite, moonhttps, earth, ufo, totalScore};

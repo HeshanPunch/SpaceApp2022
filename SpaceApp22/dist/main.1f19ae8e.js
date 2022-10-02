@@ -4836,7 +4836,7 @@ exports.default = _default;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.ufo = exports.satellite = exports.moonhttps = exports.map = exports.greetingConfigs = exports.gameConfigs = exports.earth = exports.asteroidLarge = exports.asteroid = void 0;
+exports.ufo = exports.totalScore = exports.satellite = exports.moonhttps = exports.map = exports.greetingConfigs = exports.gameConfigs = exports.earth = exports.asteroidLarge = exports.asteroid = void 0;
 var asteroid = "https://i.imgur.com/B1NSdRO.png";
 exports.asteroid = asteroid;
 var satellite = "https://art.pixilart.com/4c141c7f72cb059.png";
@@ -4849,6 +4849,8 @@ var earth = "https://i.imgur.com/Qjmlokl.png";
 exports.earth = earth;
 var ufo = "https://i.imgur.com/2rEcvS6.png";
 exports.ufo = ufo;
+var totalScore = 2;
+exports.totalScore = totalScore;
 var greetingConfigs = {
   width: 10,
   height: 10,
@@ -4899,10 +4901,10 @@ var Game = function Game() {
 
   _kaboom.default.scene("game", function () {
     //   layers(["bg", "obj", "ui"], "obj");
-    var score = add([text("Score: 0", {
+    var score = add([text("Score: ".concat(_items.totalScore), {
       size: 25
     }), pos(10, 10), {
-      value: 0
+      value: _items.totalScore
     }]);
     var playerSat = add([sprite("satellite"), pos(300, 200), scale(0.1), solid(), area()]);
     var earth = add([sprite("earth"), pos(1200, 300), scale(0.35), solid(), area(), rotate(1), origin("center"), "earth"]);
