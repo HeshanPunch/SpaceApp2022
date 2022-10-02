@@ -4805,55 +4805,56 @@ var no = a((i = {}) => {
   return ye;
 }, "default");
 exports.default = no;
-},{}],"main.js":[function(require,module,exports) {
+},{}],"satellite.js":[function(require,module,exports) {
 "use strict";
 
 var _kaboom = _interopRequireDefault(require("kaboom"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// initialize context
-var k = (0, _kaboom.default)({});
-loadSprite('wall', "https://kaboomjs.com/sprites/grass.png");
+// start the game
+(0, _kaboom.default)({
+  font: "sinko",
+  background: [11, 16, 38],
+  fullscreen: true,
+  scale: 1
+});
+var NORMAL_SPEED = 100;
+var FAST_SPEED = 200;
+var SPEED = NORMAL_SPEED;
+loadSprite("star", "https://i.imgur.com/xmgu2JZ.gif");
+loadSprite("satellite", "https://art.pixilart.com/4c141c7f72cb059.png");
+/* loadSprite(
+  "star",
+  "https://www.pngfind.com/pngs/m/115-1154244_asteroid-pixel-art-red-button-hd-png-download.png"
+); */
 
-var addButton = function addButton(txt, p, f) {
-  var btn = add([text(txt), pos(p), area({
-    cursor: "pointer"
-  }), scale(1), origin("center")]);
-  btn.onClick(f);
-  btn.onUpdate(function () {
-    if (btn.isHovering()) {
-      var t = time() * 10;
-      btn.color = rgb(wave(0, 255, t), wave(0, 255, t + 2), wave(0, 255, t + 4));
-      btn.scale = vec2(1.2);
-    } else {
-      btn.scale = vec2(1);
-      btn.color = rgb();
+scene("game", function () {
+  //   layers(["bg", "obj", "ui"], "obj");
+  var map = ["                   *                   *                           *      ", "           *               *         *                        *             ", "             *                      *   *                  *                ", " *                                              *                *          ", "                      *       *                         *                   ", "                      *                                 *             *     ", "                   *                            *                *          ", " *                                              *                     *     ", "         *                             *                           *        ", "                                                      *           *   *     ", "       *                                                                    ", "             *                         *                      *             ", "                      *          *                    *            *        ", " *            *                                  *                      *   ", "                      *                *                 *               *  ", "         *                     *        *                               *   ", " *                                              *                    *  *   ", "                      *                             *             *         ", "                             *                              *               ", " *             *                                   *                       *", "                          *               *                      *         * ", "             *                         *                      *             ", " *                                              *               *           ", "               *                *                                 *     *   ", "             *                         *                              *     ", " *                            *                  *                    *     ", " *                               *               *                  *       ", "                      *                             *             *         ", "      *                         *       *                     *             ", " *                        *                         *                 *     ", "             *                                  *               *           ", "                                   *                     *                  ", " *                              *                *             *            ", "                     *                      *                    *         "];
+  var levelConfigs = {
+    width: 20,
+    height: 20,
+    "*": function _() {
+      return [sprite("star"), area(), solid(), scale(0.1)];
     }
+  };
+  var playerSat = add([sprite("satellite"), pos(300, 200), scale(0.1)]);
+  onKeyDown("right", function () {
+    playerSat.move(NORMAL_SPEED, 0);
   });
-};
-
-scene("start", function () {
-  addButton("Start", vec2(k.width() * 0.5, k.height() * 0.5), function () {
-    return k.go('inputName');
+  onKeyDown("left", function () {
+    playerSat.move(-NORMAL_SPEED, 0);
   });
+  onKeyDown("up", function () {
+    playerSat.move(0, -NORMAL_SPEED);
+  });
+  onKeyDown("down", function () {
+    playerSat.move(0, NORMAL_SPEED);
+  });
+  addLevel(map, levelConfigs);
 });
-scene("inputName", function () {
-  addButton("Username", vec2(k.width() * 0.5, k.height() * 0.5), function () {
-    return k.go('mainGame');
-  });
-});
-scene('mainGame', function () {
-  var WALL = ['===============================', '===============================', '===============================', '===============================', '===============================', '===============================', '===============================', '===============================', '===============================', '===============================', '===============================', '===============================', '===============================', '===============================', '==============================='];
-  var level = addLevel(WALL, {
-    width: 64,
-    height: 64,
-    "=": function _() {
-      return [sprite("wall"), area(), solid()];
-    }
-  });
-});
-k.go('start');
+go("game");
 },{"kaboom":"../node_modules/kaboom/dist/kaboom.mjs"}],"../../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -4882,7 +4883,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52996" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55080" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
@@ -5058,5 +5059,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","main.js"], null)
-//# sourceMappingURL=/main.1f19ae8e.js.map
+},{}]},{},["../../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","satellite.js"], null)
+//# sourceMappingURL=/satellite.9c7c34f6.js.map

@@ -4805,55 +4805,77 @@ var no = a((i = {}) => {
   return ye;
 }, "default");
 exports.default = no;
-},{}],"main.js":[function(require,module,exports) {
+},{}],"test.js":[function(require,module,exports) {
 "use strict";
 
 var _kaboom = _interopRequireDefault(require("kaboom"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// initialize context
-var k = (0, _kaboom.default)({});
-loadSprite('wall', "https://kaboomjs.com/sprites/grass.png");
+var FLOOR_HEIGHT = 48;
+var JUMP_FORCE = 800;
+var SPEED = 480; // initialize context
 
-var addButton = function addButton(txt, p, f) {
-  var btn = add([text(txt), pos(p), area({
-    cursor: "pointer"
-  }), scale(1), origin("center")]);
-  btn.onClick(f);
-  btn.onUpdate(function () {
-    if (btn.isHovering()) {
-      var t = time() * 10;
-      btn.color = rgb(wave(0, 255, t), wave(0, 255, t + 2), wave(0, 255, t + 4));
-      btn.scale = vec2(1.2);
-    } else {
-      btn.scale = vec2(1);
-      btn.color = rgb();
-    }
-  });
-};
+(0, _kaboom.default)(); // load assets
 
-scene("start", function () {
-  addButton("Start", vec2(k.width() * 0.5, k.height() * 0.5), function () {
-    return k.go('inputName');
-  });
-});
-scene("inputName", function () {
-  addButton("Username", vec2(k.width() * 0.5, k.height() * 0.5), function () {
-    return k.go('mainGame');
-  });
-});
-scene('mainGame', function () {
-  var WALL = ['===============================', '===============================', '===============================', '===============================', '===============================', '===============================', '===============================', '===============================', '===============================', '===============================', '===============================', '===============================', '===============================', '===============================', '==============================='];
-  var level = addLevel(WALL, {
-    width: 64,
-    height: 64,
-    "=": function _() {
-      return [sprite("wall"), area(), solid()];
+loadSprite("bean", "https://art.pixilart.com/4c141c7f72cb059.png");
+scene("game", function () {
+  // define gravity
+  gravity(2400); // add a game object to screen
+
+  var player = add([// list of components
+  sprite("bean"), pos(80, 40), area(), body()]); // floor
+
+  add([rect(width(), FLOOR_HEIGHT), outline(4), pos(0, height()), origin("botleft"), area(), solid(), color(127, 200, 255)]);
+
+  function jump() {
+    if (player.isGrounded()) {
+      player.jump(JUMP_FORCE);
     }
+  } // jump when user press space
+
+
+  onKeyPress("space", jump);
+  onClick(jump);
+
+  function spawnTree() {
+    // add tree obj
+    add([rect(48, rand(32, 96)), area(), outline(4), pos(width(), height() - FLOOR_HEIGHT), origin("botleft"), color(255, 180, 255), move(LEFT, SPEED), "tree"]); // wait a random amount of time to spawn next tree
+
+    wait(rand(0.5, 1.5), spawnTree);
+  } // start spawning trees
+
+
+  spawnTree(); // lose if player collides with any game obj with tag "tree"
+
+  player.onCollide("tree", function () {
+    // go to "lose" scene and pass the score
+    go("lose", score);
+    burp();
+    addKaboom(player.pos);
+  }); // keep track of score
+
+  var score = 0;
+  var scoreLabel = add([text(score), pos(24, 24)]); // increment score every frame
+
+  onUpdate(function () {
+    score++;
+    scoreLabel.text = score;
   });
 });
-k.go('start');
+scene("lose", function (score) {
+  add([sprite("bean"), pos(width() / 2, height() / 2 - 80), scale(2), origin("center")]); // display score
+
+  add([text(score), pos(width() / 2, height() / 2 + 80), scale(2), origin("center")]); // go back to game with space is pressed
+
+  onKeyPress("space", function () {
+    return go("game");
+  });
+  onClick(function () {
+    return go("game");
+  });
+});
+go("game");
 },{"kaboom":"../node_modules/kaboom/dist/kaboom.mjs"}],"../../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -4882,7 +4904,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52996" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55080" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
@@ -5058,5 +5080,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","main.js"], null)
-//# sourceMappingURL=/main.1f19ae8e.js.map
+},{}]},{},["../../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","test.js"], null)
+//# sourceMappingURL=/test.e98b79dd.js.map
