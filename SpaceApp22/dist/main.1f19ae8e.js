@@ -4898,23 +4898,13 @@ var greetingConfigs = {
     return [sprite("asteroid"), area(), solid(), scale(0.03), "asteroid"];
   },
   m: function m() {
-    return [sprite("mercury"), area(), solid(), scale(0.4), "mercury"];
+    return [sprite("mercury"), area(), solid(), scale(0.4), rotate(0), "mercury"];
   },
   f: function f() {
-    return [sprite("rocket"), area(), solid(), scale(0.3), "rocket"];
-  } // "(": () => [sprite("moon"), area(), solid(), scale(0.05), "moon"],
-
+    return [sprite("rocket"), area(), solid(), scale(0.3), rotate(0), "rocket"];
+  }
 };
 exports.greetingConfigs = greetingConfigs;
-var gameConfigs = {
-  width: 20,
-  height: 20,
-  "*": function _() {
-    return [sprite("asteroid"), area(), solid(), scale(0.03), "asteroid"];
-  } // "0": () => [sprite("earth"), area(), solid(), scale(0.4), "earth"],
-  // "(": () => [sprite("moon"), area(), solid(), scale(0.05), "moon"],
-
-};
 var map = ["                                                            *          ", "                                                *                      ", "                                                 m                     ", "     *                                                                 ", "                             *                                         ", "                                                                       ", "                       *                                         *     ", "                                                                       ", "                                           *                           ", "                                     *                                 ", "                                                                       ", "                                                                      ", "                                                                       ", "                             *                                         ", "                                                                       ", "                                *                                      ", "                                                                       ", "      *                                   *                            ", "                                                                       ", "                  *                                                    ", "                                                                 *     ", "              f                                 *                      ", "                                                                       ", "      *                       *                                        ", "                                                                       ", "               *                                                       ", "                                                                       ", "                                                            *          ", "                                                                       ", "      *                                   *                            ", "                                                                       ", "                             *                                         ", "                                                                       ", "                                                *                      ", "                                                                       ", "      *                                   *                            "];
 exports.map = map;
 },{}],"quiz.js":[function(require,module,exports) {
@@ -4946,31 +4936,34 @@ function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Sy
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-// import totalScore from './items';
 var correctQuiz = false;
 exports.correctQuiz = correctQuiz;
 
 function Quiz() {
   loadSprite("alien1", _items.alien1);
+  loadSprite("alien2", _items.alien2);
+  loadSprite("alien3", _items.alien3);
+  loadSprite("alien4", _items.alien4);
+  loadSprite("alien5", _items.alien5);
 
-  _kaboom.default.scene("quiz", function () {
+  _kaboom.default.scene("quiz1", function () {
     // Define the dialogue data
-    var dialogs = [["alien1", "This is quiz time!"], ["alien1", "Q. What is my name?"]];
+    var dialogs = [["alien1", "Quiz time!"], ["alien1", "Q. Cascade, Smallsat and Ionospheric Polar Explorer (CASSIOPE) was launched to study the ionosphere, who operates CASSIOPE?"]];
     var curDialog = 0; // Text bubble
 
-    var textbox = add([rect(width() - 700, 120, {
+    var textbox = add([rect(width() - 100, 120, {
       radius: 32
-    }), origin("center"), pos(center().x, height() - 400), outline(2)]); // Text
+    }), origin("center"), pos(center().x, height() - 380), outline(2)]); // Text
 
     var txt = add([text("", {
       size: 32,
       width: width() - 230
     }), pos(textbox.pos), origin("center")]); // Character avatar
 
-    var avatar = add([sprite("alien1"), scale(0.5), origin("center"), rotate(0), pos(center().sub(0, 200))]);
+    var avatar = add([sprite("alien1"), scale(0.4), origin("center"), rotate(0), pos(center().sub(0, 200))]);
     avatar.onUpdate(function () {
       // .angle is a property provided by rotate() component, here we're incrementing the angle by 120 degrees per second, dt() is the time elapsed since last frame in seconds
-      avatar.angle += 120 * dt();
+      avatar.angle += 100 * dt();
     });
     onKeyPress("space", function () {
       // Cycle through the dialogs
@@ -4994,58 +4987,276 @@ function Quiz() {
     var addButton = function addButton(txt, p, f) {
       var btn = add([text(txt), pos(p), area({
         cursor: "pointer"
-      }), scale(1), origin("center")]);
+      }), scale(3), origin("center")]);
       btn.onClick(f);
       btn.onUpdate(function () {
         if (btn.isHovering()) {
           var t = time() * 10;
           btn.color = rgb(wave(0, 255, t), wave(0, 255, t + 2), wave(0, 255, t + 4));
-          btn.scale = vec2(1.2);
+          btn.scale = vec2(3.2);
         } else {
-          btn.scale = vec2(1);
+          btn.scale = vec2(3);
           btn.color = rgb();
         }
       });
-    }; //   scene("start", () => {
-    //     addButton("Start", vec2(k.width() * 0.5, k.height() * 0.5), () => k.go('inputName'));
-    //   })
+    };
 
-
-    var answer = [["Alien"], ["Joo"]];
-    addButton("1." + answer[0], vec2(width() * 0.4, height() * 0.8), function () {
-      return correct();
-    });
-    addButton("2." + answer[1], vec2(width() * 0.6, height() * 0.8), function () {
+    var answer = [["1. NASA"], ["2. University of Calgary"]];
+    addButton(answer[0], vec2(640, 500), function () {
       return wrong();
     });
-    var score = 0;
+    addButton(answer[1], vec2(640, 600), function () {
+      return correct();
+    });
 
     var correct = function correct() {
-      // debug.log("correct in");
-      exports.correctQuiz = correctQuiz = true; // debug.log("totalScore: " + totalScore);
-
+      exports.correctQuiz = correctQuiz = true;
       (0, _satellite.default)();
     };
 
     var wrong = function wrong() {
-      // debug.log("wrong in");
-      // k.go("lose");
       exports.correctQuiz = correctQuiz = false;
       (0, _satellite.default)();
     };
-  }); //   const wrong = () => {
-  //     debug.log("wrong in");
-  //     k.go("lose");
-  //   }
-  // });
-
-
-  _kaboom.default.scene("lose", function () {
-    add([text("Game over"), pos(center()), origin("center")]);
   });
 
-  _kaboom.default.go("quiz");
-}
+  _kaboom.default.go("quiz1");
+} //quiz2
+
+
+_kaboom.default.scene("quiz2", function () {
+  // Define the dialogue data
+  var dialogs = [["alien2", "Quiz time!"], ["alien2", "Q. Satellites are built with some resistance to radiation. This determines how sensitive they are to space weather. What could happen when the protection doesn't stand up to extreme space weather phenomenon?"]];
+  var curDialog = 0; // Text bubble
+
+  var textbox = add([rect(width() - 100, 220, {
+    radius: 32
+  }), origin("center"), pos(center().x, height() - 380), outline(2)]); // Text
+
+  var txt = add([text("", {
+    size: 32,
+    width: width() - 230
+  }), pos(textbox.pos), origin("center")]); // Character avatar
+
+  var avatar = add([sprite("alien2"), scale(0.3), origin("center"), rotate(0), pos(center().sub(0, 230))]);
+  avatar.onUpdate(function () {
+    // .angle is a property provided by rotate() component, here we're incrementing the angle by 120 degrees per second, dt() is the time elapsed since last frame in seconds
+    avatar.angle += 100 * dt();
+  });
+  onKeyPress("space", function () {
+    // Cycle through the dialogs
+    curDialog = (curDialog + 1) % dialogs.length;
+    updateDialog();
+  }); // Update the on screen sprite & text
+
+  function updateDialog() {
+    var _dialogs$curDialog2 = _slicedToArray(dialogs[curDialog], 2),
+        char = _dialogs$curDialog2[0],
+        dialog = _dialogs$curDialog2[1]; // Use a new sprite component to replace the old one
+
+
+    avatar.use(sprite(char)); // Update the dialog text
+
+    txt.text = dialog;
+  }
+
+  updateDialog();
+
+  var addButton = function addButton(txt, p, f) {
+    var btn = add([text(txt), pos(p), area({
+      cursor: "pointer"
+    }), scale(3), origin("center")]);
+    btn.onClick(f);
+    btn.onUpdate(function () {
+      if (btn.isHovering()) {
+        var t = time() * 10;
+        btn.color = rgb(wave(0, 255, t), wave(0, 255, t + 2), wave(0, 255, t + 4));
+        btn.scale = vec2(3.2);
+      } else {
+        btn.scale = vec2(3);
+        btn.color = rgb();
+      }
+    });
+  };
+
+  var answer = [["1. Satellite's computers can restart,\n    resulting in a loss of data!"], ["2. Satellite becomes vulnerable \n    to alien plasma-beam technology!"]];
+  addButton(answer[0], vec2(640, 500), function () {
+    return correct();
+  });
+  addButton(answer[1], vec2(640, 600), function () {
+    return wrong();
+  });
+
+  var correct = function correct() {
+    exports.correctQuiz = correctQuiz = true;
+    (0, _satellite.default)();
+  };
+
+  var wrong = function wrong() {
+    exports.correctQuiz = correctQuiz = false;
+    (0, _satellite.default)();
+  };
+});
+
+_kaboom.default.go("quiz2"); //quiz3
+
+
+_kaboom.default.scene("quiz3", function () {
+  // Define the dialogue data
+  var dialogs = [["alien3", "Quiz time!"], ["alien3", "Q. The Canadian CASSIOPE satellite carries the Enhanced Polar Outflow Probe (e-POP) suite of scientific instruments to study the ionosphere. What is the ionosphere?"]];
+  var curDialog = 0; // Text bubble
+
+  var textbox = add([rect(width() - 100, 185, {
+    radius: 32
+  }), origin("center"), pos(center().x, height() - 380), outline(2)]); // Text
+
+  var txt = add([text("", {
+    size: 32,
+    width: width() - 230
+  }), pos(textbox.pos), origin("center")]); // Character avatar
+
+  var avatar = add([sprite("alien3"), scale(0.3), origin("center"), rotate(0), pos(center().sub(0, 230))]);
+  avatar.onUpdate(function () {
+    // .angle is a property provided by rotate() component, here we're incrementing the angle by 120 degrees per second, dt() is the time elapsed since last frame in seconds
+    avatar.angle += 100 * dt();
+  });
+  onKeyPress("space", function () {
+    // Cycle through the dialogs
+    curDialog = (curDialog + 1) % dialogs.length;
+    updateDialog();
+  }); // Update the on screen sprite & text
+
+  function updateDialog() {
+    var _dialogs$curDialog3 = _slicedToArray(dialogs[curDialog], 2),
+        char = _dialogs$curDialog3[0],
+        dialog = _dialogs$curDialog3[1]; // Use a new sprite component to replace the old one
+
+
+    avatar.use(sprite(char)); // Update the dialog text
+
+    txt.text = dialog;
+  }
+
+  updateDialog();
+
+  var addButton = function addButton(txt, p, f) {
+    var btn = add([text(txt), pos(p), area({
+      cursor: "pointer"
+    }), scale(2), origin("center")]);
+    btn.onClick(f);
+    btn.onUpdate(function () {
+      if (btn.isHovering()) {
+        var t = time() * 10;
+        btn.color = rgb(wave(0, 255, t), wave(0, 255, t + 2), wave(0, 255, t + 4));
+        btn.scale = vec2(2.2);
+      } else {
+        btn.scale = vec2(2);
+        btn.color = rgb();
+      }
+    });
+  };
+
+  var answer = [["1. The ionosphere stretches roughly 50 to 400 miles above Earth's surface, \n    right at the edge of space. \n    The ionosphere forms the boundary between Earth's lower atmosphere \n    \u2014where we live and breathe \u2014 \n    and the vacuum of space.\n    resulting in a loss of data!"], ["2. The \"ionosphere\" is a trendy restaurant where aliens species \n    hang out after a busy week of travel. \n    It has been popular for over 2000 years!\n"]];
+  addButton(answer[0], vec2(640, 510), function () {
+    return correct();
+  });
+  addButton(answer[1], vec2(640, 650), function () {
+    return wrong();
+  });
+
+  var correct = function correct() {
+    exports.correctQuiz = correctQuiz = true;
+    (0, _satellite.default)();
+  };
+
+  var wrong = function wrong() {
+    exports.correctQuiz = correctQuiz = false;
+    (0, _satellite.default)();
+  };
+});
+
+_kaboom.default.go("quiz3"); //quiz4
+
+
+_kaboom.default.scene("quiz4", function () {
+  // Define the dialogue data
+  var dialogs = [["alien4", "Quiz time!"], ["alien4", "Q. \n      \"Perigee\" is the point at which a satellite is nearest to the earth, on the other hand, \"Apogee\" is the point at which a satellite is furthest from earth. Can you guess CASSIOPE's approximate Perigee and Apogee?"]];
+  var curDialog = 0; // Text bubble
+
+  var textbox = add([rect(width() - 100, 185, {
+    radius: 32
+  }), origin("center"), pos(center().x, height() - 380), outline(2)]); // Text
+
+  var txt = add([text("", {
+    size: 32,
+    width: width() - 230
+  }), pos(textbox.pos), origin("center")]); // Character avatar
+
+  var avatar = add([sprite("alien4"), scale(0.3), origin("center"), rotate(0), pos(center().sub(0, 230))]);
+  avatar.onUpdate(function () {
+    // .angle is a property provided by rotate() component, here we're incrementing the angle by 120 degrees per second, dt() is the time elapsed since last frame in seconds
+    avatar.angle += 100 * dt();
+  });
+  onKeyPress("space", function () {
+    // Cycle through the dialogs
+    curDialog = (curDialog + 1) % dialogs.length;
+    updateDialog();
+  }); // Update the on screen sprite & text
+
+  function updateDialog() {
+    var _dialogs$curDialog4 = _slicedToArray(dialogs[curDialog], 2),
+        char = _dialogs$curDialog4[0],
+        dialog = _dialogs$curDialog4[1]; // Use a new sprite component to replace the old one
+
+
+    avatar.use(sprite(char)); // Update the dialog text
+
+    txt.text = dialog;
+  }
+
+  updateDialog();
+
+  var addButton = function addButton(txt, p, f) {
+    var btn = add([text(txt), pos(p), area({
+      cursor: "pointer"
+    }), scale(2), origin("center")]);
+    btn.onClick(f);
+    btn.onUpdate(function () {
+      if (btn.isHovering()) {
+        var t = time() * 10;
+        btn.color = rgb(wave(0, 255, t), wave(0, 255, t + 2), wave(0, 255, t + 4));
+        btn.scale = vec2(2.2);
+      } else {
+        btn.scale = vec2(2);
+        btn.color = rgb();
+      }
+    });
+  };
+
+  var answer = [["1. The ionosphere stretches roughly 50 to 400 miles above Earth's surface, \n    right at the edge of space. \n    The ionosphere forms the boundary between Earth's lower atmosphere \n    \u2014where we live and breathe \u2014 \n    and the vacuum of space.\n    resulting in a loss of data!"], ["2. The \"ionosphere\" is a trendy restaurant where aliens species \n    hang out after a busy week of travel. \n    It has been popular for over 2000 years!\n"]];
+  addButton(answer[0], vec2(640, 510), function () {
+    return correct();
+  });
+  addButton(answer[1], vec2(640, 650), function () {
+    return wrong();
+  });
+
+  var correct = function correct() {
+    exports.correctQuiz = correctQuiz = true;
+    (0, _satellite.default)();
+  };
+
+  var wrong = function wrong() {
+    exports.correctQuiz = correctQuiz = false;
+    (0, _satellite.default)();
+  };
+});
+
+_kaboom.default.go("quiz4");
+
+_kaboom.default.scene("lose", function () {
+  add([text("Game over"), pos(center()), origin("center")]);
+});
 },{"./kaboom":"kaboom.js","./items":"items.js","./satellite":"satellite.js"}],"satellite.js":[function(require,module,exports) {
 "use strict";
 
@@ -5115,47 +5326,43 @@ var Game = function Game() {
     earth.onUpdate(function () {
       earth.angle += 2 * dt();
     });
-    var quiz1 = add([sprite("alien1"), pos(500, 400), solid(), area(), scale(0.035), "alien1"]);
+    var quiz1 = add([sprite("alien1"), pos(500, 400), solid(), area(), scale(0.035), "alien1", rotate(0)]);
+    quiz1.onUpdate(function () {
+      // .angle is a property provided by rotate() component, here we're incrementing the angle by 120 degrees per second, dt() is the time elapsed since last frame in seconds
+      quiz1.angle += 20 * dt();
+      quiz2.angle += 20 * dt();
+      quiz3.angle += 20 * dt();
+      quiz4.angle += 20 * dt();
+      quiz5.angle += 20 * dt();
+    });
     satellite.onCollide("alien1", function () {
       setTimeout(function () {
-        _kaboom.default.go("quiz");
+        _kaboom.default.go("quiz1");
       }, 500);
     });
-    var quiz2 = add([sprite("alien2"), pos(700, 100), solid(), area(), scale(0.035), "alien2"]);
+    var quiz2 = add([sprite("alien2"), pos(700, 100), solid(), area(), scale(0.035), "alien2", rotate(0)]);
     satellite.onCollide("alien2", function () {
       setTimeout(function () {
-        _kaboom.default.go("quiz");
+        _kaboom.default.go("quiz2");
       }, 500);
     });
-    var quiz3 = add([sprite("alien3"), pos(800, 300), solid(), area(), scale(0.035), "alien3"]);
+    var quiz3 = add([sprite("alien3"), pos(800, 300), solid(), area(), scale(0.035), "alien3", rotate(0)]);
     satellite.onCollide("alien3", function () {
       setTimeout(function () {
-        _kaboom.default.go("quiz");
+        _kaboom.default.go("quiz3");
       }, 500);
     });
-    var quiz4 = add([sprite("alien4"), pos(900, 400), solid(), area(), scale(0.035), "alien4"]);
+    var quiz4 = add([sprite("alien4"), pos(900, 400), solid(), area(), scale(0.035), "alien4", rotate(0)]);
     satellite.onCollide("alien4", function () {
       setTimeout(function () {
-        _kaboom.default.go("quiz");
+        _kaboom.default.go("quiz4");
       }, 500);
     });
-    var quiz5 = add([sprite("alien5"), pos(1000, 200), solid(), area(), scale(0.035), "alien5"]);
+    var quiz5 = add([sprite("alien5"), pos(1000, 200), solid(), area(), scale(0.035), "alien5", rotate(0)]);
     satellite.onCollide("alien5", function () {
       setTimeout(function () {
-        _kaboom.default.go("quiz");
+        _kaboom.default.go("quiz5");
       }, 500);
-      /* if (score.value >= 10) {
-        const ufo = add([
-          sprite("ufo"),
-          pos(400, 200),
-          scale(0.15),
-          solid(),
-          area(),
-          "ufo",
-        ]);
-        //GOTO --> quiz?
-        // k.go("placeholderquiz")
-      } */
     }); //   Moon movement
 
     var Xvel = 2;
@@ -5407,7 +5614,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51782" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63828" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
