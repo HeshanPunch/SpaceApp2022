@@ -4898,22 +4898,43 @@ var _items = require("./items");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-loadSprite("asteroid", _items.asteroid);
 loadSprite("satellite", _items.satellite);
-loadSprite("asteroid-large", _items.asteroidLarge);
-loadSprite("moon", _items.moonhttps);
 loadSprite("earth", _items.earth);
-loadSprite("ufo", _items.ufo);
+loadSprite("asteroid", _items.asteroid);
+var SPEED = 100;
 
 _kaboom.default.scene("last", function () {
-  var earth = add([sprite("earth"), pos(1200, 300), scale(1), solid(), area(), rotate(1), origin("center"), "earth"]);
-  var satellite = add([sprite("satellite"), pos(200, 200), // pos() component gives it position, also enables movement 
-  origin("center")]);
-  satellite.onUpdate(function () {
-    // .angle is a property provided by rotate() component, here we're incrementing the angle by 120 degrees per second, dt() is the time elapsed since last frame in seconds
-    satellite.angle += 100 * dt();
+  var earth = add([sprite("earth"), scale(2), pos(1000, 300), area({
+    width: 5,
+    height: 5,
+    offset: vec2(0, 6)
+  }), origin("center")]);
+  var satellite = add([sprite("satellite"), area(), scale(0.8), outline(4), pos(0, 300), origin("center"), move(RIGHT, SPEED)]);
+  loop(10, function () {
+    wait(8, function () {
+      destroy(satellite);
+      rotatingOnEarth();
+      wait(6, function () {
+        _kaboom.default.go('gameOver');
+      });
+    });
   });
+
+  function rotatingOnEarth() {
+    var satellite = add([sprite("satellite"), rotate(0), pos(1000, 300), follow(earth, vec2(-4, 9))]);
+    satellite.onUpdate(function () {
+      // .angle is a property provided by rotate() component, here we're incrementing the angle by 120 degrees per second, dt() is the time elapsed since last frame in seconds
+      satellite.angle += 50 * dt();
+    });
+  }
+
   addLevel(_items.map, _items.gameConfigs);
+});
+
+_kaboom.default.scene("gameOver", function () {
+  add([text("Game over", {
+    size: 50
+  }), pos(center()), origin("center")]);
 });
 
 _kaboom.default.go('last');

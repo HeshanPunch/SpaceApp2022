@@ -1,6 +1,6 @@
 import k from './kaboom'
 import game from './satellite'
-import { map, greetingConfigs, astronaut } from './items';
+import { map, greetingConfigs } from './items';
 
 
 const addButton = (txt, p, f) => {
@@ -33,8 +33,6 @@ const addButton = (txt, p, f) => {
   })
 }
 
-loadSprite("astronaut", astronaut);
-
 k.scene("start", () => {
   addButton("Start", vec2(k.width() * 0.5, k.height() * 0.5), () => k.go('game'));
   addLevel(map, greetingConfigs);
@@ -43,10 +41,5 @@ k.scene("start", () => {
 game();
 
 k.go('start')
-
-
-
-
-
 
 

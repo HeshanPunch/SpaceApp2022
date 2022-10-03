@@ -1,37 +1,70 @@
 import k from './kaboom';
-import { map , gameConfigs, asteroidLarge, asteroid, satellite, moonhttps, earth, ufo} from './items';
+import { map, gameConfigs, satellite, earth, asteroid } from './items';
 
-loadSprite("asteroid", asteroid);
+
 loadSprite("satellite", satellite);
-loadSprite("asteroid-large", asteroidLarge);
-loadSprite("moon", moonhttps);
 loadSprite("earth", earth);
-loadSprite("ufo", ufo);
+loadSprite("asteroid", asteroid);
+
+const SPEED = 100;
 
 k.scene("last", () => {
   const earth = add([
     sprite("earth"),
-    pos(1200, 300),
-    scale(1),
-    solid(),
-    area(),
-    rotate(1),
+    scale(2),
+    pos(1000, 300),
+    area({ width: 5, height: 5, offset: vec2(0, 6)}),
     origin("center"),
-    "earth",
   ]);
 
   const satellite = add([
     sprite("satellite"),
-    pos(200, 200),   // pos() component gives it position, also enables movement 
-    origin("center")
-  ]);
+    area(),
+    scale(0.8),
+    outline(4),
+    pos(0, 300),
+    origin("center"),
+    move(RIGHT, SPEED),
+  ])
 
-  satellite.onUpdate(() => {
-    // .angle is a property provided by rotate() component, here we're incrementing the angle by 120 degrees per second, dt() is the time elapsed since last frame in seconds
-    satellite.angle += 100 * dt()
+  loop(10, () => {
+    wait(8, () => {
+      destroy(satellite)
+      rotatingOnEarth();  
+      wait(6, () => {
+        k.go('gameOver')
+      })
+    });
   })
+
+  function rotatingOnEarth () {
+    const satellite = add([
+      sprite("satellite"),
+      rotate(0),
+      pos(1000, 300),
+      follow(earth, vec2(-4, 9)),
+    ])
+  
+    satellite.onUpdate(() => {
+      // .angle is a property provided by rotate() component, here we're incrementing the angle by 120 degrees per second, dt() is the time elapsed since last frame in seconds
+      satellite.angle += 50 * dt()
+    })
+  }
 
   addLevel(map, gameConfigs);
 })
 
+
+k.scene("gameOver", () => {
+  add([
+    text("Game over", {
+      size: 50
+    }), 
+    pos(center()), 
+    origin("center")
+  ]);
+});
+
 k.go('last');
+
+
