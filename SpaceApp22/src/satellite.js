@@ -12,7 +12,6 @@ import {
   meteor,
   spacestation,
   spaceship,
-
   alien1,
   alien2,
   alien3,
@@ -43,7 +42,7 @@ export const Game = () => {
   loadSprite("spaceship", spaceship);
   loadSprite("meteor", meteor);
   loadSprite("spacestation", spacestation);
-  
+
   loadSprite("alien1", alien1);
   loadSprite("alien2", alien2);
   loadSprite("alien3", alien3);
@@ -79,14 +78,9 @@ export const Game = () => {
       fixed(),
     ]);
 
-   
-
-    
-
     satellite.onUpdate(() => {
       camPos(satellite.pos);
       camScale(3);
-
     });
 
     const levelConfigs = {
@@ -117,83 +111,81 @@ export const Game = () => {
 
     earth.onUpdate(() => {
       earth.angle += 2 * dt();
-   
     });
 
-    const quiz1 = add ([
-        sprite("alien1"),
-        pos(400, 400),
-        solid(),
-        area(),
-        scale(0.035),
-        "alien1",
-      ])
-  
-      satellite.onCollide("alien1", () => {
-        setTimeout(() => {
-          k.go("quiz");
-        }, 500);
-      });
-  
-      
-      const quiz2 = add ([
-        sprite("alien2"),
-        pos(700, 100),
-        solid(),
-        area(),
-        scale(0.035),
-        "alien2",
-      ])
-  
-      satellite.onCollide("alien2", () => {
-        setTimeout(() => {
-          k.go("quiz");
-        }, 500);
-      });
-      
-      const quiz3 = add ([
-        sprite("alien3"),
-        pos(800, 300),
-        solid(),
-        area(),
-        scale(0.035),
-        "alien3",
-      ])
-  
-      satellite.onCollide("alien3", () => {
-        setTimeout(() => {
-          k.go("quiz");
-        }, 500);
-      });
-      
-      const quiz4 = add ([
-        sprite("alien4"),
-        pos(900, 400),
-        solid(),
-        area(),
-        scale(0.035),
-        "alien4",
-      ])
-  
-      satellite.onCollide("alien4", () => {
-        setTimeout(() => {
-          k.go("quiz");
-        }, 500);
-      });
-      
-      const quiz5 = add ([
-        sprite("alien5"),
-        pos(1000, 200),
-        solid(),
-        area(),
-        scale(0.035),
-        "alien5",
-      ])
-  
-      satellite.onCollide("alien5", () => {
-        setTimeout(() => {
-          k.go("quiz");
-        }, 500);
+    const quiz1 = add([
+      sprite("alien1"),
+      pos(400, 400),
+      solid(),
+      area(),
+      scale(0.035),
+      "alien1",
+    ]);
+
+    satellite.onCollide("alien1", () => {
+      setTimeout(() => {
+        k.go("quiz");
+      }, 500);
+    });
+
+    const quiz2 = add([
+      sprite("alien2"),
+      pos(700, 100),
+      solid(),
+      area(),
+      scale(0.035),
+      "alien2",
+    ]);
+
+    satellite.onCollide("alien2", () => {
+      setTimeout(() => {
+        k.go("quiz");
+      }, 500);
+    });
+
+    const quiz3 = add([
+      sprite("alien3"),
+      pos(800, 300),
+      solid(),
+      area(),
+      scale(0.035),
+      "alien3",
+    ]);
+
+    satellite.onCollide("alien3", () => {
+      setTimeout(() => {
+        k.go("quiz");
+      }, 500);
+    });
+
+    const quiz4 = add([
+      sprite("alien4"),
+      pos(900, 400),
+      solid(),
+      area(),
+      scale(0.035),
+      "alien4",
+    ]);
+
+    satellite.onCollide("alien4", () => {
+      setTimeout(() => {
+        k.go("quiz");
+      }, 500);
+    });
+
+    const quiz5 = add([
+      sprite("alien5"),
+      pos(1000, 200),
+      solid(),
+      area(),
+      scale(0.035),
+      "alien5",
+    ]);
+
+    satellite.onCollide("alien5", () => {
+      setTimeout(() => {
+        k.go("quiz");
+      }, 500);
 
       /* if (score.value >= 10) {
         const ufo = add([
@@ -248,7 +240,21 @@ export const Game = () => {
     });
 
     //back to earth
-    satellite.onCollide("earth", (earth) => {});
+    satellite.onCollide("earth", (earth) => {
+      if (totalScore > 20) {
+        
+      } else {
+        add([
+            text("Use arrow keys to move", {
+              size: 20,
+            }),
+            color(30, 0, 255),
+            pos(10, 40),
+            fixed(),
+          ]);
+      }
+      
+    });
 
     const playerMessage = (text, alert) => {
       let textColour = rgb(255, 255, 255);

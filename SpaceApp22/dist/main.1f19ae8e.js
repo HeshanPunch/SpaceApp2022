@@ -5192,7 +5192,13 @@ var Game = function Game() {
       playerMessage("!!!", true);
     }); //back to earth
 
-    satellite.onCollide("earth", function (earth) {});
+    satellite.onCollide("earth", function (earth) {
+      if (totalScore > 20) {} else {
+        add([text("Use arrow keys to move", {
+          size: 20
+        }), color(30, 0, 255), pos(10, 40), fixed()]);
+      }
+    });
 
     var playerMessage = function playerMessage(text, alert) {
       var textColour = rgb(255, 255, 255);
@@ -5408,7 +5414,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51782" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60028" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
