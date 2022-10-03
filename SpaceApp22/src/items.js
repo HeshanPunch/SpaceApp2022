@@ -51,18 +51,10 @@ const greetingConfigs = {
   width: 20,
   height: 20,
   "*": () => [sprite("asteroid"), area(), solid(), scale(0.03), "asteroid"],
-  m: () => [sprite("mercury"), area(), solid(), scale(0.4), "mercury"],
-  f: () => [sprite("rocket"), area(), solid(), scale(0.3), "rocket"],
-  // "(": () => [sprite("moon"), area(), solid(), scale(0.05), "moon"],
+  m: () => [sprite("mercury"), area(), solid(), scale(0.4), rotate(0), "mercury"],
+  f: () => [sprite("rocket"), area(), solid(), scale(0.3), rotate(0), "rocket"],
 };
 
-const gameConfigs = {
-  width: 20,
-  height: 20,
-  "*": () => [sprite("asteroid"), area(), solid(), scale(0.03), "asteroid"],
-  // "0": () => [sprite("earth"), area(), solid(), scale(0.4), "earth"],
-  // "(": () => [sprite("moon"), area(), solid(), scale(0.05), "moon"],
-};
 
 const map = [
   "                                                            *          ",

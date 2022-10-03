@@ -49,6 +49,7 @@ export const Game = () => {
   loadSprite("alien4", alien4);
   loadSprite("alien5", alien5);
 
+
   k.scene("game", () => {
     const satellite = add([
       sprite("satellite"),
@@ -115,16 +116,26 @@ export const Game = () => {
 
     const quiz1 = add([
       sprite("alien1"),
-      pos(400, 400),
+      pos(500, 400),
       solid(),
       area(),
       scale(0.035),
       "alien1",
+      rotate(0),
     ]);
+
+    quiz1.onUpdate(() => {
+      // .angle is a property provided by rotate() component, here we're incrementing the angle by 120 degrees per second, dt() is the time elapsed since last frame in seconds
+      quiz1.angle += 20 * dt()
+      quiz2.angle += 20 * dt();
+      quiz3.angle += 20 * dt();
+      quiz4.angle += 20 * dt();
+      quiz5.angle += 20 * dt();
+    });
 
     satellite.onCollide("alien1", () => {
       setTimeout(() => {
-        k.go("quiz");
+        k.go("quiz1");
       }, 500);
     });
 
@@ -135,11 +146,12 @@ export const Game = () => {
       area(),
       scale(0.035),
       "alien2",
+      rotate(0),
     ]);
 
     satellite.onCollide("alien2", () => {
       setTimeout(() => {
-        k.go("quiz");
+        k.go("quiz2");
       }, 500);
     });
 
@@ -150,11 +162,12 @@ export const Game = () => {
       area(),
       scale(0.035),
       "alien3",
+      rotate(0),
     ]);
 
     satellite.onCollide("alien3", () => {
       setTimeout(() => {
-        k.go("quiz");
+        k.go("quiz3");
       }, 500);
     });
 
@@ -165,11 +178,12 @@ export const Game = () => {
       area(),
       scale(0.035),
       "alien4",
+      rotate(0),
     ]);
 
     satellite.onCollide("alien4", () => {
       setTimeout(() => {
-        k.go("quiz");
+        k.go("quiz4");
       }, 500);
     });
 
@@ -180,25 +194,13 @@ export const Game = () => {
       area(),
       scale(0.035),
       "alien5",
+      rotate(0),
     ]);
 
     satellite.onCollide("alien5", () => {
       setTimeout(() => {
-        k.go("quiz");
+        k.go("quiz5");
       }, 500);
-
-      /* if (score.value >= 10) {
-        const ufo = add([
-          sprite("ufo"),
-          pos(400, 200),
-          scale(0.15),
-          solid(),
-          area(),
-          "ufo",
-        ]);
-        //GOTO --> quiz?
-        // k.go("placeholderquiz")
-      } */
     });
 
     //   Moon movement
