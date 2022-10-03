@@ -1,14 +1,14 @@
 import k from './kaboom';
 import { map, gameConfigs, satellite, earth, asteroid } from './items';
 
-
-loadSprite("satellite", satellite);
-loadSprite("earth", earth);
-loadSprite("asteroid", asteroid);
-
 const SPEED = 100;
-
+export function Last() {
+  loadSprite("satellite", satellite);
+  loadSprite("earth", earth);
+  loadSprite("asteroid", asteroid);
+  
 k.scene("last", () => {
+  
   const earth = add([
     sprite("earth"),
     scale(2),
@@ -46,7 +46,6 @@ k.scene("last", () => {
     ])
   
     satellite.onUpdate(() => {
-      // .angle is a property provided by rotate() component, here we're incrementing the angle by 120 degrees per second, dt() is the time elapsed since last frame in seconds
       satellite.angle += 50 * dt()
     })
   }
@@ -66,5 +65,7 @@ k.scene("gameOver", () => {
 });
 
 k.go('last');
+}
 
+export default Last;
 

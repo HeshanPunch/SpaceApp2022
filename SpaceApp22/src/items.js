@@ -113,6 +113,5 @@ export {
   spaceship,
   meteor,
   spacestation,
- 
-  addButton
+  addButton,
 };
