@@ -1,15 +1,20 @@
 // Simple dialogues
 import k from "./kaboom";
-import totalScore from './items';
+import {alien} from "./items"
+import Game from "./satellite";
+// import totalScore from './items';
 
-export function Quiz(){
+let correctQuiz = false;
 
-  loadSprite("bean", "https://kaboomjs.com/sprites/bean.png");
+function Quiz(){
+
+  loadSprite("alien", alien);
+
   k.scene("quiz", () => {
     // Define the dialogue data
     const dialogs = [
-      ["bean", "This is quiz time!"],
-      ["bean", "Q. What is my name?"],
+      ["alien", "This is quiz time!"],
+      ["alien", "Q. What is my name?"],
     ];
 
   let curDialog = 0;
@@ -88,8 +93,7 @@ export function Quiz(){
         }
       });
     };
-    totalScore += 100;
-
+    
     //   scene("start", () => {
     //     addButton("Start", vec2(k.width() * 0.5, k.height() * 0.5), () => k.go('inputName'));
     //   })
@@ -104,53 +108,34 @@ export function Quiz(){
     let score = 0;
 
     const correct = () => {
-      debug.log("correct in");
-      score++;
-      debug.log("score: " + score);
+      // debug.log("correct in");
+      correctQuiz = true;
+      // debug.log("totalScore: " + totalScore);
+      Game();
+
     };
 
+
     const wrong = () => {
-      debug.log("wrong in");
-      k.go("lose");
+      // debug.log("wrong in");
+      // k.go("lose");
+      correctQuiz = false;
+      Game();
     }
   });
+  //   const wrong = () => {
+  //     debug.log("wrong in");
+  //     k.go("lose");
+  //   }
+  // });
 
   k.scene("lose", () => {
     add([text("Game over"), pos(center()), origin("center")]);
   });
 
-  /*
-  k.scene("quiz", () => {
-    const levelConfigs = {
-      width: 20,
-      height: 20,
-      "*": () => [sprite("asteroid"), area(), solid(), scale(0.03), "asteroid"],
-    };
   
-    const ufo = add([
-      sprite("ufo"),
-      pos(600, 300),
-      scale(0.5),
-      solid(),
-      area(),
-      "ufo",
-    ]);
-  
-    const alienDialog = add([
-      text("Hello Human", {
-        size: 25,
-      }),
-      pos(100, 100),
-      { value: 0 },
-    ]);
-  
-    addLevel(map, levelConfigs);
-  });
-  */
   k.go("quiz");
 }
 
-Quiz();
-
-export default Quiz;
+export { Quiz, correctQuiz } ;
 

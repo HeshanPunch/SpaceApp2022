@@ -34,13 +34,7 @@ const addButton = (txt, p, f) => {
 }
 
 k.scene("start", () => {
-  addButton("Start", vec2(k.width() * 0.5, k.height() * 0.5), () => k.go('inputName'));
-  addLevel(map, greetingConfigs);
-})
-
-
-k.scene("inputName", () => {
-  addButton("Username", vec2(k.width() * 0.5, k.height() * 0.5), () => k.go('game'));
+  addButton("Start", vec2(k.width() * 0.5, k.height() * 0.5), () => k.go('game'));
   addLevel(map, greetingConfigs);
 })
 

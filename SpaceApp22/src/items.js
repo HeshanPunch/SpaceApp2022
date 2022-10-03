@@ -4,14 +4,20 @@ const asteroidLarge = "https://i.imgur.com/qIHdjDQ.png"
 const moonhttps = "https://i.imgur.com/nXhRU9V.png"
 const earth = "https://i.imgur.com/Qjmlokl.png"
 const ufo = "https://i.imgur.com/2rEcvS6.png"
+const alien = "https://i.imgur.com/sLZ2ZIf.png"
+const mercury = "https://i.imgur.com/RHPYZVd.png"
+const rocket = "https://i.imgur.com/8rMVcKB.png"
 
-let totalScore = 2;
+loadSprite("mercury", mercury);
+loadSprite("rocket", rocket);
 
 const greetingConfigs = {
-  width: 10,
-  height: 10,
+
+  width: 20,
+  height: 20,
   "*": () => [sprite("asteroid"), area(), solid(), scale(0.03), "asteroid"],
-  // "0": () => [sprite("earth"), area(), solid(), scale(0.4), "earth"],
+  "m": () => [sprite("mercury"), area(), solid(), scale(0.4), "mercury"],
+  "f": () => [sprite("rocket"), area(), solid(), scale(0.3), "rocket"],
   // "(": () => [sprite("moon"), area(), solid(), scale(0.05), "moon"],
 };
 
@@ -22,41 +28,44 @@ const gameConfigs = {
   // "0": () => [sprite("earth"), area(), solid(), scale(0.4), "earth"],
   // "(": () => [sprite("moon"), area(), solid(), scale(0.05), "moon"],
 };
+
 const map = [
-  "                                                            *                   *                           *      ",
-  "                                                *                                                              ",
-  "                                                                                                               ",
-  "                                                                                                                 ",
-  "                             *                                                                                 ",
-  "                                                                                                        *     ",
-  "                                                                                                           ",
-  " *                                                                                                       ",
-  "                                       *                                                                  ",
-  "                                                                                    *                   ",
-  "                                                                                                      ",
-  "                                                                                                        ",
-  "                                                                                                       ",
-  "                                                                                                      ",
-  "                                                  ()                                                  ",
-  "         *                      *                                                                   ",
-  "                                                                                                    ",
-  "                                                                                                    ",
-  "                                                                                                    ",
-  "               *                                                                                    ",
-  "                                          *                                                           ",
-  "                                                                                                      ",
-  "                                                                                                      ",
-  "                                                                             *                         ",
-  "                                                                                                      ",
-  "                                                                                                      ",
-  "                                                                                                      ",
-  "                                                                                                      ",
-  "      *                         *                                                       *             ",
-  "                                                                                                      ",
-  "                                                                            *                         ",
-  "                                                                                                      ",
-  " *                                                                                                    ",
-  "                                                                                                     ",
+  "                                                            *          ",
+  "                                                *                      ",
+  "                                                 m                     ",
+  "     *                                                                 ",
+  "                             *                                         ",
+  "                                                                       ",
+  "                       *                                         *     ",
+  "                                                                       ",
+  "                                           *                           ",
+  "                                     *                                 ",
+  "                                                                       ",
+  "                                                                      ",
+  "                                                                       ",
+  "                             *                                         ",
+  "                                                                       ",
+  "                                *                                      ",
+  "                                                                       ",
+  "      *                                   *                            ",
+  "                                                                       ",
+  "                  *                                                    ",
+  "                                                                 *     ",
+  "              f                                 *                      ",
+  "                                                                       ",
+  "      *                       *                                        ",
+  "                                                                       ",
+  "               *                                                       ",
+  "                                                                       ",
+  "                                                            *          ",
+  "                                                                       ",
+  "      *                                   *                            ",
+  "                                                                       ",
+  "                             *                                         ",
+  "                                                                       ",
+  "                                                *                      ",
+  "                                                                       ",
+  "      *                                   *                            ",
 ];
 
-export { greetingConfigs, gameConfigs, map, asteroidLarge, asteroid, satellite, moonhttps, earth, ufo, totalScore};
+export { greetingConfigs, gameConfigs, map, asteroidLarge, asteroid, satellite, moonhttps, earth, ufo, alien};

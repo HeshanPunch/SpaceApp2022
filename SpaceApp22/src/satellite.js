@@ -1,8 +1,24 @@
-import k from './kaboom';
-import { map , gameConfigs, asteroidLarge, asteroid, satellite, moonhttps, earth, ufo, totalScore} from './items';
+import k from "./kaboom";
+import { Quiz, correctQuiz } from "./quiz";
+import {
+  map,
+  gameConfigs,
+  asteroidLarge,
+  asteroid,
+  satellite,
+  moonhttps,
+  earth,
+  ufo,
+} from "./items";
 
+let totalScore = 10;
 // start the game
-export const Game = () => {
+export function Game() {
+  if (correctQuiz) {
+    totalScore += 100;
+    // correctQuiz = false;
+  }
+  debug.log("totalScore : " + totalScore);
   const NORMAL_SPEED = 70;
   const FAST_SPEED = 90;
   let SPEED = NORMAL_SPEED;
@@ -15,8 +31,6 @@ export const Game = () => {
   loadSprite("ufo", ufo);
 
   k.scene("game", () => {
-    //   layers(["bg", "obj", "ui"], "obj");
-
     const score = add([
       text(`Score: ${totalScore}`, {
         size: 25,
@@ -71,7 +85,6 @@ export const Game = () => {
       playerSat.move(0, SPEED);
     });
 
-
     playerSat.onCollide("asteroid", () => {
       SPEED -= SPEED * 0.01;
       score.value -= 1;
@@ -82,20 +95,21 @@ export const Game = () => {
     earth.onUpdate(() => {
       earth.angle += 2 * dt();
 
-      if (score.value >= 10) {
+      if (score.value >= 30) {
         const ufo = add([
           sprite("ufo"),
-          pos(500, 100),
-          scale(0.25),
+          pos(400, 300),
+          scale(0.5),
           solid(),
           area(),
           "ufo",
+          text("Want to talk? Please press the space bar", {
+            size: 25,
+          }),
         ]);
-        //GOTO --> quiz?
-        k.go("placeholderquiz")
+        onKeyPress("space", () => k.go("quiz"));
       }
     });
-
     //   Moon movement
     let Xvel = 2;
     let Yvel = 1;
@@ -142,10 +156,10 @@ export const Game = () => {
     ]);
 
     addLevel(map, gameConfigs);
-    
   });
   k.go("game");
 }
 
+Quiz();
 
 export default Game;
