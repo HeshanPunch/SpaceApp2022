@@ -49,7 +49,6 @@ export const Game = () => {
   loadSprite("alien4", alien4);
   loadSprite("alien5", alien5);
 
-
   k.scene("game", () => {
     const satellite = add([
       sprite("satellite"),
