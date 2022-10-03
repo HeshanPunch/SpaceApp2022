@@ -5052,7 +5052,8 @@ function Quiz() {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = exports.Game = void 0;
+exports.Game = Game;
+exports.default = void 0;
 
 var _kaboom = _interopRequireDefault(require("./kaboom"));
 
@@ -5062,17 +5063,16 @@ var _items = require("./items");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var totalScore = 20; // start the game
+var totalScore = 10; // start the game
 
-var Game = function Game() {
+function Game() {
   if (_quiz.correctQuiz) {
-    totalScore += 20;
-  } else {
-    totalScore -= 20;
+    totalScore += 100; // correctQuiz = false;
   }
 
+  debug.log("totalScore : " + totalScore);
   var NORMAL_SPEED = 70;
-  var MIN_SPEED = 25;
+  var FAST_SPEED = 90;
   var SPEED = NORMAL_SPEED;
   loadSprite("asteroid", _items.asteroid);
   loadSprite("satellite", _items.satellite);
@@ -5083,79 +5083,45 @@ var Game = function Game() {
   loadSprite("spaceship", _items.spaceship);
   loadSprite("meteor", _items.meteor);
   loadSprite("spacestation", _items.spacestation);
-  loadSprite("alien1", _items.alien1);
-  loadSprite("alien2", _items.alien2);
-  loadSprite("alien3", _items.alien3);
-  loadSprite("alien4", _items.alien4);
-  loadSprite("alien5", _items.alien5);
+  var x = 300;
+  var y = 200;
 
   _kaboom.default.scene("game", function () {
-    var satellite = add([sprite("satellite"), pos(300, 200), scale(0.1), solid(), area(), origin("center"), "satellite"]);
-    var score = add([text("Score: ".concat(totalScore), {
+    //   layers(["bg", "obj", "ui"], "obj");
+    var score = add([text("Score: 0", {
       size: 25
-    }), pos(10, 10), fixed(), {
-      value: totalScore
+    }), pos(10, 10), {
+      value: 0
     }]);
     var playerAlerts = add([text("Use arrow keys to move", {
       size: 20
-    }), color(30, 0, 255), pos(10, 40), fixed()]);
-    satellite.onUpdate(function () {
-      camPos(satellite.pos);
-      camScale(3);
-    });
+    }), color(30, 0, 255), pos(10, 45), {
+      value: 0
+    }]);
     var levelConfigs = {
       width: 20,
       height: 20,
       "*": function _() {
         return [sprite("asteroid"), area(), solid(), scale(0.03), "asteroid"];
-      }
+      } // "0": () => [sprite("earth"), area(), solid(), scale(0.4), "earth"],
+      // "(": () => [sprite("moon"), area(), solid(), scale(0.05), "moon"],
+
     };
+    var satellite = add([sprite("satellite"), pos(x, y), scale(0.1), solid(), area(), origin("center"), "satellite"]);
     var earth = add([sprite("earth"), pos(1200, 300), scale(0.35), solid(), area(), rotate(1), origin("center"), "earth"]);
     var moon = add([sprite("moon"), pos(900, 400), solid(), area(), scale(0.035), "moon"]);
     earth.onUpdate(function () {
       earth.angle += 2 * dt();
-    });
-    var quiz1 = add([sprite("alien1"), pos(500, 400), solid(), area(), scale(0.035), "alien1"]);
-    satellite.onCollide("alien1", function () {
-      setTimeout(function () {
-        _kaboom.default.go("quiz");
-      }, 500);
-    });
-    var quiz2 = add([sprite("alien2"), pos(700, 100), solid(), area(), scale(0.035), "alien2"]);
-    satellite.onCollide("alien2", function () {
-      setTimeout(function () {
-        _kaboom.default.go("quiz");
-      }, 500);
-    });
-    var quiz3 = add([sprite("alien3"), pos(800, 300), solid(), area(), scale(0.035), "alien3"]);
-    satellite.onCollide("alien3", function () {
-      setTimeout(function () {
-        _kaboom.default.go("quiz");
-      }, 500);
-    });
-    var quiz4 = add([sprite("alien4"), pos(900, 400), solid(), area(), scale(0.035), "alien4"]);
-    satellite.onCollide("alien4", function () {
-      setTimeout(function () {
-        _kaboom.default.go("quiz");
-      }, 500);
-    });
-    var quiz5 = add([sprite("alien5"), pos(1000, 200), solid(), area(), scale(0.035), "alien5"]);
-    satellite.onCollide("alien5", function () {
-      setTimeout(function () {
-        _kaboom.default.go("quiz");
-      }, 500);
-      /* if (score.value >= 10) {
-        const ufo = add([
-          sprite("ufo"),
-          pos(400, 200),
-          scale(0.15),
-          solid(),
-          area(),
-          "ufo",
-        ]);
-        //GOTO --> quiz?
-        // k.go("placeholderquiz")
-      } */
+
+      if (score.value >= 30) {
+        var _ufo = add([sprite("ufo"), pos(400, 300), scale(0.5), solid(), area(), "ufo", text("Want to talk? Please press the space bar", {
+          size: 25
+        })]);
+
+        onKeyPress("space", function () {
+          return _kaboom.default.go("quiz");
+        });
+      }
     }); //   Moon movement
 
     var Xvel = 2;
@@ -5165,10 +5131,14 @@ var Game = function Game() {
     });
     onKeyDown("right", function () {
       satellite.move(SPEED, 0);
+      score.value += 1;
+      score.text = "Score:" + score.value;
       sendObject(); // camPos(satellite.pos)
     });
     onKeyDown("left", function () {
       satellite.move(-SPEED, 0);
+      score.value -= 1;
+      score.text = "Score:" + score.value;
       sendObject();
     });
     onKeyDown("up", function () {
@@ -5180,34 +5150,24 @@ var Game = function Game() {
       sendObject();
     });
     satellite.onCollide("asteroid", function () {
+      alertMessage("COLLISSION !!!");
+      SPEED -= SPEED * 0.01;
+      score.value -= 1;
+      score.text = "Score:" + score.value;
+    });
+    satellite.onCollide("earth", function (earth) {}); //alert messages
+
+    var alertMessage = function alertMessage(text) {
+      playerAlerts.text = "WARNING: " + text;
+      playerAlerts.color = rgb(255, 0, 0);
       setTimeout(function () {
-        totalScore--;
-      }, 500);
+        clearAlertMessage();
+      }, 1500);
+    };
 
-      if (SPEED > MIN_SPEED) {
-        SPEED -= SPEED * 0.01;
-      }
-
-      playerMessage("!!!", true);
-    }); //back to earth
-
-    satellite.onCollide("earth", function (earth) {});
-
-    var playerMessage = function playerMessage(text, alert) {
-      var textColour = rgb(255, 255, 255);
-
-      if (alert) {
-        textColour = rgb(200, 0, 0);
-      }
-
-      drawText({
-        text: text,
-        size: 8,
-        font: "sink",
-        width: 120,
-        pos: satellite.pos,
-        color: textColour
-      });
+    var clearAlertMessage = function clearAlertMessage() {
+      playerAlerts.text = "Let's get back on track...";
+      playerAlerts.color = rgb(0, 255, 150);
     };
 
     var sendObject = function sendObject() {
@@ -5217,7 +5177,7 @@ var Game = function Game() {
         sendSpaceship();
       }
 
-      if (objectOdds > 0.98) {
+      if (objectOdds > 0.95) {
         sendMeteor();
       }
     };
@@ -5254,29 +5214,13 @@ var Game = function Game() {
       meteor.onCollide("ufo", function (ufo) {
         destroy(meteor);
       });
-      meteor.onCollide("alien1", function (alien1) {
-        destroy(meteor);
-      });
-      meteor.onCollide("alien2", function (alien2) {
-        destroy(meteor);
-      });
-      meteor.onCollide("alien3", function (alien3) {
-        destroy(meteor);
-      });
-      meteor.onCollide("alien4", function (alien4) {
-        destroy(meteor);
-      });
-      meteor.onCollide("alien5", function (alien5) {
-        destroy(meteor);
-      });
       meteor.onCollide("earth", function (earth) {
         destroy(meteor);
-        setTimeout(function () {
-          totalScore--;
-        }, 500);
       });
       meteor.onCollide("satellite", function (satellite) {
-        playerMessage("!!!", true);
+        alertMessage("hit recorded!");
+        score.value -= 20;
+        score.text = "Score:" + score.value;
         destroy(meteor);
       });
     };
@@ -5292,13 +5236,18 @@ var Game = function Game() {
         return [sprite("asteroid"), area(), solid(), scale(0.03), "asteroid"];
       }
     };
-    addLevel(_items.map, levelConfigs);
+    var ufo = add([sprite("ufo"), pos(600, 300), scale(0.3), solid(), area(), "ufo"]);
+    var alienDialog = add([text("Hello Human", {
+      size: 25
+    }), pos(100, 100), {
+      value: 0
+    }]);
+    addLevel(_items.map, _items.gameConfigs);
   });
 
   _kaboom.default.go("game");
-};
+}
 
-exports.Game = Game;
 (0, _quiz.Quiz)();
 var _default = Game;
 exports.default = _default;
