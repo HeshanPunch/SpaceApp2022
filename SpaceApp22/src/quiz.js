@@ -326,8 +326,7 @@ function Quiz(){
     resulting in a loss of data!`], 
     [`2. The "ionosphere" is a trendy restaurant where aliens species 
     hang out after a busy week of travel. 
-    It has been popular for over 2000 years!
-`]];
+    It has been popular for over 2000 years!`]];
     addButton(answer[0], vec2(640, 510), () =>
       correct()
     );
@@ -355,8 +354,9 @@ function Quiz(){
     // Define the dialogue data
     const dialogs = [
       ["alien4", "Quiz time!"],
-      ["alien4", `Q. 
-      "Perigee" is the point at which a satellite is nearest to the earth, on the other hand, "Apogee" is the point at which a satellite is furthest from earth. Can you guess CASSIOPE's approximate Perigee and Apogee?`]]
+      ["alien4", `Q. "Perigee" is the point at which a satellite is nearest to the earth, 
+      on the other hand, "Apogee" is the point at which a satellite is furthest from earth. 
+      Can you guess CASSIOPE's approximate Perigee and Apogee?`]]
   let curDialog = 0;
 
   // Text bubble
@@ -434,16 +434,8 @@ function Quiz(){
       });
     };
     
-    const answer = [[`1. The ionosphere stretches roughly 50 to 400 miles above Earth's surface, 
-    right at the edge of space. 
-    The ionosphere forms the boundary between Earth's lower atmosphere 
-    —where we live and breathe — 
-    and the vacuum of space.
-    resulting in a loss of data!`], 
-    [`2. The "ionosphere" is a trendy restaurant where aliens species 
-    hang out after a busy week of travel. 
-    It has been popular for over 2000 years!
-`]];
+    const answer = [[`1. 350km and 1500 km`], 
+    [`2. 99km and 320km`]];
     addButton(answer[0], vec2(640, 510), () =>
       correct()
     );
@@ -467,10 +459,121 @@ function Quiz(){
   k.go("quiz4");
 
   
+  //quiz5
+  k.scene("quiz5", () => {
+    // Define the dialogue data
+    const dialogs = [
+      ["alien5", "Quiz time!"],
+      ["alien5", "Q.What are the most iminent threats faced by a satellite?" ]]
+  let curDialog = 0;
 
-  k.scene("lose", () => {
-    add([text("Game over"), pos(center()), origin("center")]);
+  // Text bubble
+  const textbox = add([
+    rect(width() - 100, 185, { radius: 32 }),
+    origin("center"),
+    pos(center().x, height() - 380),
+    outline(2),
+  ]);
+
+  // Text
+  const txt = add([
+    text("", { size: 32, width: width() - 230 }),
+    pos(textbox.pos),
+    origin("center"),
+  ]);
+
+  // Character avatar
+  const avatar = add([
+    sprite("alien5"),
+    scale(0.3),
+    origin("center"),
+    rotate(0),
+    pos(center().sub(0, 230))
+  ]);
+
+  avatar.onUpdate(() => {
+    // .angle is a property provided by rotate() component, here we're incrementing the angle by 120 degrees per second, dt() is the time elapsed since last frame in seconds
+    avatar.angle += 100 * dt()
+  })
+  
+
+  onKeyPress("space", () => {
+    // Cycle through the dialogs
+    curDialog = (curDialog + 1) % dialogs.length;
+    updateDialog();
   });
+
+  // Update the on screen sprite & text
+  function updateDialog() {
+    const [char, dialog] = dialogs[curDialog];
+
+    // Use a new sprite component to replace the old one
+    avatar.use(sprite(char));
+    // Update the dialog text
+    txt.text = dialog;
+  }
+
+  updateDialog();
+
+  const addButton = (txt, p, f) => {
+    const btn = add([
+      text(txt),
+      pos(p),
+      area({ cursor: "pointer" }),
+      scale(2),
+      origin("center"),
+    ]);
+  
+      btn.onClick(f);
+
+      btn.onUpdate(() => {
+        if (btn.isHovering()) {
+          const t = time() * 10;
+          btn.color = rgb(
+            wave(0, 255, t),
+            wave(0, 255, t + 2),
+            wave(0, 255, t + 4)
+          );
+          btn.scale = vec2(2.2);
+        } else {
+          btn.scale = vec2(2);
+          btn.color = rgb();
+        }
+      });
+    };
+    
+    const answer = [[`1. Extremely variable radiation and the potential 
+    of colliding with other satellites or meteorites`],
+    [`2. Alien contact, and the risk of collission with 
+    high altitude airplanes with distracted pilots
+    `]];
+    addButton(answer[0], vec2(640, 510), () =>
+      correct()
+    );
+    addButton(answer[1], vec2(640, 650), () =>
+      wrong()
+    );
+
+
+    const correct = () => {
+      correctQuiz = true;
+      Game();
+    };
+
+    const wrong = () => {
+      correctQuiz = false;
+      Game();
+    }
+  });
+  
+  
+  k.go("quiz5");
+
+  
+
+  // k.scene("lose", () => {
+  //   add([text("Game over"), pos(center()), origin("center")]);
+  // });
 
 export { Quiz, correctQuiz } ;
 
