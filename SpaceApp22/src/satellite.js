@@ -45,6 +45,8 @@ export function Game() {
       scale(0.1),
       solid(),
       area(),
+      origin("center"),
+      "satellite",
     ]);
 
     const earth = add([
@@ -117,48 +119,126 @@ export function Game() {
       moon.move(Xvel, Yvel);
     });
 
-    //Player Alerts - error messages, hints
-    const playerAlerts = add([
-      text("Use WASD keys to move", {
-        size: 20,
-      }),
-      color(30, 0, 255),
-      pos(10, 45),
-      { value: 0 },
-    ]);
+    onKeyDown("right", () => {
+      satellite.move(SPEED, 0);
+      score.value += 1;
+      score.text = "Score:" + score.value;
+      sendObject();
+      // camPos(satellite.pos)
+    });
+    onKeyDown("left", () => {
+      satellite.move(-SPEED, 0);
+      score.value -= 1;
+      score.text = "Score:" + score.value;
+      sendObject();
+    });
+    onKeyDown("up", () => {
+      satellite.move(0, -SPEED);
+      sendObject();
+    });
+    onKeyDown("down", () => {
+      satellite.move(0, SPEED);
+      sendObject();
+    });
 
     addLevel(map, gameConfigs);
   });
 
-  k.scene("placeholderquiz", () => {
-    /*
-    const levelConfigs = {
-      width: 20,
-      height: 20,
-      "*": () => [sprite("asteroid"), area(), solid(), scale(0.03), "asteroid"],
-    };*/
+    satellite.onCollide("asteroid", () => {
+      alertMessage("COLLISSION !!!");
 
-    const ufo = add([
-      sprite("ufo"),
-      pos(600, 300),
-      scale(0.5),
-      solid(),
-      area(),
-      "ufo",
-    ]);
+      SPEED -= SPEED * 0.01;
+      score.value -= 1;
+      score.text = "Score:" + score.value;
+    });
 
-    const alienDialog = add([
-      text("Hello Human", {
-        size: 25,
-      }),
-      pos(100, 100),
-      { value: 0 },
-    ]);
+    satellite.onCollide("earth", (earth) => {
+        
+    });
 
-    addLevel(map, gameConfigs);
-  });
+    //alert messages
+    const alertMessage = (text) => {
+      playerAlerts.text = "WARNING: " + text;
+      playerAlerts.color = rgb(255, 0, 0);
+      setTimeout(() => {
+        clearAlertMessage();
+      }, 1500);
+    };
+
+    const clearAlertMessage = () => {
+      playerAlerts.text = "Let's get back on track...";
+      playerAlerts.color = rgb(0, 255, 150);
+    };
+
+    const sendObject = () => {
+      const objectOdds = Math.random();
+
+      if (objectOdds > 0.995) {
+        sendSpaceship();
+      }
+      if (objectOdds > 0.95) {
+        sendMeteor();
+      }
+    };
+
+    let spaceshipspawned = false;
+    const sendSpaceship = () => {
+      if (!spaceshipspawned) {
+        const spaceship = add([
+          sprite("spaceship"),
+          pos(1150, 300),
+          scale(0.05),
+          rotate(-65),
+          "spaceship",
+        ]);
+
+        let Xvel = -5;
+        let Yvel = -5;
+        spaceship.onUpdate(() => {
+          spaceship.move(Xvel, Yvel);
+        });
+      }
+      spaceshipspawned = true;
+    };
+
+    const sendMeteor = () => {
+      let x = Math.random();
+      const meteor = add([
+        sprite("meteor"),
+        pos(500 + 1000 * x, 0),
+        scale(0.025),
+        solid(),
+        area(),
+        "meteor",
+      ]);
+
+      let Xvel = -45;
+      let Yvel = 55;
+      meteor.onUpdate(() => {
+        meteor.move(Xvel, Yvel);
+      });
+      meteor.onCollide("asteroid", (asteroid) => {
+        destroy(meteor);
+      });
+      meteor.onCollide("ufo", (ufo) => {
+        destroy(meteor);
+      });
+
+      meteor.onCollide("earth", (earth) => {
+        destroy(meteor);
+      });
+
+      meteor.onCollide("satellite", (satellite) => {
+        alertMessage("hit recorded!");
+        score.value -= 20;
+        score.text = "Score:" + score.value;
+        destroy(meteor);
+      });
+    };
+
+    addLevel(map, levelConfigs);
   k.go("game");
-}
+};
 
 Quiz();
 

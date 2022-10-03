@@ -5121,6 +5121,9 @@ function Game() {
     }]);
     addLevel(_items.map, _items.gameConfigs);
   });
+  };
+
+  addLevel(_items.map, levelConfigs);
 
   _kaboom.default.go("game");
 }
