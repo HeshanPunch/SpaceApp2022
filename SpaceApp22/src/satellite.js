@@ -21,7 +21,7 @@ export const Game = () => {
     totalScore += 100;
     // correctQuiz = false;
   }
-  debug.log("totalScore : " + totalScore);
+
   const NORMAL_SPEED = 70;
   const MIN_SPEED = 25;
   let SPEED = NORMAL_SPEED;
@@ -66,6 +66,7 @@ export const Game = () => {
     satellite.onUpdate(() => {
       camPos(satellite.pos);
       camScale(3);
+      debug.log("totalScore : " + totalScore);
     });
 
     const levelConfigs = {
@@ -141,14 +142,17 @@ export const Game = () => {
     });
 
     satellite.onCollide("asteroid", () => {
-        if (SPEED > MIN_SPEED){
-            SPEED -= SPEED * 0.01;
-        }
-      
+      setTimeout(() => {
+        totalScore--;
+      }, 500);
+      if (SPEED > MIN_SPEED) {
+        SPEED -= SPEED * 0.01;
+      }
 
       playerMessage("!!!", true);
     });
 
+    //back to earth
     satellite.onCollide("earth", (earth) => {});
 
     const playerMessage = (text, alert) => {
@@ -173,7 +177,7 @@ export const Game = () => {
       if (objectOdds > 0.995) {
         sendSpaceship();
       }
-      if (objectOdds > 0.95) {
+      if (objectOdds > 0.98) {
         sendMeteor();
       }
     };
@@ -223,6 +227,9 @@ export const Game = () => {
 
       meteor.onCollide("earth", (earth) => {
         destroy(meteor);
+        setTimeout(() => {
+          totalScore--;
+        }, 500);
       });
 
       meteor.onCollide("satellite", (satellite) => {

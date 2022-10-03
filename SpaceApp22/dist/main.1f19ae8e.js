@@ -5041,7 +5041,6 @@ var Game = function Game() {
     totalScore += 100; // correctQuiz = false;
   }
 
-  debug.log("totalScore : " + totalScore);
   var NORMAL_SPEED = 70;
   var MIN_SPEED = 25;
   var SPEED = NORMAL_SPEED;
@@ -5077,6 +5076,7 @@ var Game = function Game() {
     satellite.onUpdate(function () {
       camPos(satellite.pos);
       camScale(3);
+      debug.log("totalScore : " + totalScore);
     });
     var levelConfigs = {
       width: 20,
@@ -5127,12 +5127,17 @@ var Game = function Game() {
       sendObject();
     });
     satellite.onCollide("asteroid", function () {
+      setTimeout(function () {
+        totalScore--;
+      }, 500);
+
       if (SPEED > MIN_SPEED) {
         SPEED -= SPEED * 0.01;
       }
 
       playerMessage("!!!", true);
-    });
+    }); //back to earth
+
     satellite.onCollide("earth", function (earth) {});
 
     var playerMessage = function playerMessage(text, alert) {
@@ -5159,7 +5164,7 @@ var Game = function Game() {
         sendSpaceship();
       }
 
-      if (objectOdds > 0.95) {
+      if (objectOdds > 0.98) {
         sendMeteor();
       }
     };
@@ -5198,6 +5203,9 @@ var Game = function Game() {
       });
       meteor.onCollide("earth", function (earth) {
         destroy(meteor);
+        setTimeout(function () {
+          totalScore--;
+        }, 500);
       });
       meteor.onCollide("satellite", function (satellite) {
         playerMessage("!!!", true);
