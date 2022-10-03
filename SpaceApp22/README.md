@@ -1,8 +1,8 @@
-<h1 align="center">Space Apps Challenge 2022</h1>
+<h1 align="center">🚀Space Apps Challenge 2022</h1>
 <p align="center"><strong>October 1 and 2, 2022</strong>
 <br>This project was created as a part of NASA's 11th annual <a href="https://www.asc-csa.gc.ca/eng/events/2022/space-apps-challenge.asp" target="_blank"> Space Apps Challenge</a><br> 
 <br>Incorporated some information from the data portals, and drew inspiration from the CASSIOPE program. Game runs on the browser and the goal is to navigate around space, explore, and survive! Intended for kids and we learned a lot as software dev students as well as space enthusiasts!<br/>
-<a href="https://youtu.be/MZ_g8qZ1Rh8" target="_blank"> 30 sec video demo for CSA!</a><br></p>
+<a href="https://youtu.be/MZ_g8qZ1Rh8" target="_blank"> 📺30 sec video demo for CSA!</a><br></p>
 
 
 
