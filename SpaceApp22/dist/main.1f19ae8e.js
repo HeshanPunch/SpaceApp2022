@@ -5024,8 +5024,7 @@ function Quiz() {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Game = Game;
-exports.default = void 0;
+exports.default = exports.Game = void 0;
 
 var _kaboom = _interopRequireDefault(require("./kaboom"));
 
@@ -5035,16 +5034,15 @@ var _items = require("./items");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var totalScore = 10; // start the game
+var totalScore = 0; // start the game
 
-function Game() {
+var Game = function Game() {
   if (_quiz.correctQuiz) {
     totalScore += 100; // correctQuiz = false;
   }
 
-  debug.log("totalScore : " + totalScore);
   var NORMAL_SPEED = 70;
-  var FAST_SPEED = 90;
+  var MIN_SPEED = 25;
   var SPEED = NORMAL_SPEED;
   loadSprite("asteroid", _items.asteroid);
   loadSprite("satellite", _items.satellite);
@@ -5058,16 +5056,28 @@ function Game() {
 
   _kaboom.default.scene("game", function () {
     //   layers(["bg", "obj", "ui"], "obj");
-    var score = add([text("Score: 0", {
-      size: 25
-    }), pos(10, 10), {
-      value: 0
-    }]);
-    var playerAlerts = add([text("Use arrow keys to move", {
-      size: 20
-    }), color(30, 0, 255), pos(10, 45), {
-      value: 0
-    }]);
+    var satellite = add([sprite("satellite"), pos(300, 200), scale(0.1), solid(), area(), origin("center"), "satellite"]);
+    /* const score = add([
+      text("Score: 0", {
+        size: 25,
+      }),
+      pos(satellite.pos),
+      { value: 0 },
+    ]);
+    const playerAlerts = add([
+      text("Use arrow keys to move", {
+        size: 20,
+      }),
+      color(30, 0, 255),
+      pos(satellite.pos),
+      { value: 0 },
+    ]); */
+
+    satellite.onUpdate(function () {
+      camPos(satellite.pos);
+      camScale(3);
+      debug.log("totalScore : " + totalScore);
+    });
     var levelConfigs = {
       width: 20,
       height: 20,
@@ -5077,21 +5087,22 @@ function Game() {
       // "(": () => [sprite("moon"), area(), solid(), scale(0.05), "moon"],
 
     };
-    var satellite = add([sprite("satellite"), pos(300, 200), scale(0.1), solid(), area(), origin("center"), "satellite"]);
     var earth = add([sprite("earth"), pos(1200, 300), scale(0.35), solid(), area(), rotate(1), origin("center"), "earth"]);
     var moon = add([sprite("moon"), pos(900, 400), solid(), area(), scale(0.035), "moon"]);
     earth.onUpdate(function () {
       earth.angle += 2 * dt();
-
-      if (score.value >= 30) {
-        var _ufo = add([sprite("ufo"), pos(400, 300), scale(0.5), solid(), area(), "ufo", text("Want to talk? Please press the space bar", {
-          size: 25
-        })]);
-
-        onKeyPress("space", function () {
-          return _kaboom.default.go("quiz");
-        });
-      }
+      /* if (score.value >= 10) {
+        const ufo = add([
+          sprite("ufo"),
+          pos(400, 200),
+          scale(0.15),
+          solid(),
+          area(),
+          "ufo",
+        ]);
+        //GOTO --> quiz?
+        // k.go("placeholderquiz")
+      } */
     }); //   Moon movement
 
     var Xvel = 2;
@@ -5101,14 +5112,10 @@ function Game() {
     });
     onKeyDown("right", function () {
       satellite.move(SPEED, 0);
-      score.value += 1;
-      score.text = "Score:" + score.value;
       sendObject(); // camPos(satellite.pos)
     });
     onKeyDown("left", function () {
       satellite.move(-SPEED, 0);
-      score.value -= 1;
-      score.text = "Score:" + score.value;
       sendObject();
     });
     onKeyDown("up", function () {
@@ -5120,24 +5127,34 @@ function Game() {
       sendObject();
     });
     satellite.onCollide("asteroid", function () {
-      alertMessage("COLLISSION !!!");
-      SPEED -= SPEED * 0.01;
-      score.value -= 1;
-      score.text = "Score:" + score.value;
-    });
-    satellite.onCollide("earth", function (earth) {}); //alert messages
-
-    var alertMessage = function alertMessage(text) {
-      playerAlerts.text = "WARNING: " + text;
-      playerAlerts.color = rgb(255, 0, 0);
       setTimeout(function () {
-        clearAlertMessage();
-      }, 1500);
-    };
+        totalScore--;
+      }, 500);
 
-    var clearAlertMessage = function clearAlertMessage() {
-      playerAlerts.text = "Let's get back on track...";
-      playerAlerts.color = rgb(0, 255, 150);
+      if (SPEED > MIN_SPEED) {
+        SPEED -= SPEED * 0.01;
+      }
+
+      playerMessage("!!!", true);
+    }); //back to earth
+
+    satellite.onCollide("earth", function (earth) {});
+
+    var playerMessage = function playerMessage(text, alert) {
+      var textColour = rgb(255, 255, 255);
+
+      if (alert) {
+        textColour = rgb(200, 0, 0);
+      }
+
+      drawText({
+        text: text,
+        size: 8,
+        font: "sink",
+        width: 120,
+        pos: satellite.pos,
+        color: textColour
+      });
     };
 
     var sendObject = function sendObject() {
@@ -5147,7 +5164,7 @@ function Game() {
         sendSpaceship();
       }
 
-      if (objectOdds > 0.95) {
+      if (objectOdds > 0.98) {
         sendMeteor();
       }
     };
@@ -5186,11 +5203,12 @@ function Game() {
       });
       meteor.onCollide("earth", function (earth) {
         destroy(meteor);
+        setTimeout(function () {
+          totalScore--;
+        }, 500);
       });
       meteor.onCollide("satellite", function (satellite) {
-        alertMessage("hit recorded!");
-        score.value -= 20;
-        score.text = "Score:" + score.value;
+        playerMessage("!!!", true);
         destroy(meteor);
       });
     };
@@ -5216,10 +5234,9 @@ function Game() {
   });
 
   _kaboom.default.go("game");
-}
+};
 
-;
-(0, _quiz.Quiz)();
+exports.Game = Game;
 var _default = Game;
 exports.default = _default;
 },{"./kaboom":"kaboom.js","./quiz":"quiz.js","./items":"items.js"}],"main.js":[function(require,module,exports) {
@@ -5262,7 +5279,7 @@ _kaboom.default.scene("start", function () {
 (0, _satellite.default)();
 
 _kaboom.default.go('start');
-},{"./kaboom":"kaboom.js","./satellite":"satellite.js","./items":"items.js"}],"../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"./kaboom":"kaboom.js","./satellite":"satellite.js","./items":"items.js"}],"../../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -5290,7 +5307,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54437" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49242" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
@@ -5466,5 +5483,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","main.js"], null)
+},{}]},{},["../../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","main.js"], null)
 //# sourceMappingURL=/main.1f19ae8e.js.map
