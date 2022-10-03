@@ -4805,117 +4805,504 @@ var no = a((i = {}) => {
   return ye;
 }, "default");
 exports.default = no;
-},{}],"satellite.js":[function(require,module,exports) {
+},{}],"kaboom.js":[function(require,module,exports) {
 "use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.k = exports.default = void 0;
 
 var _kaboom = _interopRequireDefault(require("kaboom"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-//import kaboom from "kaboom";
-// start the game
-(0, _kaboom.default)({
+// initialize context
+var k = (0, _kaboom.default)({
   font: "sinko",
-  background: [11, 16, 38],
-  fullscreen: true // width: 1280,
-  //     height: 800,
-
+  // background: [11, 16, 38],
+  background: [12, 21, 55],
+  fullscreen: true,
+  canvas: document.querySelector("gamecanvas"),
+  // width: 1280,
+  // height: 800,
+  scale: 1
 });
-var NORMAL_SPEED = 70;
-var FAST_SPEED = 90;
-var SPEED = NORMAL_SPEED; // player.onCollide("coin", () => {
-//   score.value += 1;
-//   score.text = "Score:" + score.value;
-// });
+exports.k = k;
+var _default = k;
+exports.default = _default;
+},{"kaboom":"../node_modules/kaboom/dist/kaboom.mjs"}],"items.js":[function(require,module,exports) {
+"use strict";
 
-loadSprite("asteroid", "https://i.imgur.com/B1NSdRO.png");
-loadSprite("satellite", "https://art.pixilart.com/4c141c7f72cb059.png");
-loadSprite("asteroid-large", "https://i.imgur.com/qIHdjDQ.png");
-loadSprite("moon", "https://i.imgur.com/nXhRU9V.png");
-loadSprite("earth", "https://i.imgur.com/Qjmlokl.png");
-loadSprite("ufo", "https://i.imgur.com/2rEcvS6.png");
-var map = ["                                                            *                   *                           *      ", "                                                *                                                              ", "                                                                                                               ", "                                                                                                                 ", "                             *                                                                                 ", "                                                                                                        *     ", "                                                                                                           ", " *                                                                                                       ", "                                       *                                                                  ", "                                                                                    *                   ", "                                                                                                      ", "                                                                                                        ", "                                                                                                       ", "                                                                                                      ", "                                                  ()                                                  ", "         *                      *                                                                   ", "                                                                                                    ", "                                                                                                    ", "                                                                                                    ", "               *                                                                                    ", "                                          *                                                           ", "                                                                                                      ", "                                                                                                      ", "                                                                             *                         ", "                                                                                                      ", "                                                                                                      ", "                                                                                                      ", "                                                                                                      ", "      *                         *                                                       *             ", "                                                                                                      ", "                                                                            *                         ", "                                                                                                      ", " *                                                                                                    ", "                                                                                                     "];
-scene("game", function () {
-  //   layers(["bg", "obj", "ui"], "obj");
-  var score = add([text("Score: 0", {
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.ufo = exports.spacestation = exports.spaceship = exports.satellite = exports.moonhttps = exports.meteor = exports.map = exports.greetingConfigs = exports.earth = exports.asteroidLarge = exports.asteroid = exports.alien5 = exports.alien4 = exports.alien3 = exports.alien2 = exports.alien1 = exports.addButton = void 0;
+var asteroid = "https://i.imgur.com/B1NSdRO.png";
+exports.asteroid = asteroid;
+var satellite = "https://art.pixilart.com/4c141c7f72cb059.png";
+exports.satellite = satellite;
+var asteroidLarge = "https://i.imgur.com/qIHdjDQ.png";
+exports.asteroidLarge = asteroidLarge;
+var moonhttps = "https://i.imgur.com/nXhRU9V.png";
+exports.moonhttps = moonhttps;
+var earth = "https://i.imgur.com/Qjmlokl.png";
+exports.earth = earth;
+var ufo = "https://i.imgur.com/2rEcvS6.png";
+exports.ufo = ufo;
+var alien1 = "https://i.imgur.com/sLZ2ZIf.png";
+exports.alien1 = alien1;
+var alien2 = "https://i.imgur.com/MZ0sX75.png";
+exports.alien2 = alien2;
+var alien3 = "https://i.imgur.com/elus95n.png";
+exports.alien3 = alien3;
+var alien4 = "https://i.imgur.com/2J8OCMS.png";
+exports.alien4 = alien4;
+var alien5 = "https://i.imgur.com/R6dDK4I.png";
+exports.alien5 = alien5;
+var mercury = "https://i.imgur.com/RHPYZVd.png";
+var rocket = "https://i.imgur.com/8rMVcKB.png";
+var spaceship = "https://i.imgur.com/Sp220hN.png";
+exports.spaceship = spaceship;
+var meteor = "https://i.imgur.com/RkH05Dh.png";
+exports.meteor = meteor;
+var spacestation = "https://i.imgur.com/TIMxSI6.png";
+exports.spacestation = spacestation;
+loadSprite("mercury", mercury);
+loadSprite("rocket", rocket);
+
+var addButton = function addButton(txt, p, f) {
+  var btn = add([text(txt, {
     size: 25
-  }), pos(10, 10), {
-    value: 0
-  }]);
-  var levelConfigs = {
-    width: 20,
-    height: 20,
-    "*": function _() {
-      return [sprite("asteroid"), area(), solid(), scale(0.03), "asteroid"];
-    } // "0": () => [sprite("earth"), area(), solid(), scale(0.4), "earth"],
-    // "(": () => [sprite("moon"), area(), solid(), scale(0.05), "moon"],
-
-  };
-  var playerSat = add([sprite("satellite"), pos(300, 200), scale(0.1), solid(), area()]);
-  var earth = add([sprite("earth"), pos(1200, 300), scale(0.35), solid(), area(), rotate(1), origin("center"), "earth"]);
-  var moon = add([sprite("moon"), pos(900, 400), solid(), area(), scale(0.035), "moon"]);
-  onKeyDown("right", function () {
-    playerSat.move(SPEED, 0);
-    score.value += 1;
-    score.text = "Score:" + score.value; // camPos(playerSat.pos)
-  });
-  onKeyDown("left", function () {
-    playerSat.move(-SPEED, 0);
-    score.value -= 1;
-    score.text = "Score:" + score.value;
-  });
-  onKeyDown("up", function () {
-    playerSat.move(0, -SPEED);
-  });
-  onKeyDown("down", function () {
-    playerSat.move(0, SPEED);
-  });
-  playerSat.onCollide("asteroid", function () {
-    SPEED -= SPEED * 0.01;
-    score.value -= 1;
-    score.text = "Score:" + score.value;
-  }); //   Earth rotation + Alien
-
-  earth.onUpdate(function () {
-    earth.angle += 2 * dt();
-
-    if (score.value >= 10) {
-      var ufo = add([sprite("ufo"), pos(500, 100), scale(0.25), solid(), area(), "ufo"]); //GOTO --> quiz?
-      // go("placeholderquiz")
+  }), pos(p), area({
+    cursor: "pointer"
+  }), scale(1), origin("center")]);
+  btn.onClick(f);
+  btn.onUpdate(function () {
+    if (btn.isHovering()) {
+      var t = time() * 10;
+      btn.color = rgb(wave(0, 255, t), wave(0, 255, t + 2), wave(0, 255, t + 4));
+      btn.scale = vec2(1.2);
+    } else {
+      btn.scale = vec2(1);
+      btn.color = rgb();
     }
-  }); //   Moon movement
+  });
+};
 
-  var Xvel = 2;
-  var Yvel = 1;
-  moon.onUpdate(function () {
-    moon.move(Xvel, Yvel);
-  }); //Player Alerts - error messages, hints
+exports.addButton = addButton;
+var greetingConfigs = {
+  width: 20,
+  height: 20,
+  "*": function _() {
+    return [sprite("asteroid"), area(), solid(), scale(0.03), "asteroid"];
+  },
+  m: function m() {
+    return [sprite("mercury"), area(), solid(), scale(0.4), "mercury"];
+  },
+  f: function f() {
+    return [sprite("rocket"), area(), solid(), scale(0.3), "rocket"];
+  } // "(": () => [sprite("moon"), area(), solid(), scale(0.05), "moon"],
 
-  var playerAlerts = add([text("Use WASD keys to move...", {
-    size: 20
-  }), color(30, 215, 96), pos(10, 45), {
-    value: 0
-  }]);
-  addLevel(map, levelConfigs);
+};
+exports.greetingConfigs = greetingConfigs;
+var gameConfigs = {
+  width: 20,
+  height: 20,
+  "*": function _() {
+    return [sprite("asteroid"), area(), solid(), scale(0.03), "asteroid"];
+  } // "0": () => [sprite("earth"), area(), solid(), scale(0.4), "earth"],
+  // "(": () => [sprite("moon"), area(), solid(), scale(0.05), "moon"],
+
+};
+var map = ["                                                            *          ", "                                                *                      ", "                                                 m                     ", "     *                                                                 ", "                             *                                         ", "                                                                       ", "                       *                                         *     ", "                                                                       ", "                                           *                           ", "                                     *                                 ", "                                                                       ", "                                                                      ", "                                                                       ", "                             *                                         ", "                                                                       ", "                                *                                      ", "                                                                       ", "      *                                   *                            ", "                                                                       ", "                  *                                                    ", "                                                                 *     ", "              f                                 *                      ", "                                                                       ", "      *                       *                                        ", "                                                                       ", "               *                                                       ", "                                                                       ", "                                                            *          ", "                                                                       ", "      *                                   *                            ", "                                                                       ", "                             *                                         ", "                                                                       ", "                                                *                      ", "                                                                       ", "      *                                   *                            "];
+exports.map = map;
+},{}],"quiz.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
 });
-scene("placeholderquiz", function () {
-  var levelConfigs = {
-    width: 20,
-    height: 20,
-    "*": function _() {
-      return [sprite("asteroid"), area(), solid(), scale(0.03), "asteroid"];
+exports.Quiz = Quiz;
+exports.correctQuiz = void 0;
+
+var _kaboom = _interopRequireDefault(require("./kaboom"));
+
+var _items = require("./items");
+
+var _satellite = _interopRequireDefault(require("./satellite"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+// import totalScore from './items';
+var correctQuiz = false;
+exports.correctQuiz = correctQuiz;
+
+function Quiz() {
+  loadSprite("alien1", _items.alien1);
+
+  _kaboom.default.scene("quiz", function () {
+    // Define the dialogue data
+    var dialogs = [["alien1", "This is quiz time!"], ["alien1", "Q. What is my name?"]];
+    var curDialog = 0; // Text bubble
+
+    var textbox = add([rect(width() - 700, 120, {
+      radius: 32
+    }), origin("center"), pos(center().x, height() - 400), outline(2)]); // Text
+
+    var txt = add([text("", {
+      size: 32,
+      width: width() - 230
+    }), pos(textbox.pos), origin("center")]); // Character avatar
+
+    var avatar = add([sprite("alien1"), scale(0.5), origin("center"), rotate(0), pos(center().sub(0, 200))]);
+    avatar.onUpdate(function () {
+      // .angle is a property provided by rotate() component, here we're incrementing the angle by 120 degrees per second, dt() is the time elapsed since last frame in seconds
+      avatar.angle += 120 * dt();
+    });
+    onKeyPress("space", function () {
+      // Cycle through the dialogs
+      curDialog = (curDialog + 1) % dialogs.length;
+      updateDialog();
+    }); // Update the on screen sprite & text
+
+    function updateDialog() {
+      var _dialogs$curDialog = _slicedToArray(dialogs[curDialog], 2),
+          char = _dialogs$curDialog[0],
+          dialog = _dialogs$curDialog[1]; // Use a new sprite component to replace the old one
+
+
+      avatar.use(sprite(char)); // Update the dialog text
+
+      txt.text = dialog;
     }
-  };
-  var ufo = add([sprite("ufo"), pos(600, 300), scale(0.5), solid(), area(), "ufo"]);
-  var alienDialog = add([text("Hello Human", {
-    size: 25
-  }), pos(100, 100), {
-    value: 0
-  }]);
-  addLevel(map, levelConfigs);
+
+    updateDialog();
+
+    var addButton = function addButton(txt, p, f) {
+      var btn = add([text(txt), pos(p), area({
+        cursor: "pointer"
+      }), scale(1), origin("center")]);
+      btn.onClick(f);
+      btn.onUpdate(function () {
+        if (btn.isHovering()) {
+          var t = time() * 10;
+          btn.color = rgb(wave(0, 255, t), wave(0, 255, t + 2), wave(0, 255, t + 4));
+          btn.scale = vec2(1.2);
+        } else {
+          btn.scale = vec2(1);
+          btn.color = rgb();
+        }
+      });
+    }; //   scene("start", () => {
+    //     addButton("Start", vec2(k.width() * 0.5, k.height() * 0.5), () => k.go('inputName'));
+    //   })
+
+
+    var answer = [["Alien"], ["Joo"]];
+    addButton("1." + answer[0], vec2(width() * 0.4, height() * 0.8), function () {
+      return correct();
+    });
+    addButton("2." + answer[1], vec2(width() * 0.6, height() * 0.8), function () {
+      return wrong();
+    });
+    var score = 0;
+
+    var correct = function correct() {
+      // debug.log("correct in");
+      exports.correctQuiz = correctQuiz = true; // debug.log("totalScore: " + totalScore);
+
+      (0, _satellite.default)();
+    };
+
+    var wrong = function wrong() {
+      // debug.log("wrong in");
+      // k.go("lose");
+      exports.correctQuiz = correctQuiz = false;
+      (0, _satellite.default)();
+    };
+  }); //   const wrong = () => {
+  //     debug.log("wrong in");
+  //     k.go("lose");
+  //   }
+  // });
+
+
+  _kaboom.default.scene("lose", function () {
+    add([text("Game over"), pos(center()), origin("center")]);
+  });
+
+  _kaboom.default.go("quiz");
+}
+},{"./kaboom":"kaboom.js","./items":"items.js","./satellite":"satellite.js"}],"satellite.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
 });
-go("placeholderquiz");
-},{"kaboom":"../node_modules/kaboom/dist/kaboom.mjs"}],"../../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+exports.default = exports.Game = void 0;
+
+var _kaboom = _interopRequireDefault(require("./kaboom"));
+
+var _quiz = require("./quiz");
+
+var _items = require("./items");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var totalScore = 20; // start the game
+
+var Game = function Game() {
+  if (_quiz.correctQuiz) {
+    totalScore += 20;
+  } else {
+    totalScore -= 20;
+  }
+
+  var NORMAL_SPEED = 70;
+  var MIN_SPEED = 25;
+  var SPEED = NORMAL_SPEED;
+  loadSprite("asteroid", _items.asteroid);
+  loadSprite("satellite", _items.satellite);
+  loadSprite("asteroid-large", _items.asteroidLarge);
+  loadSprite("moon", _items.moonhttps);
+  loadSprite("earth", _items.earth);
+  loadSprite("ufo", _items.ufo);
+  loadSprite("spaceship", _items.spaceship);
+  loadSprite("meteor", _items.meteor);
+  loadSprite("spacestation", _items.spacestation);
+  loadSprite("alien1", _items.alien1);
+  loadSprite("alien2", _items.alien2);
+  loadSprite("alien3", _items.alien3);
+  loadSprite("alien4", _items.alien4);
+  loadSprite("alien5", _items.alien5);
+
+  _kaboom.default.scene("game", function () {
+    var satellite = add([sprite("satellite"), pos(300, 200), scale(0.1), solid(), area(), origin("center"), "satellite"]);
+    var score = add([text("Score: ".concat(totalScore), {
+      size: 25
+    }), pos(10, 10), fixed(), {
+      value: totalScore
+    }]);
+    var playerAlerts = add([text("Use arrow keys to move", {
+      size: 20
+    }), color(30, 0, 255), pos(10, 40), fixed()]);
+    satellite.onUpdate(function () {
+      camPos(satellite.pos);
+      camScale(3);
+    });
+    var levelConfigs = {
+      width: 20,
+      height: 20,
+      "*": function _() {
+        return [sprite("asteroid"), area(), solid(), scale(0.03), "asteroid"];
+      }
+    };
+    var earth = add([sprite("earth"), pos(1200, 300), scale(0.35), solid(), area(), rotate(1), origin("center"), "earth"]);
+    var moon = add([sprite("moon"), pos(900, 400), solid(), area(), scale(0.035), "moon"]);
+    earth.onUpdate(function () {
+      earth.angle += 2 * dt();
+    });
+    var quiz1 = add([sprite("alien1"), pos(400, 400), solid(), area(), scale(0.035), "alien1"]);
+    satellite.onCollide("alien1", function () {
+      setTimeout(function () {
+        _kaboom.default.go("quiz");
+      }, 500);
+    });
+    var quiz2 = add([sprite("alien2"), pos(700, 100), solid(), area(), scale(0.035), "alien2"]);
+    satellite.onCollide("alien2", function () {
+      setTimeout(function () {
+        _kaboom.default.go("quiz");
+      }, 500);
+    });
+    var quiz3 = add([sprite("alien3"), pos(800, 300), solid(), area(), scale(0.035), "alien3"]);
+    satellite.onCollide("alien3", function () {
+      setTimeout(function () {
+        _kaboom.default.go("quiz");
+      }, 500);
+    });
+    var quiz4 = add([sprite("alien4"), pos(900, 400), solid(), area(), scale(0.035), "alien4"]);
+    satellite.onCollide("alien4", function () {
+      setTimeout(function () {
+        _kaboom.default.go("quiz");
+      }, 500);
+    });
+    var quiz5 = add([sprite("alien5"), pos(1000, 200), solid(), area(), scale(0.035), "alien5"]);
+    satellite.onCollide("alien5", function () {
+      setTimeout(function () {
+        _kaboom.default.go("quiz");
+      }, 500);
+      /* if (score.value >= 10) {
+        const ufo = add([
+          sprite("ufo"),
+          pos(400, 200),
+          scale(0.15),
+          solid(),
+          area(),
+          "ufo",
+        ]);
+        //GOTO --> quiz?
+        // k.go("placeholderquiz")
+      } */
+    }); //   Moon movement
+
+    var Xvel = 2;
+    var Yvel = 1;
+    moon.onUpdate(function () {
+      moon.move(Xvel, Yvel);
+    });
+    onKeyDown("right", function () {
+      satellite.move(SPEED, 0);
+      sendObject(); // camPos(satellite.pos)
+    });
+    onKeyDown("left", function () {
+      satellite.move(-SPEED, 0);
+      sendObject();
+    });
+    onKeyDown("up", function () {
+      satellite.move(0, -SPEED);
+      sendObject();
+    });
+    onKeyDown("down", function () {
+      satellite.move(0, SPEED);
+      sendObject();
+    });
+    satellite.onCollide("asteroid", function () {
+      setTimeout(function () {
+        totalScore--;
+      }, 500);
+
+      if (SPEED > MIN_SPEED) {
+        SPEED -= SPEED * 0.01;
+      }
+
+      playerMessage("!!!", true);
+    }); //back to earth
+
+    satellite.onCollide("earth", function (earth) {});
+
+    var playerMessage = function playerMessage(text, alert) {
+      var textColour = rgb(255, 255, 255);
+
+      if (alert) {
+        textColour = rgb(200, 0, 0);
+      }
+
+      drawText({
+        text: text,
+        size: 8,
+        font: "sink",
+        width: 120,
+        pos: satellite.pos,
+        color: textColour
+      });
+    };
+
+    var sendObject = function sendObject() {
+      var objectOdds = Math.random();
+
+      if (objectOdds > 0.995) {
+        sendSpaceship();
+      }
+
+      if (objectOdds > 0.98) {
+        sendMeteor();
+      }
+    };
+
+    var spaceshipspawned = false;
+
+    var sendSpaceship = function sendSpaceship() {
+      if (!spaceshipspawned) {
+        var _spaceship = add([sprite("spaceship"), pos(1150, 300), scale(0.05), rotate(-65), "spaceship"]);
+
+        var _Xvel = -5;
+
+        var _Yvel = -5;
+
+        _spaceship.onUpdate(function () {
+          _spaceship.move(_Xvel, _Yvel);
+        });
+      }
+
+      spaceshipspawned = true;
+    };
+
+    var sendMeteor = function sendMeteor() {
+      var x = Math.random();
+      var meteor = add([sprite("meteor"), pos(500 + 1000 * x, 0), scale(0.025), solid(), area(), "meteor"]);
+      var Xvel = -45;
+      var Yvel = 55;
+      meteor.onUpdate(function () {
+        meteor.move(Xvel, Yvel);
+      });
+      meteor.onCollide("asteroid", function (asteroid) {
+        destroy(meteor);
+      });
+      meteor.onCollide("ufo", function (ufo) {
+        destroy(meteor);
+      });
+      meteor.onCollide("alien1", function (alien1) {
+        destroy(meteor);
+      });
+      meteor.onCollide("alien2", function (alien2) {
+        destroy(meteor);
+      });
+      meteor.onCollide("alien3", function (alien3) {
+        destroy(meteor);
+      });
+      meteor.onCollide("alien4", function (alien4) {
+        destroy(meteor);
+      });
+      meteor.onCollide("alien5", function (alien5) {
+        destroy(meteor);
+      });
+      meteor.onCollide("earth", function (earth) {
+        destroy(meteor);
+        setTimeout(function () {
+          totalScore--;
+        }, 500);
+      });
+      meteor.onCollide("satellite", function (satellite) {
+        playerMessage("!!!", true);
+        destroy(meteor);
+      });
+    };
+
+    addLevel(_items.map, levelConfigs);
+  });
+
+  _kaboom.default.scene("placeholder", function () {
+    var levelConfigs = {
+      width: 20,
+      height: 20,
+      "*": function _() {
+        return [sprite("asteroid"), area(), solid(), scale(0.03), "asteroid"];
+      }
+    };
+    addLevel(_items.map, levelConfigs);
+  });
+
+  _kaboom.default.go("game");
+};
+
+exports.Game = Game;
+(0, _quiz.Quiz)();
+var _default = Game;
+exports.default = _default;
+},{"./kaboom":"kaboom.js","./quiz":"quiz.js","./items":"items.js"}],"../../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -4943,7 +5330,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52909" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51782" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

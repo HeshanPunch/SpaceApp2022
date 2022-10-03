@@ -5062,7 +5062,8 @@ var _items = require("./items");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var totalScore = 20; // start the game
+var totalScore = 20;
+var playerPos = pos(300, 200); // start the game
 
 var Game = function Game() {
   if (_quiz.correctQuiz) {
@@ -5090,7 +5091,7 @@ var Game = function Game() {
   loadSprite("alien5", _items.alien5);
 
   _kaboom.default.scene("game", function () {
-    var satellite = add([sprite("satellite"), pos(300, 200), scale(0.1), solid(), area(), origin("center"), "satellite"]);
+    var satellite = add([sprite("satellite"), playerPos, scale(0.1), solid(), area(), origin("center"), "satellite"]);
     var score = add([text("Score: ".concat(totalScore), {
       size: 25
     }), pos(10, 10), fixed(), {
@@ -5115,7 +5116,7 @@ var Game = function Game() {
     earth.onUpdate(function () {
       earth.angle += 2 * dt();
     });
-    var quiz1 = add([sprite("alien1"), pos(500, 400), solid(), area(), scale(0.035), "alien1"]);
+    var quiz1 = add([sprite("alien1"), pos(400, 400), solid(), area(), scale(0.035), "alien1"]);
     satellite.onCollide("alien1", function () {
       setTimeout(function () {
         _kaboom.default.go("quiz");

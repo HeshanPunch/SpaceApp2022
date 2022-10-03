@@ -21,6 +21,7 @@ import {
 } from "./items";
 
 let totalScore = 20;
+let playerPos = pos(300, 200);
 // start the game
 export const Game = () => {
   if (correctQuiz) {
@@ -52,7 +53,7 @@ export const Game = () => {
   k.scene("game", () => {
     const satellite = add([
       sprite("satellite"),
-      pos(300, 200),
+      playerPos,
       scale(0.1),
       solid(),
       area(),
@@ -121,7 +122,7 @@ export const Game = () => {
 
     const quiz1 = add ([
         sprite("alien1"),
-        pos(500, 400),
+        pos(400, 400),
         solid(),
         area(),
         scale(0.035),

@@ -15,7 +15,6 @@ const spaceship = "https://i.imgur.com/Sp220hN.png";
 const meteor = "https://i.imgur.com/RkH05Dh.png";
 const spacestation = "https://i.imgur.com/TIMxSI6.png";
 
-
 loadSprite("mercury", mercury);
 loadSprite("rocket", rocket);
 
@@ -121,6 +120,5 @@ export {
   spaceship,
   meteor,
   spacestation,
- 
-  addButton
+  addButton,
 };
