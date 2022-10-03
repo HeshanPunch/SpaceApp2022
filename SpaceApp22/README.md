@@ -5,28 +5,27 @@
 <br/>
 
 <h2>Installation</h2>
-- lightweight web based game to educate players about hazards of space operations
-- used the Canadian CASSIOPE satellite, operated by the University of Calgary, as inspiration
-- meant to be fun and educational
+- lightweight web based game to educate players about hazards of space operations<br>
+- used the Canadian CASSIOPE satellite, operated by the University of Calgary, as inspiration<br>
+- meant to be fun and educational<br>
 
 <h2>Notes</h2>
-<br>- Using Kaboom Javascript game programming library <a href="https://kaboomjs.com/" target="_blank"> DOCS </a><br>
-<br>- Using JS, NodeJS
+- Using Kaboom Javascript game programming library <a href="https://kaboomjs.com/" target="_blank"> docs </a><br>
+- Using JS, NodeJS<br>
 
 <h2>Installation / run project</h2>
 1. Fork/download for this repo<br>
 2. Ensure you have nodejs installed <br>
 3. open terminal, in the root directory (/SpaceApp22)  `npm install` to install dependencies<br>
 3. in the root directory (/SpaceApp22)  `npm start` to open on `http://localhost:8000` <br>
-4. <br>
+4. runs on web browser, use arrow keys to explore space!
 
 <h2>Project status</h2>
-Completed for course purposes
+Basic functionality complete - feel free to improve!<br>
 
 <h2>Contributions</h2>
 Group project by dev students from SAIT - Calgary<br>
 - <a href="https://github.com/JenHLee" target="_blank">Hyunju Jennie L. </a><br>
 - <a href="https://github.com/yugykim" target="_blank">Yuky K.</a><br>
 - <a href="https://github.com/HeshanPunch" target="_blank">Heshan P. </a><br>
-
 - <a href="https://www.flaticon.com//" target="_blank"> Icons from Flaticon </a><br>
