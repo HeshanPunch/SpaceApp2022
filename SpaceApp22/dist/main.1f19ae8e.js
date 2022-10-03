@@ -5379,7 +5379,7 @@ _kaboom.default.scene("start", function () {
 (0, _introduction.default)();
 
 _kaboom.default.go("start");
-},{"./kaboom":"kaboom.js","./introduction":"introduction.js","./satellite":"satellite.js","./items":"items.js"}],"../../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"./kaboom":"kaboom.js","./introduction":"introduction.js","./satellite":"satellite.js","./items":"items.js"}],"../../../../.nvm/versions/node/v17.3.1/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -5407,7 +5407,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51782" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62016" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
@@ -5583,5 +5583,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","main.js"], null)
+},{}]},{},["../../../../.nvm/versions/node/v17.3.1/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","main.js"], null)
 //# sourceMappingURL=/main.1f19ae8e.js.map
