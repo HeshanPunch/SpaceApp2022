@@ -11,7 +11,7 @@ export const intro = () => {
       addButton("Start", vec2(k.width() * 0.5, k.height() * 0.75), () =>
         k.go("game")
       );
-    }, 3000);
+    }, 1000);
 
     const addtext = (myText) => {
       add([
