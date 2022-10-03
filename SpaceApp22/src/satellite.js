@@ -1,8 +1,8 @@
 import k from "./kaboom";
-
 import { Quiz, correctQuiz } from "./quiz";
 import {
   map,
+  gameConfigs,
   asteroidLarge,
   asteroid,
   satellite,
@@ -19,17 +19,16 @@ import {
   alien5,
 } from "./items";
 
-let totalScore = 20;
+let totalScore = 10;
 // start the game
-export const Game = () => {
+export function Game() {
   if (correctQuiz) {
-    totalScore += 20;
-  } else {
-    totalScore -= 20;
+    totalScore += 100;
+    // correctQuiz = false;
   }
-
+  debug.log("totalScore : " + totalScore);
   const NORMAL_SPEED = 70;
-  const MIN_SPEED = 25;
+  const FAST_SPEED = 90;
   let SPEED = NORMAL_SPEED;
 
   loadSprite("asteroid", asteroid);
@@ -49,25 +48,16 @@ export const Game = () => {
   loadSprite("alien5", alien5);
 
 
-  k.scene("game", () => {
-    const satellite = add([
-      sprite("satellite"),
-      pos(300, 200),
-      scale(0.1),
-      solid(),
-      area(),
-      origin("center"),
-      "satellite",
-    ]);
+k.scene("game", () => {
+  //   layers(["bg", "obj", "ui"], "obj");
 
-    const score = add([
-      text(`Score: ${totalScore}`, {
-        size: 25,
-      }),
-      pos(10, 10),
-      fixed(),
-      { value: totalScore },
-    ]);
+  const score = add([
+    text("Score: 0", {
+      size: 25,
+    }),
+    pos(10, 10),
+    { value: 0 },
+  ]);
 
     const playerAlerts = add([
       text("Use arrow keys to move", {
@@ -100,14 +90,14 @@ export const Game = () => {
       "earth",
     ]);
 
-    const moon = add([
-      sprite("moon"),
-      pos(900, 400),
-      solid(),
-      area(),
-      scale(0.035),
-      "moon",
-    ]);
+  const moon = add([
+    sprite("moon"),
+    pos(900, 400),
+    solid(),
+    area(),
+    scale(0.035),
+    "moon",
+  ]);
 
     earth.onUpdate(() => {
       earth.angle += 2 * dt();
@@ -259,104 +249,104 @@ export const Game = () => {
       });
     };
 
-    const sendObject = () => {
-      const objectOdds = Math.random();
+  const sendObject = () => {
+    const objectOdds = Math.random();
 
-      if (objectOdds > 0.995) {
-        sendSpaceship();
-      }
-      if (objectOdds > 0.98) {
-        sendMeteor();
-      }
-    };
+    if (objectOdds > 0.995) {
+      sendSpaceship();
+    }
+    if (objectOdds > 0.95) {
+      sendMeteor();
+    }
+  };
 
-    let spaceshipspawned = false;
-    const sendSpaceship = () => {
-      if (!spaceshipspawned) {
-        const spaceship = add([
-          sprite("spaceship"),
-          pos(1150, 300),
-          scale(0.05),
-          rotate(-65),
-          "spaceship",
-        ]);
-
-        let Xvel = -5;
-        let Yvel = -5;
-        spaceship.onUpdate(() => {
-          spaceship.move(Xvel, Yvel);
-        });
-      }
-      spaceshipspawned = true;
-    };
-
-    const sendMeteor = () => {
-      let x = Math.random();
-      const meteor = add([
-        sprite("meteor"),
-        pos(500 + 1000 * x, 0),
-        scale(0.025),
-        solid(),
-        area(),
-        "meteor",
+  let spaceshipspawned = false;
+  const sendSpaceship = () => {
+    if (!spaceshipspawned) {
+      const spaceship = add([
+        sprite("spaceship"),
+        pos(1150, 300),
+        scale(0.05),
+        rotate(-65),
+        "spaceship",
       ]);
 
-      let Xvel = -45;
-      let Yvel = 55;
-      meteor.onUpdate(() => {
-        meteor.move(Xvel, Yvel);
+      let Xvel = -5;
+      let Yvel = -5;
+      spaceship.onUpdate(() => {
+        spaceship.move(Xvel, Yvel);
       });
-      meteor.onCollide("asteroid", (asteroid) => {
-        destroy(meteor);
-      });
-      meteor.onCollide("ufo", (ufo) => {
-        destroy(meteor);
-      });
-      meteor.onCollide("alien1", (alien1) => {
-        destroy(meteor);
-      });
-      meteor.onCollide("alien2", (alien2) => {
-        destroy(meteor);
-      });
-      meteor.onCollide("alien3", (alien3) => {
-        destroy(meteor);
-      });
-      meteor.onCollide("alien4", (alien4) => {
-        destroy(meteor);
-      });
-      meteor.onCollide("alien5", (alien5) => {
-        destroy(meteor);
-      });
+    }
+    spaceshipspawned = true;
+  };
 
-      meteor.onCollide("earth", (earth) => {
-        destroy(meteor);
-        setTimeout(() => {
-          totalScore--;
-        }, 500);
-      });
+  const sendMeteor = () => {
+    let x = Math.random();
+    const meteor = add([
+      sprite("meteor"),
+      pos(500 + 1000 * x, 0),
+      scale(0.025),
+      solid(),
+      area(),
+      "meteor",
+    ]);
 
-      meteor.onCollide("satellite", (satellite) => {
-        playerMessage("!!!", true);
+    let Xvel = -45;
+    let Yvel = 55;
+    meteor.onUpdate(() => {
+      meteor.move(Xvel, Yvel);
+    });
+    meteor.onCollide("asteroid", (asteroid) => {
+      destroy(meteor);
+    });
+    meteor.onCollide("ufo", (ufo) => {
+      destroy(meteor);
+    });
 
-        destroy(meteor);
-      });
-    };
+    meteor.onCollide("earth", (earth) => {
+      destroy(meteor);
+    });
 
-    addLevel(map, levelConfigs);
+    meteor.onCollide("satellite", (satellite) => {
+      alertMessage("hit recorded!");
+      score.value -= 20;
+      score.text = "Score:" + score.value;
+      destroy(meteor);
+    });
+  };
+
+  addLevel(map, levelConfigs);
+});
+
+k.scene("placeholder", () => {
+  const levelConfigs = {
+    width: 20,
+    height: 20,
+    "*": () => [sprite("asteroid"), area(), solid(), scale(0.03), "asteroid"],
+  };
+
+  const ufo = add([
+    sprite("ufo"),
+    pos(600, 300),
+    scale(0.3),
+    solid(),
+    area(),
+    "ufo",
+  ]);
+
+  const alienDialog = add([
+    text("Hello Human", {
+      size: 25,
+    }),
+    pos(100, 100),
+    { value: 0 },
+  ]);
+
+    addLevel(map, gameConfigs);
+    
   });
-
-  k.scene("placeholder", () => {
-    const levelConfigs = {
-      width: 20,
-      height: 20,
-      "*": () => [sprite("asteroid"), area(), solid(), scale(0.03), "asteroid"],
-    };
-
-    addLevel(map, levelConfigs);
-  });
-
   k.go("game");
-};
+}
 
 Quiz();
 
