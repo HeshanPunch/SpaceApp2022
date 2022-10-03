@@ -10,12 +10,12 @@ const rocket = "https://i.imgur.com/8rMVcKB.png"
 const spaceship = "https://i.imgur.com/Sp220hN.png"
 const meteor =  "https://i.imgur.com/RkH05Dh.png"
 const spacestation = "https://i.imgur.com/TIMxSI6.png"
+const book = "https://i.imgur.com/gS5IarV.png"
 
 loadSprite("mercury", mercury);
 loadSprite("rocket", rocket);
 
 const greetingConfigs = {
-
   width: 20,
   height: 20,
   "*": () => [sprite("asteroid"), area(), solid(), scale(0.03), "asteroid"],
@@ -24,16 +24,17 @@ const greetingConfigs = {
   // "(": () => [sprite("moon"), area(), solid(), scale(0.05), "moon"],
 };
 
-const gameConfigs = {
-  width: 20,
-  height: 20,
-  "*": () => [sprite("asteroid"), area(), solid(), scale(0.03), "asteroid"],
-  // "0": () => [sprite("earth"), area(), solid(), scale(0.4), "earth"],
-  // "(": () => [sprite("moon"), area(), solid(), scale(0.05), "moon"],
-};
+// const gameConfigs = {
+//   width: 20,
+//   height: 20,
+//   "*": () => [sprite("asteroid"), area(), solid(), scale(0.03), "asteroid"],
+//   "b": () => [sprite("book"), area(), solid(), scale(0.03), "book"],
+//   "0": () => [sprite("earth"), area(), solid(), scale(0.4), "earth"],
+//   "(": () => [sprite("moon"), area(), solid(), scale(0.05), "moon"],
+// };
 
 const map = [
-  "                                                            *          ",
+  "                                                            *        b ",
   "                                                *                      ",
   "                                                 m                     ",
   "     *                                                                 ",
@@ -71,4 +72,4 @@ const map = [
   "      *                                   *                            ",
 ];
 
-export { greetingConfigs, gameConfigs, map, asteroidLarge, asteroid, satellite, moonhttps, earth, ufo, alien, spaceship, meteor, spacestation};
+export { greetingConfigs, map, asteroidLarge, asteroid, satellite, moonhttps, earth, ufo, alien, spaceship, meteor, spacestation, book};
