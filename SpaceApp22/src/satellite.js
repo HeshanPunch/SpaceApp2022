@@ -53,32 +53,6 @@ export const Game = () => {
   ];
   k.scene("game", () => {
     //   layers(["bg", "obj", "ui"], "obj");
-
-    const score = add([
-      text("Score: 0", {
-        size: 25,
-      }),
-      pos(10, 10),
-      { value: 0 },
-    ]);
-
-    const playerAlerts = add([
-      text("Use arrow keys to move", {
-        size: 20,
-      }),
-      color(30, 0, 255),
-      pos(10, 45),
-      { value: 0 },
-    ]);
-
-    const levelConfigs = {
-      width: 20,
-      height: 20,
-      "*": () => [sprite("asteroid"), area(), solid(), scale(0.03), "asteroid"],
-      // "0": () => [sprite("earth"), area(), solid(), scale(0.4), "earth"],
-      // "(": () => [sprite("moon"), area(), solid(), scale(0.05), "moon"],
-    };
-
     const satellite = add([
       sprite("satellite"),
       pos(300, 200),
@@ -88,6 +62,35 @@ export const Game = () => {
       origin("center"),
       "satellite",
     ]);
+    /* const score = add([
+      text("Score: 0", {
+        size: 25,
+      }),
+      pos(satellite.pos),
+      { value: 0 },
+    ]);
+
+    const playerAlerts = add([
+      text("Use arrow keys to move", {
+        size: 20,
+      }),
+      color(30, 0, 255),
+      pos(satellite.pos),
+      { value: 0 },
+    ]); */
+
+    satellite.onUpdate(() => {
+      camPos(satellite.pos);
+      camScale(3);
+    });
+
+    const levelConfigs = {
+      width: 20,
+      height: 20,
+      "*": () => [sprite("asteroid"), area(), solid(), scale(0.03), "asteroid"],
+      // "0": () => [sprite("earth"), area(), solid(), scale(0.4), "earth"],
+      // "(": () => [sprite("moon"), area(), solid(), scale(0.05), "moon"],
+    };
 
     const earth = add([
       sprite("earth"),
@@ -112,7 +115,7 @@ export const Game = () => {
     earth.onUpdate(() => {
       earth.angle += 2 * dt();
 
-      if (score.value >= 10) {
+      /* if (score.value >= 10) {
         const ufo = add([
           sprite("ufo"),
           pos(400, 200),
@@ -123,7 +126,7 @@ export const Game = () => {
         ]);
         //GOTO --> quiz?
         // k.go("placeholderquiz")
-      }
+      } */
     });
 
     //   Moon movement
@@ -135,15 +138,13 @@ export const Game = () => {
 
     onKeyDown("right", () => {
       satellite.move(SPEED, 0);
-      score.value += 1;
-      score.text = "Score:" + score.value;
+
       sendObject();
       // camPos(satellite.pos)
     });
     onKeyDown("left", () => {
       satellite.move(-SPEED, 0);
-      score.value -= 1;
-      score.text = "Score:" + score.value;
+
       sendObject();
     });
     onKeyDown("up", () => {
@@ -156,29 +157,27 @@ export const Game = () => {
     });
 
     satellite.onCollide("asteroid", () => {
-      alertMessage("COLLISSION !!!");
-
       SPEED -= SPEED * 0.01;
-      score.value -= 1;
-      score.text = "Score:" + score.value;
+
+      playerMessage("avoid collissions!", true);
     });
 
-    satellite.onCollide("earth", (earth) => {
-        
-    });
+    satellite.onCollide("earth", (earth) => {});
 
-    //alert messages
-    const alertMessage = (text) => {
-      playerAlerts.text = "WARNING: " + text;
-      playerAlerts.color = rgb(255, 0, 0);
-      setTimeout(() => {
-        clearAlertMessage();
-      }, 1500);
-    };
+    const playerMessage = (text, alert) => {
+      let textColour = rgb(255, 255, 255);
+      if (alert) {
+        textColour = rgb(200, 0, 0);
+      }
 
-    const clearAlertMessage = () => {
-      playerAlerts.text = "Let's get back on track...";
-      playerAlerts.color = rgb(0, 255, 150);
+      drawText({
+        text: text,
+        size: 8,
+        font: "sink",
+        width: 120,
+        pos: satellite.pos,
+        color: textColour,
+      });
     };
 
     const sendObject = () => {
@@ -241,8 +240,7 @@ export const Game = () => {
 
       meteor.onCollide("satellite", (satellite) => {
         alertMessage("hit recorded!");
-        score.value -= 20;
-        score.text = "Score:" + score.value;
+
         destroy(meteor);
       });
     };

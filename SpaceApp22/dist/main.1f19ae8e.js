@@ -4860,16 +4860,27 @@ var Game = function Game() {
 
   _kaboom.default.scene("game", function () {
     //   layers(["bg", "obj", "ui"], "obj");
-    var score = add([text("Score: 0", {
-      size: 25
-    }), pos(10, 10), {
-      value: 0
-    }]);
-    var playerAlerts = add([text("Use arrow keys to move", {
-      size: 20
-    }), color(30, 0, 255), pos(10, 45), {
-      value: 0
-    }]);
+    var satellite = add([sprite("satellite"), pos(300, 200), scale(0.1), solid(), area(), origin("center"), "satellite"]);
+    /* const score = add([
+      text("Score: 0", {
+        size: 25,
+      }),
+      pos(satellite.pos),
+      { value: 0 },
+    ]);
+      const playerAlerts = add([
+      text("Use arrow keys to move", {
+        size: 20,
+      }),
+      color(30, 0, 255),
+      pos(satellite.pos),
+      { value: 0 },
+    ]); */
+
+    satellite.onUpdate(function () {
+      camPos(satellite.pos);
+      camScale(3);
+    });
     var levelConfigs = {
       width: 20,
       height: 20,
@@ -4879,16 +4890,22 @@ var Game = function Game() {
       // "(": () => [sprite("moon"), area(), solid(), scale(0.05), "moon"],
 
     };
-    var satellite = add([sprite("satellite"), pos(300, 200), scale(0.1), solid(), area(), origin("center"), "satellite"]);
     var earth = add([sprite("earth"), pos(1200, 300), scale(0.35), solid(), area(), rotate(1), origin("center"), "earth"]);
     var moon = add([sprite("moon"), pos(900, 400), solid(), area(), scale(0.035), "moon"]);
     earth.onUpdate(function () {
       earth.angle += 2 * dt();
-
-      if (score.value >= 10) {
-        var ufo = add([sprite("ufo"), pos(400, 200), scale(0.15), solid(), area(), "ufo"]); //GOTO --> quiz?
+      /* if (score.value >= 10) {
+        const ufo = add([
+          sprite("ufo"),
+          pos(400, 200),
+          scale(0.15),
+          solid(),
+          area(),
+          "ufo",
+        ]);
+        //GOTO --> quiz?
         // k.go("placeholderquiz")
-      }
+      } */
     }); //   Moon movement
 
     var Xvel = 2;
@@ -4898,14 +4915,10 @@ var Game = function Game() {
     });
     onKeyDown("right", function () {
       satellite.move(SPEED, 0);
-      score.value += 1;
-      score.text = "Score:" + score.value;
       sendObject(); // camPos(satellite.pos)
     });
     onKeyDown("left", function () {
       satellite.move(-SPEED, 0);
-      score.value -= 1;
-      score.text = "Score:" + score.value;
       sendObject();
     });
     onKeyDown("up", function () {
@@ -4917,24 +4930,26 @@ var Game = function Game() {
       sendObject();
     });
     satellite.onCollide("asteroid", function () {
-      alertMessage("COLLISSION !!!");
       SPEED -= SPEED * 0.01;
-      score.value -= 1;
-      score.text = "Score:" + score.value;
+      playerMessage("avoid collissions!", true);
     });
-    satellite.onCollide("earth", function (earth) {}); //alert messages
+    satellite.onCollide("earth", function (earth) {});
 
-    var alertMessage = function alertMessage(text) {
-      playerAlerts.text = "WARNING: " + text;
-      playerAlerts.color = rgb(255, 0, 0);
-      setTimeout(function () {
-        clearAlertMessage();
-      }, 1500);
-    };
+    var playerMessage = function playerMessage(text, alert) {
+      var textColour = rgb(255, 255, 255);
 
-    var clearAlertMessage = function clearAlertMessage() {
-      playerAlerts.text = "Let's get back on track...";
-      playerAlerts.color = rgb(0, 255, 150);
+      if (alert) {
+        textColour = rgb(200, 0, 0);
+      }
+
+      drawText({
+        text: text,
+        size: 8,
+        font: "sink",
+        width: 120,
+        pos: satellite.pos,
+        color: textColour
+      });
     };
 
     var sendObject = function sendObject() {
@@ -4986,8 +5001,6 @@ var Game = function Game() {
       });
       meteor.onCollide("satellite", function (satellite) {
         alertMessage("hit recorded!");
-        score.value -= 20;
-        score.text = "Score:" + score.value;
         destroy(meteor);
       });
     };
@@ -5121,7 +5134,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53625" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64838" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
