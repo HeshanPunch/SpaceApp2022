@@ -7,6 +7,9 @@ const ufo = "https://i.imgur.com/2rEcvS6.png"
 const alien = "https://i.imgur.com/sLZ2ZIf.png"
 const mercury = "https://i.imgur.com/RHPYZVd.png"
 const rocket = "https://i.imgur.com/8rMVcKB.png"
+const spaceship = "https://i.imgur.com/Sp220hN.png"
+const meteor =  "https://i.imgur.com/RkH05Dh.png"
+const spacestation = "https://i.imgur.com/TIMxSI6.png"
 
 loadSprite("mercury", mercury);
 loadSprite("rocket", rocket);
@@ -68,4 +71,4 @@ const map = [
   "      *                                   *                            ",
 ];
 
-export { greetingConfigs, gameConfigs, map, asteroidLarge, asteroid, satellite, moonhttps, earth, ufo, alien};
+export { greetingConfigs, gameConfigs, map, asteroidLarge, asteroid, satellite, moonhttps, earth, ufo, alien, spaceship, meteor, spacestation};

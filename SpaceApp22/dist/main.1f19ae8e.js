@@ -4837,7 +4837,7 @@ exports.default = _default;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.ufo = exports.satellite = exports.moonhttps = exports.map = exports.greetingConfigs = exports.gameConfigs = exports.earth = exports.asteroidLarge = exports.asteroid = exports.alien = void 0;
+exports.ufo = exports.spacestation = exports.spaceship = exports.satellite = exports.moonhttps = exports.meteor = exports.map = exports.greetingConfigs = exports.gameConfigs = exports.earth = exports.asteroidLarge = exports.asteroid = exports.alien = void 0;
 var asteroid = "https://i.imgur.com/B1NSdRO.png";
 exports.asteroid = asteroid;
 var satellite = "https://art.pixilart.com/4c141c7f72cb059.png";
@@ -4854,6 +4854,12 @@ var alien = "https://i.imgur.com/sLZ2ZIf.png";
 exports.alien = alien;
 var mercury = "https://i.imgur.com/RHPYZVd.png";
 var rocket = "https://i.imgur.com/8rMVcKB.png";
+var spaceship = "https://i.imgur.com/Sp220hN.png";
+exports.spaceship = spaceship;
+var meteor = "https://i.imgur.com/RkH05Dh.png";
+exports.meteor = meteor;
+var spacestation = "https://i.imgur.com/TIMxSI6.png";
+exports.spacestation = spacestation;
 loadSprite("mercury", mercury);
 loadSprite("rocket", rocket);
 var greetingConfigs = {
@@ -5046,38 +5052,34 @@ function Game() {
   loadSprite("moon", _items.moonhttps);
   loadSprite("earth", _items.earth);
   loadSprite("ufo", _items.ufo);
+  loadSprite("spaceship", _items.spaceship);
+  loadSprite("meteor", _items.meteor);
+  loadSprite("spacestation", _items.spacestation);
 
   _kaboom.default.scene("game", function () {
-    var score = add([text("Score: ".concat(totalScore), {
+    //   layers(["bg", "obj", "ui"], "obj");
+    var score = add([text("Score: 0", {
       size: 25
     }), pos(10, 10), {
-      value: totalScore
+      value: 0
     }]);
-    var playerSat = add([sprite("satellite"), pos(300, 200), scale(0.1), solid(), area()]);
+    var playerAlerts = add([text("Use arrow keys to move", {
+      size: 20
+    }), color(30, 0, 255), pos(10, 45), {
+      value: 0
+    }]);
+    var levelConfigs = {
+      width: 20,
+      height: 20,
+      "*": function _() {
+        return [sprite("asteroid"), area(), solid(), scale(0.03), "asteroid"];
+      } // "0": () => [sprite("earth"), area(), solid(), scale(0.4), "earth"],
+      // "(": () => [sprite("moon"), area(), solid(), scale(0.05), "moon"],
+
+    };
+    var satellite = add([sprite("satellite"), pos(300, 200), scale(0.1), solid(), area(), origin("center"), "satellite"]);
     var earth = add([sprite("earth"), pos(1200, 300), scale(0.35), solid(), area(), rotate(1), origin("center"), "earth"]);
     var moon = add([sprite("moon"), pos(900, 400), solid(), area(), scale(0.035), "moon"]);
-    onKeyDown("right", function () {
-      playerSat.move(SPEED, 0);
-      score.value += 1;
-      score.text = "Score:" + score.value; // camPos(playerSat.pos)
-    });
-    onKeyDown("left", function () {
-      playerSat.move(-SPEED, 0);
-      score.value -= 1;
-      score.text = "Score:" + score.value;
-    });
-    onKeyDown("up", function () {
-      playerSat.move(0, -SPEED);
-    });
-    onKeyDown("down", function () {
-      playerSat.move(0, SPEED);
-    });
-    playerSat.onCollide("asteroid", function () {
-      SPEED -= SPEED * 0.01;
-      score.value -= 1;
-      score.text = "Score:" + score.value;
-    }); //   Earth rotation + Alien
-
     earth.onUpdate(function () {
       earth.angle += 2 * dt();
 
@@ -5096,38 +5098,127 @@ function Game() {
     var Yvel = 1;
     moon.onUpdate(function () {
       moon.move(Xvel, Yvel);
-    }); //Player Alerts - error messages, hints
+    });
+    onKeyDown("right", function () {
+      satellite.move(SPEED, 0);
+      score.value += 1;
+      score.text = "Score:" + score.value;
+      sendObject(); // camPos(satellite.pos)
+    });
+    onKeyDown("left", function () {
+      satellite.move(-SPEED, 0);
+      score.value -= 1;
+      score.text = "Score:" + score.value;
+      sendObject();
+    });
+    onKeyDown("up", function () {
+      satellite.move(0, -SPEED);
+      sendObject();
+    });
+    onKeyDown("down", function () {
+      satellite.move(0, SPEED);
+      sendObject();
+    });
+    satellite.onCollide("asteroid", function () {
+      alertMessage("COLLISSION !!!");
+      SPEED -= SPEED * 0.01;
+      score.value -= 1;
+      score.text = "Score:" + score.value;
+    });
+    satellite.onCollide("earth", function (earth) {}); //alert messages
 
-    var playerAlerts = add([text("Use WASD keys to move", {
-      size: 20
-    }), color(30, 0, 255), pos(10, 45), {
-      value: 0
-    }]);
-    addLevel(_items.map, _items.gameConfigs);
+    var alertMessage = function alertMessage(text) {
+      playerAlerts.text = "WARNING: " + text;
+      playerAlerts.color = rgb(255, 0, 0);
+      setTimeout(function () {
+        clearAlertMessage();
+      }, 1500);
+    };
+
+    var clearAlertMessage = function clearAlertMessage() {
+      playerAlerts.text = "Let's get back on track...";
+      playerAlerts.color = rgb(0, 255, 150);
+    };
+
+    var sendObject = function sendObject() {
+      var objectOdds = Math.random();
+
+      if (objectOdds > 0.995) {
+        sendSpaceship();
+      }
+
+      if (objectOdds > 0.95) {
+        sendMeteor();
+      }
+    };
+
+    var spaceshipspawned = false;
+
+    var sendSpaceship = function sendSpaceship() {
+      if (!spaceshipspawned) {
+        var _spaceship = add([sprite("spaceship"), pos(1150, 300), scale(0.05), rotate(-65), "spaceship"]);
+
+        var _Xvel = -5;
+
+        var _Yvel = -5;
+
+        _spaceship.onUpdate(function () {
+          _spaceship.move(_Xvel, _Yvel);
+        });
+      }
+
+      spaceshipspawned = true;
+    };
+
+    var sendMeteor = function sendMeteor() {
+      var x = Math.random();
+      var meteor = add([sprite("meteor"), pos(500 + 1000 * x, 0), scale(0.025), solid(), area(), "meteor"]);
+      var Xvel = -45;
+      var Yvel = 55;
+      meteor.onUpdate(function () {
+        meteor.move(Xvel, Yvel);
+      });
+      meteor.onCollide("asteroid", function (asteroid) {
+        destroy(meteor);
+      });
+      meteor.onCollide("ufo", function (ufo) {
+        destroy(meteor);
+      });
+      meteor.onCollide("earth", function (earth) {
+        destroy(meteor);
+      });
+      meteor.onCollide("satellite", function (satellite) {
+        alertMessage("hit recorded!");
+        score.value -= 20;
+        score.text = "Score:" + score.value;
+        destroy(meteor);
+      });
+    };
+
+    addLevel(_items.map, levelConfigs);
   });
 
-  _kaboom.default.scene("placeholderquiz", function () {
-    /*
-    const levelConfigs = {
+  _kaboom.default.scene("placeholder", function () {
+    var levelConfigs = {
       width: 20,
       height: 20,
-      "*": () => [sprite("asteroid"), area(), solid(), scale(0.03), "asteroid"],
-    };*/
-    var ufo = add([sprite("ufo"), pos(600, 300), scale(0.5), solid(), area(), "ufo"]);
+      "*": function _() {
+        return [sprite("asteroid"), area(), solid(), scale(0.03), "asteroid"];
+      }
+    };
+    var ufo = add([sprite("ufo"), pos(600, 300), scale(0.3), solid(), area(), "ufo"]);
     var alienDialog = add([text("Hello Human", {
       size: 25
     }), pos(100, 100), {
       value: 0
     }]);
-    addLevel(_items.map, _items.gameConfigs);
+    addLevel(_items.map, levelConfigs);
   });
-  };
-
-  addLevel(_items.map, levelConfigs);
 
   _kaboom.default.go("game");
 }
 
+;
 (0, _quiz.Quiz)();
 var _default = Game;
 exports.default = _default;
@@ -5199,7 +5290,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51677" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54437" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
