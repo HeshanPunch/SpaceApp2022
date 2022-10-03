@@ -5285,10 +5285,10 @@ var intro = function intro() {
       (0, _items.addButton)("Start", vec2(_kaboom.default.width() * 0.5, _kaboom.default.height() * 0.75), function () {
         return _kaboom.default.go("game");
       });
-    }, 3000);
+    }, 2000);
 
     var addtext = function addtext(myText) {
-      add([pos(100 + x * 0.5, 100 + x), text(myText, {
+      add([pos(100, 100 + x), text(myText, {
         size: 24,
         // 48 pixels tall
         width: 800,
@@ -5302,42 +5302,18 @@ var intro = function intro() {
     addtext("Space-based threats include cosmic radiation from the sun, signal interferences, meteoroids from near-Earth comets and asteroids, and space debris. ");
     x += 100;
     addtext("Operators must measure and understand these threats as part of their space situational awareness");
-    x += 300;
-    addtext("CASSIOPE is lost! avoid space threats and bring her back to orbit...");
     addLevel(_items.map, _items.greetingConfigs);
   });
 };
 
 exports.intro = intro;
-(0, _satellite.default)();
+intro();
+
+_kaboom.default.go("intro");
+
 var _default = intro;
 exports.default = _default;
-},{"./kaboom":"kaboom.js","./satellite":"satellite.js","./items":"items.js"}],"main.js":[function(require,module,exports) {
-"use strict";
-
-var _kaboom = _interopRequireDefault(require("./kaboom"));
-
-var _introduction = _interopRequireDefault(require("./introduction"));
-
-var _satellite = _interopRequireDefault(require("./satellite"));
-
-var _items = require("./items");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-_kaboom.default.scene("start", function () {
-  addLevel(_items.map, _items.greetingConfigs);
-  setTimeout(function () {
-    (0, _items.addButton)("Start", vec2(_kaboom.default.width() * 0.5, _kaboom.default.height() * 0.75), function () {
-      return _kaboom.default.go("intro");
-    });
-  }, 500);
-});
-
-(0, _introduction.default)();
-
-_kaboom.default.go("start");
-},{"./kaboom":"kaboom.js","./introduction":"introduction.js","./satellite":"satellite.js","./items":"items.js"}],"../../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"./kaboom":"kaboom.js","./satellite":"satellite.js","./items":"items.js"}],"../../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -5541,5 +5517,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","main.js"], null)
-//# sourceMappingURL=/main.1f19ae8e.js.map
+},{}]},{},["../../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","introduction.js"], null)
+//# sourceMappingURL=/introduction.0abd92d9.js.map
