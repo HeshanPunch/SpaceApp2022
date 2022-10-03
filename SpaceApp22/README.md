@@ -1,7 +1,7 @@
 <h1 align="center">Space Apps Challenge 2022</h1>
 <p align="center"><strong>October 1 and 2, 2022</strong>
-<br>This project was created as a part of NASA's 11th annual Space Apps Challenge 
-<br>Challenge description: Space may seem empty and peaceful, but it's a dangerous environment for humans and space systems like satellites and the International Space Station (ISS)! Space-based threats include cosmic radiation from the sun, signal interferences, meteoroids from near-Earth comets and asteroids, and space debris. Operators must measure and understand these threats as part of their space situational awareness, allowing them to minimize their impacts on our daily lives – from disabled satellites, power system failures, disturbed communications and GPS, rerouted or cancelled flights, and early satellite re-entry. Can you use Canadian data to find new ways to educate and raise awareness around these space-based challenges?</p>
+<br>This project was created as a part of NASA's 11th annual <a href="https://www.asc-csa.gc.ca/eng/events/2022/space-apps-challenge.asp" target="_blank"> Space Apps Challenge</a><br> 
+<br>Incorporated some information from the data portals, and drew inspiration from the CASSIOPE program. Game runs on the browser and the goal is to navigate around space, explore, and survive! Intended for kids and we learned a lot as software dev students as well as space enthusiasts!</p>
 <br/>
 
 <h2>Installation</h2>
