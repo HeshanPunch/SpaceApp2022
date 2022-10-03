@@ -12,7 +12,6 @@ import {
   meteor,
   spacestation,
   spaceship,
-
   alien1,
   alien2,
   alien3,
@@ -42,12 +41,13 @@ export const Game = () => {
   loadSprite("spaceship", spaceship);
   loadSprite("meteor", meteor);
   loadSprite("spacestation", spacestation);
-  
+
   loadSprite("alien1", alien1);
   loadSprite("alien2", alien2);
   loadSprite("alien3", alien3);
   loadSprite("alien4", alien4);
   loadSprite("alien5", alien5);
+
 
   k.scene("game", () => {
     const satellite = add([
@@ -78,14 +78,9 @@ export const Game = () => {
       fixed(),
     ]);
 
-   
-
-    
-
     satellite.onUpdate(() => {
       camPos(satellite.pos);
       camScale(3);
-
     });
 
     const levelConfigs = {
@@ -116,96 +111,95 @@ export const Game = () => {
 
     earth.onUpdate(() => {
       earth.angle += 2 * dt();
-   
     });
 
-    const quiz1 = add ([
-        sprite("alien1"),
-        pos(500, 400),
-        solid(),
-        area(),
-        scale(0.035),
-        "alien1",
-      ])
-  
-      satellite.onCollide("alien1", () => {
-        setTimeout(() => {
-          k.go("quiz");
-        }, 500);
-      });
-  
-      
-      const quiz2 = add ([
-        sprite("alien2"),
-        pos(700, 100),
-        solid(),
-        area(),
-        scale(0.035),
-        "alien2",
-      ])
-  
-      satellite.onCollide("alien2", () => {
-        setTimeout(() => {
-          k.go("quiz");
-        }, 500);
-      });
-      
-      const quiz3 = add ([
-        sprite("alien3"),
-        pos(800, 300),
-        solid(),
-        area(),
-        scale(0.035),
-        "alien3",
-      ])
-  
-      satellite.onCollide("alien3", () => {
-        setTimeout(() => {
-          k.go("quiz");
-        }, 500);
-      });
-      
-      const quiz4 = add ([
-        sprite("alien4"),
-        pos(900, 400),
-        solid(),
-        area(),
-        scale(0.035),
-        "alien4",
-      ])
-  
-      satellite.onCollide("alien4", () => {
-        setTimeout(() => {
-          k.go("quiz");
-        }, 500);
-      });
-      
-      const quiz5 = add ([
-        sprite("alien5"),
-        pos(1000, 200),
-        solid(),
-        area(),
-        scale(0.035),
-        "alien5",
-      ])
-  
-      satellite.onCollide("alien5", () => {
-        setTimeout(() => {
-          k.go("quiz");
-        }, 500);
+    const quiz1 = add([
+      sprite("alien1"),
+      pos(500, 400),
+      solid(),
+      area(),
+      scale(0.035),
+      "alien1",
+      rotate(0),
+    ]);
 
-      /* if (score.value >= 10) {
-        const ufo = add([
-          sprite("ufo"),
-          pos(400, 200),
-          scale(0.15),
-          solid(),
-          area(),
-          "ufo",
-        ]);
-        //GOTO --> quiz?
-        // k.go("placeholderquiz")
-      } */
+    quiz1.onUpdate(() => {
+      // .angle is a property provided by rotate() component, here we're incrementing the angle by 120 degrees per second, dt() is the time elapsed since last frame in seconds
+      quiz1.angle += 20 * dt()
+      quiz2.angle += 20 * dt();
+      quiz3.angle += 20 * dt();
+      quiz4.angle += 20 * dt();
+      quiz5.angle += 20 * dt();
+    });
+
+    satellite.onCollide("alien1", () => {
+      setTimeout(() => {
+        k.go("quiz1");
+      }, 500);
+    });
+
+    const quiz2 = add([
+      sprite("alien2"),
+      pos(700, 100),
+      solid(),
+      area(),
+      scale(0.035),
+      "alien2",
+      rotate(0),
+    ]);
+
+    satellite.onCollide("alien2", () => {
+      setTimeout(() => {
+        k.go("quiz2");
+      }, 500);
+    });
+
+    const quiz3 = add([
+      sprite("alien3"),
+      pos(800, 300),
+      solid(),
+      area(),
+      scale(0.035),
+      "alien3",
+      rotate(0),
+    ]);
+
+    satellite.onCollide("alien3", () => {
+      setTimeout(() => {
+        k.go("quiz3");
+      }, 500);
+    });
+
+    const quiz4 = add([
+      sprite("alien4"),
+      pos(900, 400),
+      solid(),
+      area(),
+      scale(0.035),
+      "alien4",
+      rotate(0),
+    ]);
+
+    satellite.onCollide("alien4", () => {
+      setTimeout(() => {
+        k.go("quiz4");
+      }, 500);
+    });
+
+    const quiz5 = add([
+      sprite("alien5"),
+      pos(1000, 200),
+      solid(),
+      area(),
+      scale(0.035),
+      "alien5",
+      rotate(0),
+    ]);
+
+    satellite.onCollide("alien5", () => {
+      setTimeout(() => {
+        k.go("quiz5");
+      }, 500);
     });
 
     //   Moon movement
