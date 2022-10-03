@@ -4805,62 +4805,76 @@ var no = a((i = {}) => {
   return ye;
 }, "default");
 exports.default = no;
-},{}],"main.js":[function(require,module,exports) {
+},{}],"kaboom.js":[function(require,module,exports) {
 "use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.k = exports.default = void 0;
 
 var _kaboom = _interopRequireDefault(require("kaboom"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-
-function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return generator._invoke = function (innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; }(innerFn, self, context), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; this._invoke = function (method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); }; } function maybeInvokeDelegate(delegate, context) { var method = delegate.iterator[context.method]; if (undefined === method) { if (context.delegate = null, "throw" === context.method) { if (delegate.iterator.return && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method)) return ContinueSentinel; context.method = "throw", context.arg = new TypeError("The iterator does not provide a 'throw' method"); } return ContinueSentinel; } var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) { if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; } return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, define(Gp, "constructor", GeneratorFunctionPrototype), define(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (object) { var keys = []; for (var key in object) { keys.push(key); } return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) { "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); } }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, catch: function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-// loadRoot('https://i.imgur.com/');
-(0, _kaboom.default)();
-
-function init() {
-  return _init.apply(this, arguments);
-}
-
-function _init() {
-  _init = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-    var bgimg, background;
-    return _regeneratorRuntime().wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            (0, _kaboom.default)();
-            _context.next = 3;
-            return loadSprite('space-bg', 'https://i.imgur.com/QNraJmz.gif');
-
-          case 3:
-            bgimg = _context.sent;
-            background = add([sprite("space-bg"), pos(width() / 2, height() / 2), origin("center"), scale(1), fixed()]);
-            background.sacleTo(Math.max(width() / bgImage.tex.width, height() / bgImage.tex.height));
-
-          case 6:
-          case "end":
-            return _context.stop();
-        }
-      }
-    }, _callee);
-  }));
-  return _init.apply(this, arguments);
-}
-
-init(); //initial setup from yugy
 // initialize context
+var k = (0, _kaboom.default)({
+  font: "sinko",
+  // background: [11, 16, 38],
+  background: [12, 21, 55],
+  fullscreen: true,
+  canvas: document.querySelector("gamecanvas"),
+  // width: 1280,
+  // height: 800,
+  scale: 1
+});
+exports.k = k;
+var _default = k;
+exports.default = _default;
+},{"kaboom":"../node_modules/kaboom/dist/kaboom.mjs"}],"items.js":[function(require,module,exports) {
+"use strict";
 
-var k = (0, _kaboom.default)({});
-loadSprite('wall', "https://kaboomjs.com/sprites/grass.png");
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.ufo = exports.spacestation = exports.spaceship = exports.satellite = exports.moonhttps = exports.meteor = exports.map = exports.greetingConfigs = exports.earth = exports.asteroidLarge = exports.asteroid = exports.alien5 = exports.alien4 = exports.alien3 = exports.alien2 = exports.alien1 = exports.addButton = void 0;
+var asteroid = "https://i.imgur.com/B1NSdRO.png";
+exports.asteroid = asteroid;
+var satellite = "https://art.pixilart.com/4c141c7f72cb059.png";
+exports.satellite = satellite;
+var asteroidLarge = "https://i.imgur.com/qIHdjDQ.png";
+exports.asteroidLarge = asteroidLarge;
+var moonhttps = "https://i.imgur.com/nXhRU9V.png";
+exports.moonhttps = moonhttps;
+var earth = "https://i.imgur.com/Qjmlokl.png";
+exports.earth = earth;
+var ufo = "https://i.imgur.com/2rEcvS6.png";
+exports.ufo = ufo;
+var alien1 = "https://i.imgur.com/sLZ2ZIf.png";
+exports.alien1 = alien1;
+var alien2 = "https://i.imgur.com/MZ0sX75.png";
+exports.alien2 = alien2;
+var alien3 = "https://i.imgur.com/elus95n.png";
+exports.alien3 = alien3;
+var alien4 = "https://i.imgur.com/2J8OCMS.png";
+exports.alien4 = alien4;
+var alien5 = "https://i.imgur.com/R6dDK4I.png";
+exports.alien5 = alien5;
+var mercury = "https://i.imgur.com/RHPYZVd.png";
+var rocket = "https://i.imgur.com/8rMVcKB.png";
+var spaceship = "https://i.imgur.com/Sp220hN.png";
+exports.spaceship = spaceship;
+var meteor = "https://i.imgur.com/RkH05Dh.png";
+exports.meteor = meteor;
+var spacestation = "https://i.imgur.com/TIMxSI6.png";
+exports.spacestation = spacestation;
+loadSprite("mercury", mercury);
+loadSprite("rocket", rocket);
 
 var addButton = function addButton(txt, p, f) {
-  var btn = add([text(txt), pos(p), area({
+  var btn = add([text(txt, {
+    size: 25
+  }), pos(p), area({
     cursor: "pointer"
   }), scale(1), origin("center")]);
   btn.onClick(f);
@@ -4876,28 +4890,503 @@ var addButton = function addButton(txt, p, f) {
   });
 };
 
-scene("start", function () {
-  addButton("Start", vec2(k.width() * 0.5, k.height() * 0.5), function () {
-    return k.go('inputName');
-  });
+exports.addButton = addButton;
+var greetingConfigs = {
+  width: 20,
+  height: 20,
+  "*": function _() {
+    return [sprite("asteroid"), area(), solid(), scale(0.03), "asteroid"];
+  },
+  m: function m() {
+    return [sprite("mercury"), area(), solid(), scale(0.4), "mercury"];
+  },
+  f: function f() {
+    return [sprite("rocket"), area(), solid(), scale(0.3), "rocket"];
+  } // "(": () => [sprite("moon"), area(), solid(), scale(0.05), "moon"],
+
+};
+exports.greetingConfigs = greetingConfigs;
+var gameConfigs = {
+  width: 20,
+  height: 20,
+  "*": function _() {
+    return [sprite("asteroid"), area(), solid(), scale(0.03), "asteroid"];
+  } // "0": () => [sprite("earth"), area(), solid(), scale(0.4), "earth"],
+  // "(": () => [sprite("moon"), area(), solid(), scale(0.05), "moon"],
+
+};
+var map = ["                                                            *          ", "                                                *                      ", "                                                 m                     ", "     *                                                                 ", "                             *                                         ", "                                                                       ", "                       *                                         *     ", "                                                                       ", "                                           *                           ", "                                     *                                 ", "                                                                       ", "                                                                      ", "                                                                       ", "                             *                                         ", "                                                                       ", "                                *                                      ", "                                                                       ", "      *                                   *                            ", "                                                                       ", "                  *                                                    ", "                                                                 *     ", "              f                                 *                      ", "                                                                       ", "      *                       *                                        ", "                                                                       ", "               *                                                       ", "                                                                       ", "                                                            *          ", "                                                                       ", "      *                                   *                            ", "                                                                       ", "                             *                                         ", "                                                                       ", "                                                *                      ", "                                                                       ", "      *                                   *                            "];
+exports.map = map;
+},{}],"quiz.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
 });
-scene("inputName", function () {
-  addButton("Username", vec2(k.width() * 0.5, k.height() * 0.5), function () {
-    return k.go('mainGame');
-  });
-});
-scene('mainGame', function () {
-  var WALL = ['===============================', '===============================', '===============================', '===============================', '===============================', '===============================', '===============================', '===============================', '===============================', '===============================', '===============================', '===============================', '===============================', '===============================', '==============================='];
-  var level = addLevel(WALL, {
-    width: 64,
-    height: 64,
-    "=": function _() {
-      return [sprite("wall"), area(), solid()];
+exports.Quiz = Quiz;
+exports.correctQuiz = void 0;
+
+var _kaboom = _interopRequireDefault(require("./kaboom"));
+
+var _items = require("./items");
+
+var _satellite = _interopRequireDefault(require("./satellite"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+// import totalScore from './items';
+var correctQuiz = false;
+exports.correctQuiz = correctQuiz;
+
+function Quiz() {
+  loadSprite("alien1", _items.alien1);
+
+  _kaboom.default.scene("quiz", function () {
+    // Define the dialogue data
+    var dialogs = [["alien1", "This is quiz time!"], ["alien1", "Q. What is my name?"]];
+    var curDialog = 0; // Text bubble
+
+    var textbox = add([rect(width() - 700, 120, {
+      radius: 32
+    }), origin("center"), pos(center().x, height() - 400), outline(2)]); // Text
+
+    var txt = add([text("", {
+      size: 32,
+      width: width() - 230
+    }), pos(textbox.pos), origin("center")]); // Character avatar
+
+    var avatar = add([sprite("alien1"), scale(0.5), origin("center"), rotate(0), pos(center().sub(0, 200))]);
+    avatar.onUpdate(function () {
+      // .angle is a property provided by rotate() component, here we're incrementing the angle by 120 degrees per second, dt() is the time elapsed since last frame in seconds
+      avatar.angle += 120 * dt();
+    });
+    onKeyPress("space", function () {
+      // Cycle through the dialogs
+      curDialog = (curDialog + 1) % dialogs.length;
+      updateDialog();
+    }); // Update the on screen sprite & text
+
+    function updateDialog() {
+      var _dialogs$curDialog = _slicedToArray(dialogs[curDialog], 2),
+          char = _dialogs$curDialog[0],
+          dialog = _dialogs$curDialog[1]; // Use a new sprite component to replace the old one
+
+
+      avatar.use(sprite(char)); // Update the dialog text
+
+      txt.text = dialog;
     }
+
+    updateDialog();
+
+    var addButton = function addButton(txt, p, f) {
+      var btn = add([text(txt), pos(p), area({
+        cursor: "pointer"
+      }), scale(1), origin("center")]);
+      btn.onClick(f);
+      btn.onUpdate(function () {
+        if (btn.isHovering()) {
+          var t = time() * 10;
+          btn.color = rgb(wave(0, 255, t), wave(0, 255, t + 2), wave(0, 255, t + 4));
+          btn.scale = vec2(1.2);
+        } else {
+          btn.scale = vec2(1);
+          btn.color = rgb();
+        }
+      });
+    }; //   scene("start", () => {
+    //     addButton("Start", vec2(k.width() * 0.5, k.height() * 0.5), () => k.go('inputName'));
+    //   })
+
+
+    var answer = [["Alien"], ["Joo"]];
+    addButton("1." + answer[0], vec2(width() * 0.4, height() * 0.8), function () {
+      return correct();
+    });
+    addButton("2." + answer[1], vec2(width() * 0.6, height() * 0.8), function () {
+      return wrong();
+    });
+    var score = 0;
+
+    var correct = function correct() {
+      // debug.log("correct in");
+      exports.correctQuiz = correctQuiz = true; // debug.log("totalScore: " + totalScore);
+
+      (0, _satellite.default)();
+    };
+
+    var wrong = function wrong() {
+      // debug.log("wrong in");
+      // k.go("lose");
+      exports.correctQuiz = correctQuiz = false;
+      (0, _satellite.default)();
+    };
+  }); //   const wrong = () => {
+  //     debug.log("wrong in");
+  //     k.go("lose");
+  //   }
+  // });
+
+
+  _kaboom.default.scene("lose", function () {
+    add([text("Game over"), pos(center()), origin("center")]);
   });
+
+  _kaboom.default.go("quiz");
+}
+},{"./kaboom":"kaboom.js","./items":"items.js","./satellite":"satellite.js"}],"satellite.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
 });
-k.go('start');
-},{"kaboom":"../node_modules/kaboom/dist/kaboom.mjs"}],"../../../../.nvm/versions/node/v17.3.1/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+exports.default = exports.Game = void 0;
+
+var _kaboom = _interopRequireDefault(require("./kaboom"));
+
+var _quiz = require("./quiz");
+
+var _items = require("./items");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var totalScore = 20;
+var playerPos = pos(300, 200); // start the game
+
+var Game = function Game() {
+  if (_quiz.correctQuiz) {
+    totalScore += 20;
+  } else {
+    totalScore -= 20;
+  }
+
+  var NORMAL_SPEED = 70;
+  var MIN_SPEED = 25;
+  var SPEED = NORMAL_SPEED;
+  loadSprite("asteroid", _items.asteroid);
+  loadSprite("satellite", _items.satellite);
+  loadSprite("asteroid-large", _items.asteroidLarge);
+  loadSprite("moon", _items.moonhttps);
+  loadSprite("earth", _items.earth);
+  loadSprite("ufo", _items.ufo);
+  loadSprite("spaceship", _items.spaceship);
+  loadSprite("meteor", _items.meteor);
+  loadSprite("spacestation", _items.spacestation);
+  loadSprite("alien1", _items.alien1);
+  loadSprite("alien2", _items.alien2);
+  loadSprite("alien3", _items.alien3);
+  loadSprite("alien4", _items.alien4);
+  loadSprite("alien5", _items.alien5);
+
+  _kaboom.default.scene("game", function () {
+    var satellite = add([sprite("satellite"), playerPos, scale(0.1), solid(), area(), origin("center"), "satellite"]);
+    var score = add([text("Score: ".concat(totalScore), {
+      size: 25
+    }), pos(10, 10), fixed(), {
+      value: totalScore
+    }]);
+    var playerAlerts = add([text("Use arrow keys to move", {
+      size: 20
+    }), color(30, 0, 255), pos(10, 40), fixed()]);
+    satellite.onUpdate(function () {
+      camPos(satellite.pos);
+      camScale(3);
+    });
+    var levelConfigs = {
+      width: 20,
+      height: 20,
+      "*": function _() {
+        return [sprite("asteroid"), area(), solid(), scale(0.03), "asteroid"];
+      }
+    };
+    var earth = add([sprite("earth"), pos(1200, 300), scale(0.35), solid(), area(), rotate(1), origin("center"), "earth"]);
+    var moon = add([sprite("moon"), pos(900, 400), solid(), area(), scale(0.035), "moon"]);
+    earth.onUpdate(function () {
+      earth.angle += 2 * dt();
+    });
+    var quiz1 = add([sprite("alien1"), pos(400, 400), solid(), area(), scale(0.035), "alien1"]);
+    satellite.onCollide("alien1", function () {
+      setTimeout(function () {
+        _kaboom.default.go("quiz");
+      }, 500);
+    });
+    var quiz2 = add([sprite("alien2"), pos(700, 100), solid(), area(), scale(0.035), "alien2"]);
+    satellite.onCollide("alien2", function () {
+      setTimeout(function () {
+        _kaboom.default.go("quiz");
+      }, 500);
+    });
+    var quiz3 = add([sprite("alien3"), pos(800, 300), solid(), area(), scale(0.035), "alien3"]);
+    satellite.onCollide("alien3", function () {
+      setTimeout(function () {
+        _kaboom.default.go("quiz");
+      }, 500);
+    });
+    var quiz4 = add([sprite("alien4"), pos(900, 400), solid(), area(), scale(0.035), "alien4"]);
+    satellite.onCollide("alien4", function () {
+      setTimeout(function () {
+        _kaboom.default.go("quiz");
+      }, 500);
+    });
+    var quiz5 = add([sprite("alien5"), pos(1000, 200), solid(), area(), scale(0.035), "alien5"]);
+    satellite.onCollide("alien5", function () {
+      setTimeout(function () {
+        _kaboom.default.go("quiz");
+      }, 500);
+      /* if (score.value >= 10) {
+        const ufo = add([
+          sprite("ufo"),
+          pos(400, 200),
+          scale(0.15),
+          solid(),
+          area(),
+          "ufo",
+        ]);
+        //GOTO --> quiz?
+        // k.go("placeholderquiz")
+      } */
+    }); //   Moon movement
+
+    var Xvel = 2;
+    var Yvel = 1;
+    moon.onUpdate(function () {
+      moon.move(Xvel, Yvel);
+    });
+    onKeyDown("right", function () {
+      satellite.move(SPEED, 0);
+      sendObject(); // camPos(satellite.pos)
+    });
+    onKeyDown("left", function () {
+      satellite.move(-SPEED, 0);
+      sendObject();
+    });
+    onKeyDown("up", function () {
+      satellite.move(0, -SPEED);
+      sendObject();
+    });
+    onKeyDown("down", function () {
+      satellite.move(0, SPEED);
+      sendObject();
+    });
+    satellite.onCollide("asteroid", function () {
+      setTimeout(function () {
+        totalScore--;
+      }, 500);
+
+      if (SPEED > MIN_SPEED) {
+        SPEED -= SPEED * 0.01;
+      }
+
+      playerMessage("!!!", true);
+    }); //back to earth
+
+    satellite.onCollide("earth", function (earth) {
+      if (totalScore > 20) {} else {
+        add([text("Use arrow keys to move", {
+          size: 20
+        }), color(30, 0, 255), pos(10, 40), fixed()]);
+      }
+    });
+
+    var playerMessage = function playerMessage(text, alert) {
+      var textColour = rgb(255, 255, 255);
+
+      if (alert) {
+        textColour = rgb(200, 0, 0);
+      }
+
+      drawText({
+        text: text,
+        size: 8,
+        font: "sink",
+        width: 120,
+        pos: satellite.pos,
+        color: textColour
+      });
+    };
+
+    var sendObject = function sendObject() {
+      var objectOdds = Math.random();
+
+      if (objectOdds > 0.995) {
+        sendSpaceship();
+      }
+
+      if (objectOdds > 0.98) {
+        sendMeteor();
+      }
+    };
+
+    var spaceshipspawned = false;
+
+    var sendSpaceship = function sendSpaceship() {
+      if (!spaceshipspawned) {
+        var _spaceship = add([sprite("spaceship"), pos(1150, 300), scale(0.05), rotate(-65), "spaceship"]);
+
+        var _Xvel = -5;
+
+        var _Yvel = -5;
+
+        _spaceship.onUpdate(function () {
+          _spaceship.move(_Xvel, _Yvel);
+        });
+      }
+
+      spaceshipspawned = true;
+    };
+
+    var sendMeteor = function sendMeteor() {
+      var x = Math.random();
+      var meteor = add([sprite("meteor"), pos(500 + 1000 * x, 0), scale(0.025), solid(), area(), "meteor"]);
+      var Xvel = -45;
+      var Yvel = 55;
+      meteor.onUpdate(function () {
+        meteor.move(Xvel, Yvel);
+      });
+      meteor.onCollide("asteroid", function (asteroid) {
+        destroy(meteor);
+      });
+      meteor.onCollide("ufo", function (ufo) {
+        destroy(meteor);
+      });
+      meteor.onCollide("alien1", function (alien1) {
+        destroy(meteor);
+      });
+      meteor.onCollide("alien2", function (alien2) {
+        destroy(meteor);
+      });
+      meteor.onCollide("alien3", function (alien3) {
+        destroy(meteor);
+      });
+      meteor.onCollide("alien4", function (alien4) {
+        destroy(meteor);
+      });
+      meteor.onCollide("alien5", function (alien5) {
+        destroy(meteor);
+      });
+      meteor.onCollide("earth", function (earth) {
+        destroy(meteor);
+        setTimeout(function () {
+          totalScore--;
+        }, 500);
+      });
+      meteor.onCollide("satellite", function (satellite) {
+        playerMessage("!!!", true);
+        destroy(meteor);
+      });
+    };
+
+    addLevel(_items.map, levelConfigs);
+  });
+
+  _kaboom.default.scene("placeholder", function () {
+    var levelConfigs = {
+      width: 20,
+      height: 20,
+      "*": function _() {
+        return [sprite("asteroid"), area(), solid(), scale(0.03), "asteroid"];
+      }
+    };
+    addLevel(_items.map, levelConfigs);
+  });
+
+  _kaboom.default.go("game");
+};
+
+exports.Game = Game;
+(0, _quiz.Quiz)();
+var _default = Game;
+exports.default = _default;
+},{"./kaboom":"kaboom.js","./quiz":"quiz.js","./items":"items.js"}],"introduction.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.intro = exports.default = void 0;
+
+var _kaboom = _interopRequireDefault(require("./kaboom"));
+
+var _satellite = _interopRequireDefault(require("./satellite"));
+
+var _items = require("./items");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var intro = function intro() {
+  loadSprite("asteroid", _items.asteroid);
+  var x = 0;
+
+  _kaboom.default.scene("intro", function () {
+    setTimeout(function () {
+      (0, _items.addButton)("Start", vec2(_kaboom.default.width() * 0.5, _kaboom.default.height() * 0.75), function () {
+        return _kaboom.default.go("game");
+      });
+    }, 1000);
+
+    var addtext = function addtext(myText) {
+      add([pos(100 + x * 0.5, 100 + x), text(myText, {
+        size: 24,
+        // 48 pixels tall
+        width: 800,
+        font: "apl386" // there're 4 built-in fonts: "apl386", "apl386o", "sink", and "sinko"
+
+      })]);
+    };
+
+    addtext("Space is a harsh environment.");
+    x += 100;
+    addtext("Space-based threats include cosmic radiation from the sun, signal interferences, meteoroids from near-Earth comets and asteroids, and space debris. ");
+    x += 100;
+    addtext("Operators must measure and understand these threats as part of their space situational awareness");
+    x += 300;
+    addtext("CASSIOPE is lost! avoid space threats and bring her back to orbit...");
+    addLevel(_items.map, _items.greetingConfigs);
+  });
+};
+
+exports.intro = intro;
+(0, _satellite.default)();
+var _default = intro;
+exports.default = _default;
+},{"./kaboom":"kaboom.js","./satellite":"satellite.js","./items":"items.js"}],"main.js":[function(require,module,exports) {
+"use strict";
+
+var _kaboom = _interopRequireDefault(require("./kaboom"));
+
+var _introduction = _interopRequireDefault(require("./introduction"));
+
+var _satellite = _interopRequireDefault(require("./satellite"));
+
+var _items = require("./items");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+_kaboom.default.scene("start", function () {
+  addLevel(_items.map, _items.greetingConfigs);
+  setTimeout(function () {
+    (0, _items.addButton)("Start", vec2(_kaboom.default.width() * 0.5, _kaboom.default.height() * 0.75), function () {
+      return _kaboom.default.go("intro");
+    });
+  }, 500);
+});
+
+(0, _introduction.default)();
+
+_kaboom.default.go("start");
+},{"./kaboom":"kaboom.js","./introduction":"introduction.js","./satellite":"satellite.js","./items":"items.js"}],"../../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -4925,7 +5414,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58581" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60028" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
@@ -5101,5 +5590,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../../../../.nvm/versions/node/v17.3.1/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","main.js"], null)
+},{}]},{},["../../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","main.js"], null)
 //# sourceMappingURL=/main.1f19ae8e.js.map

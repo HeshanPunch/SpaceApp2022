@@ -1,17 +1,21 @@
 // Simple dialogues
-import kaboom from "kaboom";
-kaboom({
-  background: [255, 209, 253],
-});
+import k from "./kaboom";
+import {alien1} from "./items"
+import Game from "./satellite";
+// import totalScore from './items';
 
-loadSprite("bean", "https://kaboomjs.com/sprites/bean.png");
+let correctQuiz = false;
 
-scene("quiz", () => {
-  // Define the dialogue data
-  const dialogs = [
-    ["bean", "This is quiz time!"],
-    ["bean", "Q. What is my name?"],
-  ];
+function Quiz(){
+
+  loadSprite("alien1", alien1);
+
+  k.scene("quiz", () => {
+    // Define the dialogue data
+    const dialogs = [
+      ["alien1", "This is quiz time!"],
+      ["alien1", "Q. What is my name?"],
+    ];
 
   let curDialog = 0;
 
@@ -32,11 +36,18 @@ scene("quiz", () => {
 
   // Character avatar
   const avatar = add([
-    sprite("bean"),
-    scale(5),
+    sprite("alien1"),
+    scale(0.5),
     origin("center"),
-    pos(center().sub(0, 200)),
+    rotate(0),
+    pos(center().sub(0, 200))
   ]);
+
+  avatar.onUpdate(() => {
+    // .angle is a property provided by rotate() component, here we're incrementing the angle by 120 degrees per second, dt() is the time elapsed since last frame in seconds
+    avatar.angle += 120 * dt()
+  })
+  
 
   onKeyPress("space", () => {
     // Cycle through the dialogs
@@ -65,51 +76,66 @@ scene("quiz", () => {
       origin("center"),
     ]);
 
-    btn.onClick(f);
+      btn.onClick(f);
 
-    btn.onUpdate(() => {
-      if (btn.isHovering()) {
-        const t = time() * 10;
-        btn.color = rgb(
-          wave(0, 255, t),
-          wave(0, 255, t + 2),
-          wave(0, 255, t + 4)
-        );
-        btn.scale = vec2(1.2);
-      } else {
-        btn.scale = vec2(1);
-        btn.color = rgb();
-      }
-    });
-  };
+      btn.onUpdate(() => {
+        if (btn.isHovering()) {
+          const t = time() * 10;
+          btn.color = rgb(
+            wave(0, 255, t),
+            wave(0, 255, t + 2),
+            wave(0, 255, t + 4)
+          );
+          btn.scale = vec2(1.2);
+        } else {
+          btn.scale = vec2(1);
+          btn.color = rgb();
+        }
+      });
+    };
+    
+    //   scene("start", () => {
+    //     addButton("Start", vec2(k.width() * 0.5, k.height() * 0.5), () => k.go('inputName'));
+    //   })
+    const answer = [["Alien"], ["Joo"]];
+    addButton("1." + answer[0], vec2(width() * 0.4, height() * 0.8), () =>
+      correct()
+    );
+    addButton("2." + answer[1], vec2(width() * 0.6, height() * 0.8), () =>
+      wrong()
+    );
 
-  //   scene("start", () => {
-  //     addButton("Start", vec2(k.width() * 0.5, k.height() * 0.5), () => k.go('inputName'));
-  //   })
-  const answer = [["Bean"], ["Joo"]];
-  addButton("1." + answer[0], vec2(width() * 0.4, height() * 0.8), () =>
-    correct()
-  );
-  addButton("2." + answer[1], vec2(width() * 0.6, height() * 0.8), () =>
-    wrong()
-  );
+    let score = 0;
 
-  let score = 0;
+    const correct = () => {
+      // debug.log("correct in");
+      correctQuiz = true;
+      // debug.log("totalScore: " + totalScore);
+      Game();
 
-  const correct = () => {
-    debug.log("correct in");
-    score++;
-    debug.log("score: " + score);
-  };
+    };
 
-  const wrong = () => {
-    debug.log("wrong in");
-    go("lose");
-  }
-});
 
-scene("lose", () => {
-  add([text("Game over"), pos(center()), origin("center")]);
-});
+    const wrong = () => {
+      // debug.log("wrong in");
+      // k.go("lose");
+      correctQuiz = false;
+      Game();
+    }
+  });
+  //   const wrong = () => {
+  //     debug.log("wrong in");
+  //     k.go("lose");
+  //   }
+  // });
 
-go("quiz");
+  k.scene("lose", () => {
+    add([text("Game over"), pos(center()), origin("center")]);
+  });
+
+  
+  k.go("quiz");
+}
+
+export { Quiz, correctQuiz } ;
+
