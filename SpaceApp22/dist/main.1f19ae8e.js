@@ -4837,7 +4837,7 @@ exports.default = _default;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.ufo = exports.spacestation = exports.spaceship = exports.satellite = exports.moonhttps = exports.meteor = exports.map = exports.greetingConfigs = exports.gameConfigs = exports.earth = exports.asteroidLarge = exports.asteroid = exports.alien = void 0;
+exports.ufo = exports.spacestation = exports.spaceship = exports.satellite = exports.moonhttps = exports.meteor = exports.map = exports.greetingConfigs = exports.gameConfigs = exports.earth = exports.asteroidLarge = exports.asteroid = exports.alien = exports.addButton = void 0;
 var asteroid = "https://i.imgur.com/B1NSdRO.png";
 exports.asteroid = asteroid;
 var satellite = "https://art.pixilart.com/4c141c7f72cb059.png";
@@ -4862,16 +4862,37 @@ var spacestation = "https://i.imgur.com/TIMxSI6.png";
 exports.spacestation = spacestation;
 loadSprite("mercury", mercury);
 loadSprite("rocket", rocket);
+
+var addButton = function addButton(txt, p, f) {
+  var btn = add([text(txt, {
+    size: 25
+  }), pos(p), area({
+    cursor: "pointer"
+  }), scale(1), origin("center")]);
+  btn.onClick(f);
+  btn.onUpdate(function () {
+    if (btn.isHovering()) {
+      var t = time() * 10;
+      btn.color = rgb(wave(0, 255, t), wave(0, 255, t + 2), wave(0, 255, t + 4));
+      btn.scale = vec2(1.2);
+    } else {
+      btn.scale = vec2(1);
+      btn.color = rgb();
+    }
+  });
+};
+
+exports.addButton = addButton;
 var greetingConfigs = {
   width: 20,
   height: 20,
   "*": function _() {
     return [sprite("asteroid"), area(), solid(), scale(0.03), "asteroid"];
   },
-  "m": function m() {
+  m: function m() {
     return [sprite("mercury"), area(), solid(), scale(0.4), "mercury"];
   },
-  "f": function f() {
+  f: function f() {
     return [sprite("rocket"), area(), solid(), scale(0.3), "rocket"];
   } // "(": () => [sprite("moon"), area(), solid(), scale(0.05), "moon"],
 
@@ -5239,8 +5260,13 @@ var Game = function Game() {
 exports.Game = Game;
 var _default = Game;
 exports.default = _default;
-},{"./kaboom":"kaboom.js","./quiz":"quiz.js","./items":"items.js"}],"main.js":[function(require,module,exports) {
+},{"./kaboom":"kaboom.js","./quiz":"quiz.js","./items":"items.js"}],"introduction.js":[function(require,module,exports) {
 "use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.intro = exports.default = void 0;
 
 var _kaboom = _interopRequireDefault(require("./kaboom"));
 
@@ -5250,36 +5276,58 @@ var _items = require("./items");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var addButton = function addButton(txt, p, f) {
-  var btn = add([text(txt, {
-    size: 25
-  }), pos(p), area({
-    cursor: "pointer"
-  }), scale(1), origin("center")]);
-  btn.onClick(f);
-  btn.onUpdate(function () {
-    if (btn.isHovering()) {
-      var t = time() * 10;
-      btn.color = rgb(wave(0, 255, t), wave(0, 255, t + 2), wave(0, 255, t + 4));
-      btn.scale = vec2(1.2);
-    } else {
-      btn.scale = vec2(1);
-      btn.color = rgb();
-    }
+var intro = function intro() {
+  _kaboom.default.scene("introduction", function () {
+    addLevel(_items.map, _items.greetingConfigs);
+    setTimeout(function () {
+      (0, _items.addButton)("Start", vec2(_kaboom.default.width() * 0.5, _kaboom.default.height() * 0.75), function () {
+        return _kaboom.default.go("game");
+      });
+    }, 2000);
+    add([text("Space is a harsh environment", {
+      size: 25
+    }), pos(center() - 200), {
+      value: 0
+    }]);
   });
+
+  (0, _satellite.default)();
+
+  _kaboom.default.go("start");
 };
 
+exports.intro = intro;
+var _default = intro;
+exports.default = _default;
+},{"./kaboom":"kaboom.js","./satellite":"satellite.js","./items":"items.js"}],"main.js":[function(require,module,exports) {
+"use strict";
+
+var _kaboom = _interopRequireDefault(require("./kaboom"));
+
+var _introduction = _interopRequireDefault(require("./introduction"));
+
+var _items = require("./items");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 _kaboom.default.scene("start", function () {
-  addButton("Start", vec2(_kaboom.default.width() * 0.5, _kaboom.default.height() * 0.5), function () {
-    return _kaboom.default.go('game');
-  });
   addLevel(_items.map, _items.greetingConfigs);
+  setTimeout(function () {
+    (0, _items.addButton)("Start", vec2(_kaboom.default.width() * 0.5, _kaboom.default.height() * 0.75), function () {
+      return _kaboom.default.go("introduction");
+    });
+  }, 500);
+  add([text("Space is a harsh environment", {
+    size: 25
+  }), pos(center() - 200), {
+    value: 0
+  }]);
 });
 
-(0, _satellite.default)();
+(0, _introduction.default)();
 
-_kaboom.default.go('start');
-},{"./kaboom":"kaboom.js","./satellite":"satellite.js","./items":"items.js"}],"../../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+_kaboom.default.go("start");
+},{"./kaboom":"kaboom.js","./introduction":"introduction.js","./items":"items.js"}],"../../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
