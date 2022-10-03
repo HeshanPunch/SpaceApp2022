@@ -1,56 +1,41 @@
 import k from "./kaboom";
+import { Quiz, correctQuiz } from "./quiz";
+import {
+  map,
+  gameConfigs,
+  asteroidLarge,
+  asteroid,
+  satellite,
+  moonhttps,
+  earth,
+  ufo,
+  meteor,
+  spacestation,
+  spaceship,
+} from "./items";
+
+let totalScore = 0;
 // start the game
 export const Game = () => {
-  const NORMAL_SPEED = 50;
-  const FAST_SPEED = 90;
+  if (correctQuiz) {
+    totalScore += 100;
+    // correctQuiz = false;
+  }
+  debug.log("totalScore : " + totalScore);
+  const NORMAL_SPEED = 70;
+  const MIN_SPEED = 25;
   let SPEED = NORMAL_SPEED;
 
-  loadSprite("asteroid", "https://i.imgur.com/B1NSdRO.png");
-  loadSprite("satellite", "https://art.pixilart.com/4c141c7f72cb059.png");
-  loadSprite("asteroid-large", "https://i.imgur.com/qIHdjDQ.png");
-  loadSprite("moon", "https://i.imgur.com/nXhRU9V.png");
-  loadSprite("earth", "https://i.imgur.com/Qjmlokl.png");
-  loadSprite("ufo", "https://i.imgur.com/2rEcvS6.png");
-  loadSprite("spaceship", "https://i.imgur.com/Sp220hN.png");
-  loadSprite("meteor", "https://i.imgur.com/RkH05Dh.png");
-  loadSprite("spacestation", "https://i.imgur.com/TIMxSI6.png");
+  loadSprite("asteroid", asteroid);
+  loadSprite("satellite", satellite);
+  loadSprite("asteroid-large", asteroidLarge);
+  loadSprite("moon", moonhttps);
+  loadSprite("earth", earth);
+  loadSprite("ufo", ufo);
+  loadSprite("spaceship", spaceship);
+  loadSprite("meteor", meteor);
+  loadSprite("spacestation", spacestation);
 
-  const map = [
-    "                                                            *                   *                           *      ",
-    "                                                *                                                              ",
-    "                                                                                                               ",
-    "                                                                                                                 ",
-    "                             *                                                                                 ",
-    "                                                                                                        *     ",
-    "                                                                                                           ",
-    " *                                                                                                       ",
-    "                                       *                                                                  ",
-    "                                                                                    *                   ",
-    "                                                                                                      ",
-    "                                                                                                        ",
-    "                                                                                                       ",
-    "                                                                                                      ",
-    "                                                                                                    ",
-    "         *                      *                                                                   ",
-    "                                                                                                    ",
-    "                                                                                                    ",
-    "                                                                                                    ",
-    "               *                                                                                    ",
-    "                                          *                                                           ",
-    "                                                                                                      ",
-    "                                                                                                      ",
-    "                                                                             *                         ",
-    "                                                                                                      ",
-    "                                                                                                      ",
-    "                                                                                                      ",
-    "                                                                                                      ",
-    "      *                         *                                                       *             ",
-    "                                                                                                      ",
-    "                                                                            *                         ",
-    "                                                                                                      ",
-    " *                                                                                                    ",
-    "                                                                                                     ",
-  ];
   k.scene("game", () => {
     //   layers(["bg", "obj", "ui"], "obj");
     const satellite = add([
@@ -69,7 +54,6 @@ export const Game = () => {
       pos(satellite.pos),
       { value: 0 },
     ]);
-
     const playerAlerts = add([
       text("Use arrow keys to move", {
         size: 20,
@@ -157,9 +141,12 @@ export const Game = () => {
     });
 
     satellite.onCollide("asteroid", () => {
-      SPEED -= SPEED * 0.01;
+        if (SPEED > MIN_SPEED){
+            SPEED -= SPEED * 0.01;
+        }
+      
 
-      playerMessage("avoid collissions!", true);
+      playerMessage("!!!", true);
     });
 
     satellite.onCollide("earth", (earth) => {});
@@ -239,7 +226,7 @@ export const Game = () => {
       });
 
       meteor.onCollide("satellite", (satellite) => {
-        alertMessage("hit recorded!");
+        playerMessage("!!!", true);
 
         destroy(meteor);
       });

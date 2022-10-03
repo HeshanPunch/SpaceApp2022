@@ -1,5 +1,7 @@
 import k from './kaboom'
 import game from './satellite'
+import { map, greetingConfigs } from './items';
+
 
 const addButton = (txt, p, f) => {
 
@@ -32,49 +34,17 @@ const addButton = (txt, p, f) => {
 }
 
 k.scene("start", () => {
-  addButton("Start", vec2(k.width() * 0.5, k.height() * 0.5), () => k.go('inputName'));
-})
-
-
-k.scene("inputName", () => {
-  addButton("Username", vec2(k.width() * 0.5, k.height() * 0.5), () => k.go('game'));
+  addButton("Start", vec2(k.width() * 0.5, k.height() * 0.5), () => k.go('game'));
+  addLevel(map, greetingConfigs);
 })
 
 game();
 
-
-/*
-k.scene('mainGame', () => {
-
-  const WALL = [
-    '===============================',
-    '===============================',
-    '===============================',
-    '===============================',
-    '===============================',
-    '===============================',
-    '===============================',
-    '===============================',
-    '===============================',
-    '===============================',
-    '===============================',
-    '===============================',
-    '===============================',
-    '===============================',
-    '===============================',
-  ]
-
-  const level = addLevel(WALL, {
-    width: 64,
-    height: 64,
-    "=": () => [
-      sprite("wall"),
-      area(),
-      solid(),
-    ],
-  })
-})
-*/
 k.go('start')
+
+
+
+
+
 
 
