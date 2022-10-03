@@ -4820,7 +4820,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // initialize context
 var k = (0, _kaboom.default)({
   font: "sinko",
-  background: [11, 16, 38],
+  // background: [11, 16, 38],
+  background: [12, 21, 55],
   fullscreen: true,
   canvas: document.querySelector("gamecanvas"),
   // width: 1280,
@@ -4836,7 +4837,7 @@ exports.default = _default;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.ufo = exports.satellite = exports.moonhttps = exports.map = exports.greetingConfigs = exports.gameConfigs = exports.earth = exports.astronaut = exports.asteroidLarge = exports.asteroid = void 0;
+exports.ufo = exports.spacestation = exports.spaceship = exports.satellite = exports.moonhttps = exports.meteor = exports.map = exports.greetingConfigs = exports.gameConfigs = exports.earth = exports.asteroidLarge = exports.asteroid = exports.alien = void 0;
 var asteroid = "https://i.imgur.com/B1NSdRO.png";
 exports.asteroid = asteroid;
 var satellite = "https://art.pixilart.com/4c141c7f72cb059.png";
@@ -4849,15 +4850,30 @@ var earth = "https://i.imgur.com/Qjmlokl.png";
 exports.earth = earth;
 var ufo = "https://i.imgur.com/2rEcvS6.png";
 exports.ufo = ufo;
-var astronaut = "https://i.imgur.com/1ygia9b.png";
-exports.astronaut = astronaut;
+var alien = "https://i.imgur.com/sLZ2ZIf.png";
+exports.alien = alien;
+var mercury = "https://i.imgur.com/RHPYZVd.png";
+var rocket = "https://i.imgur.com/8rMVcKB.png";
+var spaceship = "https://i.imgur.com/Sp220hN.png";
+exports.spaceship = spaceship;
+var meteor = "https://i.imgur.com/RkH05Dh.png";
+exports.meteor = meteor;
+var spacestation = "https://i.imgur.com/TIMxSI6.png";
+exports.spacestation = spacestation;
+loadSprite("mercury", mercury);
+loadSprite("rocket", rocket);
 var greetingConfigs = {
-  width: 18,
-  height: 25,
+  width: 20,
+  height: 20,
   "*": function _() {
-    return [sprite("asteroid"), area(), solid(), scale(0.02), "asteroid"];
-  } // "0": () => [sprite("earth"), area(), solid(), scale(0.4), "earth"],
-  // "(": () => [sprite("moon"), area(), solid(), scale(0.05), "moon"],
+    return [sprite("asteroid"), area(), solid(), scale(0.03), "asteroid"];
+  },
+  "m": function m() {
+    return [sprite("mercury"), area(), solid(), scale(0.4), "mercury"];
+  },
+  "f": function f() {
+    return [sprite("rocket"), area(), solid(), scale(0.3), "rocket"];
+  } // "(": () => [sprite("moon"), area(), solid(), scale(0.05), "moon"],
 
 };
 exports.greetingConfigs = greetingConfigs;
@@ -4871,7 +4887,7 @@ var gameConfigs = {
 
 };
 exports.gameConfigs = gameConfigs;
-var map = ["                                                            *                   *                           *      ", "                                                *                                                              ", "                                                                                                               ", "                                                                                                                 ", "                             *                                                                                 ", "                                                                                                        *     ", "                                                                                                           ", " *                                                                                                       ", "                                       *                                                                  ", "                                                                                    *                   ", "                                                                                                      ", "                                                                                                        ", "                                                                                                       ", "                                                                                                      ", "                                                  ()                                                  ", "         *                      *                                                                   ", "                                                                                                    ", "                                                                                                    ", "                                                                                                    ", "               *                                                                                    ", "                                          *                                                           ", "                                                                                                      ", "                                                                                                      ", "                                                                             *                         ", "                                                                                                      ", "                                                                                                      ", "                                                                                                      ", "                                                                                                      ", "      *                         *                                                       *             ", "                                                                                                      ", "                                                                            *                         ", "                                                                                                      ", " *                                                                                                    ", "                                                                                                     "];
+var map = ["                                                            *          ", "                                                *                      ", "                                                 m                     ", "     *                                                                 ", "                             *                                         ", "                                                                       ", "                       *                                         *     ", "                                                                       ", "                                           *                           ", "                                     *                                 ", "                                                                       ", "                                                                      ", "                                                                       ", "                             *                                         ", "                                                                       ", "                                *                                      ", "                                                                       ", "      *                                   *                            ", "                                                                       ", "                  *                                                    ", "                                                                 *     ", "              f                                 *                      ", "                                                                       ", "      *                       *                                        ", "                                                                       ", "               *                                                       ", "                                                                       ", "                                                            *          ", "                                                                       ", "      *                                   *                            ", "                                                                       ", "                             *                                         ", "                                                                       ", "                                                *                      ", "                                                                       ", "      *                                   *                            "];
 exports.map = map;
 },{}],"LastScene.js":[function(require,module,exports) {
 "use strict";
