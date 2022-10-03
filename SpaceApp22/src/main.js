@@ -1,6 +1,6 @@
 import k from './kaboom'
 import game from './satellite'
-import { map, greetingConfigs } from './items';
+import { map, greetingConfigs, astronaut } from './items';
 
 
 const addButton = (txt, p, f) => {
@@ -33,11 +33,22 @@ const addButton = (txt, p, f) => {
   })
 }
 
+loadSprite("astronaut", astronaut);
+
 k.scene("start", () => {
   addButton("Start", vec2(k.width() * 0.5, k.height() * 0.5), () => k.go('inputName'));
+  const astronaut = add([
+    sprite("astronaut"),
+    pos(1200, 300),
+    scale(0.35),
+    solid(),
+    area(),
+    rotate(1),
+    origin("center"),
+    "astronaut",
+  ]);
   addLevel(map, greetingConfigs);
 })
-
 
 k.scene("inputName", () => {
   addButton("Username", vec2(k.width() * 0.5, k.height() * 0.5), () => k.go('game'));

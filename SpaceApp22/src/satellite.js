@@ -1,6 +1,6 @@
 import k from './kaboom';
 import { map , gameConfigs, asteroidLarge, asteroid, satellite, moonhttps, earth, ufo, totalScore} from './items';
-
+import { Quiz, totalScore } from './quiz';
 // start the game
 export const Game = () => {
   const NORMAL_SPEED = 70;

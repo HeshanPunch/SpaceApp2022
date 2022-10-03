@@ -1,8 +1,9 @@
 // Simple dialogues
 import k from "./kaboom";
-import totalScore from './items';
 
-export function Quiz(){
+let totalScore = 2;
+
+function Quiz(){
 
   loadSprite("bean", "https://kaboomjs.com/sprites/bean.png");
   k.scene("quiz", () => {
@@ -145,5 +146,5 @@ export function Quiz(){
 
 Quiz();
 
-export default Quiz;
+export { Quiz, totalScore };
 
