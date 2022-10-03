@@ -4837,7 +4837,7 @@ exports.default = _default;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.ufo = exports.spacestation = exports.spaceship = exports.satellite = exports.moonhttps = exports.meteor = exports.map = exports.greetingConfigs = exports.gameConfigs = exports.earth = exports.asteroidLarge = exports.asteroid = exports.alien = void 0;
+exports.ufo = exports.spacestation = exports.spaceship = exports.satellite = exports.moonhttps = exports.meteor = exports.map = exports.greetingConfigs = exports.earth = exports.book = exports.asteroidLarge = exports.asteroid = exports.alien5 = exports.alien4 = exports.alien3 = exports.alien2 = exports.alien1 = void 0;
 var asteroid = "https://i.imgur.com/B1NSdRO.png";
 exports.asteroid = asteroid;
 var satellite = "https://art.pixilart.com/4c141c7f72cb059.png";
@@ -4850,8 +4850,16 @@ var earth = "https://i.imgur.com/Qjmlokl.png";
 exports.earth = earth;
 var ufo = "https://i.imgur.com/2rEcvS6.png";
 exports.ufo = ufo;
-var alien = "https://i.imgur.com/sLZ2ZIf.png";
-exports.alien = alien;
+var alien1 = "https://i.imgur.com/sLZ2ZIf.png";
+exports.alien1 = alien1;
+var alien2 = "https://i.imgur.com/MZ0sX75.png";
+exports.alien2 = alien2;
+var alien3 = "https://i.imgur.com/elus95n.png";
+exports.alien3 = alien3;
+var alien4 = "https://i.imgur.com/2J8OCMS.png";
+exports.alien4 = alien4;
+var alien5 = "https://i.imgur.com/R6dDK4I.png";
+exports.alien5 = alien5;
 var mercury = "https://i.imgur.com/RHPYZVd.png";
 var rocket = "https://i.imgur.com/8rMVcKB.png";
 var spaceship = "https://i.imgur.com/Sp220hN.png";
@@ -4860,6 +4868,8 @@ var meteor = "https://i.imgur.com/RkH05Dh.png";
 exports.meteor = meteor;
 var spacestation = "https://i.imgur.com/TIMxSI6.png";
 exports.spacestation = spacestation;
+var book = "https://i.imgur.com/gS5IarV.png";
+exports.book = book;
 loadSprite("mercury", mercury);
 loadSprite("rocket", rocket);
 var greetingConfigs = {
@@ -4868,28 +4878,69 @@ var greetingConfigs = {
   "*": function _() {
     return [sprite("asteroid"), area(), solid(), scale(0.03), "asteroid"];
   },
-  "m": function m() {
+  m: function m() {
     return [sprite("mercury"), area(), solid(), scale(0.4), "mercury"];
   },
-  "f": function f() {
+  f: function f() {
     return [sprite("rocket"), area(), solid(), scale(0.3), "rocket"];
   } // "(": () => [sprite("moon"), area(), solid(), scale(0.05), "moon"],
 
-};
-exports.greetingConfigs = greetingConfigs;
-var gameConfigs = {
-  width: 20,
-  height: 20,
-  "*": function _() {
-    return [sprite("asteroid"), area(), solid(), scale(0.03), "asteroid"];
-  } // "0": () => [sprite("earth"), area(), solid(), scale(0.4), "earth"],
-  // "(": () => [sprite("moon"), area(), solid(), scale(0.05), "moon"],
+}; // const gameConfigs = {
+//   width: 20,
+//   height: 20,
+//   "*": () => [sprite("asteroid"), area(), solid(), scale(0.03), "asteroid"],
+//   "b": () => [sprite("book"), area(), solid(), scale(0.03), "book"],
+//   "0": () => [sprite("earth"), area(), solid(), scale(0.4), "earth"],
+//   "(": () => [sprite("moon"), area(), solid(), scale(0.05), "moon"],
+// };
 
-};
-exports.gameConfigs = gameConfigs;
-var map = ["                                                            *          ", "                                                *                      ", "                                                 m                     ", "     *                                                                 ", "                             *                                         ", "                                                                       ", "                       *                                         *     ", "                                                                       ", "                                           *                           ", "                                     *                                 ", "                                                                       ", "                                                                      ", "                                                                       ", "                             *                                         ", "                                                                       ", "                                *                                      ", "                                                                       ", "      *                                   *                            ", "                                                                       ", "                  *                                                    ", "                                                                 *     ", "              f                                 *                      ", "                                                                       ", "      *                       *                                        ", "                                                                       ", "               *                                                       ", "                                                                       ", "                                                            *          ", "                                                                       ", "      *                                   *                            ", "                                                                       ", "                             *                                         ", "                                                                       ", "                                                *                      ", "                                                                       ", "      *                                   *                            "];
+exports.greetingConfigs = greetingConfigs;
+var map = ["                                                            *        b ", "                                                *                      ", "                                                 m                     ", "     *                                                                 ", "                             *                                         ", "                                                                       ", "                       *                                         *     ", "                                                                       ", "                                           *                           ", "                                     *                                 ", "                                                                       ", "                                                                      ", "                                                                       ", "                             *                                         ", "                                                                       ", "                                *                                      ", "                                                                       ", "      *                                   *                            ", "                                                                       ", "                  *                                                    ", "                                                                 *     ", "              f                                 *                      ", "                                                                       ", "      *                       *                                        ", "                                                                       ", "               *                                                       ", "                                                                       ", "                                                            *          ", "                                                                       ", "      *                                   *                            ", "                                                                       ", "                             *                                         ", "                                                                       ", "                                                *                      ", "                                                                       ", "      *                                   *                            "];
 exports.map = map;
-},{}],"quiz.js":[function(require,module,exports) {
+},{}],"book.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Book = Book;
+exports.default = void 0;
+
+var _kaboom = _interopRequireDefault(require("./kaboom"));
+
+var _items = require("./items");
+
+var _satellite = _interopRequireDefault(require("./satellite"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function Book() {
+  loadSprite("book", _items.book);
+
+  _kaboom.default.scene("book", function () {
+    var dialogs = ["How to play"];
+    var close = add([text("x", {
+      size: 30
+    }), pos(1300, 10), area({
+      cursor: "pointer"
+    })]);
+    close.onClick(function () {
+      (0, _satellite.default)();
+    });
+    var textbox = add([rect(width() - 700, 120, {
+      radius: 32
+    }), origin("center"), pos(center().x, height() - 400), outline(2)]);
+    var txt = add([text("", {
+      size: 32,
+      width: width() - 230
+    }), pos(textbox.pos), origin("center")]);
+    txt.text = dialogs;
+  });
+}
+
+var _default = Book;
+exports.default = _default;
+},{"./kaboom":"kaboom.js","./items":"items.js","./satellite":"satellite.js"}],"quiz.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4923,11 +4974,11 @@ var correctQuiz = false;
 exports.correctQuiz = correctQuiz;
 
 function Quiz() {
-  loadSprite("alien", _items.alien);
+  loadSprite("alien1", _items.alien1);
 
   _kaboom.default.scene("quiz", function () {
     // Define the dialogue data
-    var dialogs = [["alien", "This is quiz time!"], ["alien", "Q. What is my name?"]];
+    var dialogs = [["alien1", "This is quiz time!"], ["alien1", "Q. What is my name?"]];
     var curDialog = 0; // Text bubble
 
     var textbox = add([rect(width() - 700, 120, {
@@ -4939,7 +4990,7 @@ function Quiz() {
       width: width() - 230
     }), pos(textbox.pos), origin("center")]); // Character avatar
 
-    var avatar = add([sprite("alien"), scale(0.5), origin("center"), rotate(0), pos(center().sub(0, 200))]);
+    var avatar = add([sprite("alien1"), scale(0.5), origin("center"), rotate(0), pos(center().sub(0, 200))]);
     avatar.onUpdate(function () {
       // .angle is a property provided by rotate() component, here we're incrementing the angle by 120 degrees per second, dt() is the time elapsed since last frame in seconds
       avatar.angle += 120 * dt();
@@ -5028,17 +5079,21 @@ exports.default = exports.Game = void 0;
 
 var _kaboom = _interopRequireDefault(require("./kaboom"));
 
+var _book = _interopRequireDefault(require("./book"));
+
 var _quiz = require("./quiz");
 
 var _items = require("./items");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var totalScore = 0; // start the game
+var totalScore = 20; // start the game
 
 var Game = function Game() {
   if (_quiz.correctQuiz) {
-    totalScore += 100; // correctQuiz = false;
+    totalScore += 20;
+  } else {
+    totalScore -= 20;
   }
 
   var NORMAL_SPEED = 70;
@@ -5053,26 +5108,29 @@ var Game = function Game() {
   loadSprite("spaceship", _items.spaceship);
   loadSprite("meteor", _items.meteor);
   loadSprite("spacestation", _items.spacestation);
+  loadSprite("book", _items.book);
+  loadSprite("alien1", _items.alien1);
+  loadSprite("alien2", _items.alien2);
+  loadSprite("alien3", _items.alien3);
+  loadSprite("alien4", _items.alien4);
+  loadSprite("alien5", _items.alien5);
 
   _kaboom.default.scene("game", function () {
-    //   layers(["bg", "obj", "ui"], "obj");
     var satellite = add([sprite("satellite"), pos(300, 200), scale(0.1), solid(), area(), origin("center"), "satellite"]);
-    /* const score = add([
-      text("Score: 0", {
-        size: 25,
-      }),
-      pos(satellite.pos),
-      { value: 0 },
-    ]);
-    const playerAlerts = add([
-      text("Use arrow keys to move", {
-        size: 20,
-      }),
-      color(30, 0, 255),
-      pos(satellite.pos),
-      { value: 0 },
-    ]); */
-
+    var score = add([text("Score: ".concat(totalScore), {
+      size: 25
+    }), pos(10, 10), fixed(), {
+      value: totalScore
+    }]);
+    var playerAlerts = add([text("Use arrow keys to move", {
+      size: 20
+    }), color(30, 0, 255), pos(10, 40), fixed()]);
+    var book = add([sprite("book"), pos(1270, 10), solid(), area(), fixed(), scale(0.1), "book", area({
+      cursor: "pointer"
+    })]);
+    book.onClick(function () {
+      _kaboom.default.go("book");
+    });
     satellite.onUpdate(function () {
       camPos(satellite.pos);
       camScale(3);
@@ -5083,14 +5141,42 @@ var Game = function Game() {
       height: 20,
       "*": function _() {
         return [sprite("asteroid"), area(), solid(), scale(0.03), "asteroid"];
-      } // "0": () => [sprite("earth"), area(), solid(), scale(0.4), "earth"],
-      // "(": () => [sprite("moon"), area(), solid(), scale(0.05), "moon"],
-
+      }
     };
     var earth = add([sprite("earth"), pos(1200, 300), scale(0.35), solid(), area(), rotate(1), origin("center"), "earth"]);
     var moon = add([sprite("moon"), pos(900, 400), solid(), area(), scale(0.035), "moon"]);
     earth.onUpdate(function () {
       earth.angle += 2 * dt();
+      var quiz1 = add([sprite("alien1"), pos(500, 400), solid(), area(), scale(0.035), "alien1"]);
+      satellite.onCollide("alien1", function () {
+        setTimeout(function () {
+          _kaboom.default.go("quiz");
+        }, 500);
+      });
+      var quiz2 = add([sprite("alien2"), pos(700, 100), solid(), area(), scale(0.035), "alien2"]);
+      satellite.onCollide("alien2", function () {
+        setTimeout(function () {
+          _kaboom.default.go("quiz");
+        }, 500);
+      });
+      var quiz3 = add([sprite("alien3"), pos(800, 300), solid(), area(), scale(0.035), "alien3"]);
+      satellite.onCollide("alien3", function () {
+        setTimeout(function () {
+          _kaboom.default.go("quiz");
+        }, 500);
+      });
+      var quiz4 = add([sprite("alien4"), pos(900, 400), solid(), area(), scale(0.035), "alien4"]);
+      satellite.onCollide("alien4", function () {
+        setTimeout(function () {
+          _kaboom.default.go("quiz");
+        }, 500);
+      });
+      var quiz5 = add([sprite("alien5"), pos(1000, 200), solid(), area(), scale(0.035), "alien5"]);
+      satellite.onCollide("alien5", function () {
+        setTimeout(function () {
+          _kaboom.default.go("quiz");
+        }, 500);
+      });
       /* if (score.value >= 10) {
         const ufo = add([
           sprite("ufo"),
@@ -5224,12 +5310,6 @@ var Game = function Game() {
         return [sprite("asteroid"), area(), solid(), scale(0.03), "asteroid"];
       }
     };
-    var ufo = add([sprite("ufo"), pos(600, 300), scale(0.3), solid(), area(), "ufo"]);
-    var alienDialog = add([text("Hello Human", {
-      size: 25
-    }), pos(100, 100), {
-      value: 0
-    }]);
     addLevel(_items.map, levelConfigs);
   });
 
@@ -5237,9 +5317,11 @@ var Game = function Game() {
 };
 
 exports.Game = Game;
+(0, _book.default)();
+(0, _quiz.Quiz)();
 var _default = Game;
 exports.default = _default;
-},{"./kaboom":"kaboom.js","./quiz":"quiz.js","./items":"items.js"}],"main.js":[function(require,module,exports) {
+},{"./kaboom":"kaboom.js","./book":"book.js","./quiz":"quiz.js","./items":"items.js"}],"main.js":[function(require,module,exports) {
 "use strict";
 
 var _kaboom = _interopRequireDefault(require("./kaboom"));
@@ -5279,7 +5361,7 @@ _kaboom.default.scene("start", function () {
 (0, _satellite.default)();
 
 _kaboom.default.go('start');
-},{"./kaboom":"kaboom.js","./satellite":"satellite.js","./items":"items.js"}],"../../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"./kaboom":"kaboom.js","./satellite":"satellite.js","./items":"items.js"}],"../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -5307,7 +5389,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49242" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55906" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
@@ -5483,5 +5565,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","main.js"], null)
+},{}]},{},["../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","main.js"], null)
 //# sourceMappingURL=/main.1f19ae8e.js.map

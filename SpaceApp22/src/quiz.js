@@ -1,6 +1,6 @@
 // Simple dialogues
 import k from "./kaboom";
-import {alien} from "./items"
+import {alien1} from "./items"
 import Game from "./satellite";
 // import totalScore from './items';
 
@@ -8,13 +8,13 @@ let correctQuiz = false;
 
 function Quiz(){
 
-  loadSprite("alien", alien);
+  loadSprite("alien1", alien1);
 
   k.scene("quiz", () => {
     // Define the dialogue data
     const dialogs = [
-      ["alien", "This is quiz time!"],
-      ["alien", "Q. What is my name?"],
+      ["alien1", "This is quiz time!"],
+      ["alien1", "Q. What is my name?"],
     ];
 
   let curDialog = 0;
@@ -36,7 +36,7 @@ function Quiz(){
 
   // Character avatar
   const avatar = add([
-    sprite("alien"),
+    sprite("alien1"),
     scale(0.5),
     origin("center"),
     rotate(0),
